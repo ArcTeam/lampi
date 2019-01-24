@@ -21,11 +21,11 @@ create table utenti(
 );
 create index usr_idx on utenti(email);
 SELECT audit.audit_table('utenti');
-insert into utenti(email,utente,password) values ('admin@lampi.com','admin',crypt('admin', gen_salt('bf', 8)));
+alter table utenti owner to lampi;
+insert into utenti(email,utente,password) values ('associazione.lampi@gmail.com','admin',crypt('admin', gen_salt('bf', 8)));
 
 create table rubrica(
   id serial primary key,
-  socio boolean not null default 'f',
   cognome character varying not null,
   nome character varying,
   email character varying unique,
@@ -34,8 +34,20 @@ create table rubrica(
   fisso character varying,
   note text
 );
-create index usr_idx on utenti(email);
+create index rubrica_idx on utenti(email);
 SELECT audit.audit_table('utenti');
+alter table rubrica owner to lampi;
+
+create table soci(
+  id serial primary key,
+  rubrica integer not null references rubrica(id) on delete cascade,
+  data date not null,
+  tipo integer not null check (tipo in(1,2))
+);
+create index soci_idx on soci(data);
+SELECT audit.audit_table('soci');
+comment on column soci.tipo is '1=iscrizione; 2=rinnovo';
+alter table soci owner to lampi;
 
 create table iscrizioni(
   id serial primary key,
@@ -43,5 +55,81 @@ create table iscrizioni(
   nome character varying not null,
   email character varying unique not null,
   indirizzo character varying not null,
+  versamento character varying,
   note text
 );
+SELECT audit.audit_table('iscrizioni');
+comment on table iscrizioni is 'la tabella tiene traccia delle nuove richieste di iscrizione. Una volta convalidata da un responsabile, il record verrà cancellato e ne verrà creato uno nuovo con i dati presenti in questa tabella';
+alter table iscrizioni owner to lampi;
+
+create table organigramma(
+  anno integer primary key,
+  presidente integer not null references soci(id),
+  vicepresidente integer not null references soci(id),
+  segretario integer not null references soci(id),
+  tesoriere integer not null references soci(id),
+  consiglieri integer[] not null
+);
+SELECT audit.audit_table('organigramma');
+alter table organigramma owner to lampi;
+
+create table autori(
+  id serial primary key,
+  cognome character varying not null,
+  nome character varying not null,
+  anno integer,
+  bio text
+);
+SELECT audit.audit_table('organigramma');
+alter table autori owner to lampi;
+
+create table biblio(
+  id serial primary key,
+  autore_principale integer not null references autori(id),
+  autori_secondari integer[],
+  titolo character varying not null unique,
+  anno integer not null,
+  luogo character varying not null,
+  descrizione text not null
+);
+SELECT audit.audit_table('biblio');
+alter table biblio owner to lampi;
+
+create table tag(id serial primary key, tag character varying unique not null);
+create index tag_idx on tag(tag);
+SELECT audit.audit_table('tag');
+alter table tag owner to lampi;
+
+create table post(
+  id serial primary key,
+  data date not null,
+  titolo character varying not null unique,
+  testo text not null,
+  tag integer[],
+  usr integer not null references utenti(id)
+);
+SELECT audit.audit_table('post');
+alter table post owner to lampi;
+
+create table eventi(
+  id serial primary key,
+  data date not null,
+  titolo character varying not null unique,
+  testo text not null,
+  tag integer[],
+  usr integer not null references utenti(id)
+);
+SELECT audit.audit_table('eventi');
+alter table eventi owner to lampi;
+
+create table viaggi(
+  id serial primary key,
+  partenza timestamp with time zone not null,
+  rientro timestamp with time zone not null check(rientro >= partenza),
+  titolo character varying not null unique,
+  testo text not null,
+  tag integer[],
+  usr integer not null references utenti(id)
+);
+SELECT audit.audit_table('viaggi');
+alter table viaggi owner to lampi;
