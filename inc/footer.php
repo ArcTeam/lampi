@@ -1,4 +1,11 @@
-&copy; 2012 Associazione culturale "G.B.Lampi" | <label class="footerLink"><span id="licenze">Licenze</span></label> | Design by <label class="footerLink"><span style="color:#ff0000;">A</span>rc-<span style="color:#ff0000;">T</span>eam</label>.<br/>
-Per contatti scrivere a: associazione.lampi@gmail.com<br/>
-<img src="img/logo_lampi.png" />
-<div id="licenzeDiv"><?php include("inc/licenze.inc"); ?></div>
+<div class="footer py-3">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <p>&copy; 2012 - <?php echo date('Y'); ?> Associazione culturale "G.B.Lampi"</p>
+        <p><i class="fas fa-envelope"></i> associazione.lampi@gmail.com</p>
+        <img src="img/logo_lampi.png" class="d-block mx-auto">
+      </div>
+    </div>
+  </div>
+</div>
