@@ -1,4 +1,5 @@
 <?php
+session_start();
 require("db.class.php");
 class Utente extends Db{
 
@@ -7,6 +8,7 @@ class Utente extends Db{
     try {
       $usrInfo = $this->checkEmail($dati['email']);
       $this->checkPwd($dati['pwd']);
+      $this->setSession($usrInfo[0]);
       return "Credenziali corrette, stai per accedere all'area riservata";
     } catch (\Exception $e) {
       return $e->getMessage();
@@ -30,7 +32,14 @@ class Utente extends Db{
     }
     return true;
   }
-  private function setSession($dati=array()){}
+  private function setSession($dati=array()){
+    $username = $this->getUsername($dati['email']);
+    $_SESSION['username']=$username;
+    $_SESSION['id']=$dati['id'];
+    $_SESSION['classe']=$dati['classe'];
+    return true;
+  }
+  protected function getUsername($email){$u = explode("@",$email);return $u[0];}
 }
 
 ?>

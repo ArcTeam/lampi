@@ -16,14 +16,15 @@ alter table audit.logged_actions owner to lampi;
 create table utenti(
   id serial primary key,
   email character varying unique not null,
-  utente character varying not null,
   password text not null,
+  classe integer not null check(classe in(1,2)),
   attivo boolean not null default 't'
 );
+comment on column utenti.classe is '1:utente semplice; 2:amministratore.';
 create index usr_idx on utenti(email);
 SELECT audit.audit_table('utenti');
 alter table utenti owner to lampi;
-insert into utenti(email,utente,password) values ('associazione.lampi@gmail.com','admin',crypt('admin', gen_salt('bf', 8)));
+insert into utenti(email,password,classe) values ('associazione.lampi@gmail.com','admin',crypt('admin', gen_salt('bf', 8)),2);
 
 create table rubrica(
   id serial primary key,

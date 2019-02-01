@@ -1,7 +1,11 @@
 $(document).ready(function () {
   $(".toggleMenu").on('click',function(e){
     e.preventDefault();
+    e.stopPropagation();
     $(".usrMenu").toggleClass('opened closed');
+  })
+  $(document).on("click", function () {
+    if ($('.usrMenu').hasClass('opened')) {  $('.usrMenu').toggleClass('closed opened'); }
   })
 })
 

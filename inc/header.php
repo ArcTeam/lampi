@@ -39,7 +39,7 @@
           </li>
           <?php }else{ ?>
           <li class="nav-item d-none d-xl-inline-block">
-            <a class="nav-link toggleMenu" href="#"><i class="fas fa-bars"></i></a>
+            <a class="nav-link toggleMenu toggleDesktop" href="#"><i class="fas fa-bars"></i></a>
           </li>
           <?php } ?>
         </ul>
@@ -48,21 +48,73 @@
   </div>
 </div>
 
+<?php if (isset($_SESSION['id'])) {?>
 <div class="usrMenu bg-white closed animation pb-3">
-  <div class="switchmenu toggleMenu cursor animation d-block d-xl-none border"> <i class="fas fa-plus"></i> </div>
+  <div class="switchmenu toggleMenu cursor animation d-block d-xl-none"></div>
   <div class="menuList">
-    <p class="m-0 p-3 bg-light text-muted border-top"><i class='fas fa-user fa-fw'></i> dati personali</p>
+    <p class="m-0 p-3 bg-light text-muted border-top"><i class='fas fa-user fa-fw'></i> profilo utente</p>
     <ul>
-      <li><a href="#" class="text-dark animation"><span class='animation'>></span> modifica dati</a></li>
-      <li><a href="#" class="text-dark animation"><span class='animation'>></span> modifica password</a></li>
+      <li>
+        <a href="#" class="text-dark animation" title="aggiorna i tuoi dati personali">
+          <span class='animation'>></span> modifica dati
+        </a>
+      </li>
+      <li>
+        <a href="#" class="text-dark animation" title="modifica la tua password [ricordati di farlo regolarmente!]">
+          <span class='animation'>></span> modifica password
+        </a>
+      </li>
     </ul>
-    <p class="m-0 p-3 bg-light text-muted border-top"><i class="fas fa-plus-square"> inserisci</i></p>
+    <p class="m-0 p-3 bg-light text-muted border-top"><i class="fas fa-plus-square"></i> inserisci</p>
     <ul>
-      <li><a href="#" class="text-dark animation"><span class='animation'>></span> post</a></li>
-      <li><a href="#" class="text-dark animation"><span class='animation'>></span> evento</a></li>
-      <li><a href="#" class="text-dark animation"><span class='animation'>></span> viaggio</a></li>
-      <li><a href="#" class="text-dark animation"><span class='animation'>></span> bibliografia</a></li>
-      <li><a href="#" class="text-dark animation border-bottom"><span class='animation'>></span> utente</a></li>
+      <li>
+        <a href="#" class="text-dark animation" title="aggiungi un nuovo post">
+          <span class='animation'>></span> post
+        </a>
+      </li>
+      <li>
+        <a href="#" class="text-dark animation" title="aggiungi un nuovo evento">
+          <span class='animation'>></span> evento
+        </a>
+      </li>
+      <li>
+        <a href="#" class="text-dark animation" title="aggiungi un nuovo viaggio">
+          <span class='animation'>></span> viaggio
+        </a>
+      </li>
+      <li>
+        <a href="#" class="text-dark animation" title="aggiungi una nuova pubblicazione">
+          <span class='animation'>></span> bibliografia
+        </a>
+      </li>
+      <?php if ($_SESSION['classe']===2) {?>
+      <li>
+        <a href="#" class="text-dark animation border-bottom" title="aggiungi un nuovo utente">
+          <span class='animation'>></span> utente
+        </a>
+      </li>
+      <?php } ?>
+    </ul>
+    <p class="m-0 p-3 bg-light text-muted border-top"><i class="fas fa-tools fa-fw"></i> funzioni di sistema</p>
+    <ul>
+      <?php if ($_SESSION['classe']===2) {?>
+      <li>
+        <a href="#" class="text-dark animation border-bottom" title="visualizza e gestisci gli utenti presenti nel database">
+          <span class='animation'>></span> utenti
+        </a>
+      </li>
+      <li>
+        <a href="#" class="text-dark animation border-bottom" title="modifica o elimina una tag esistente">
+          <span class='animation'>></span> tag
+        </a>
+      </li>
+      <?php } ?>
+      <li>
+        <a href="logout.php" class="text-dark animation" title="termina sessione di lavoro ed esci dall'area riservata">
+          <span class='animation'>></span> logout
+        </a>
+      </li>
     </ul>
   </div>
 </div>
+<?php } ?>

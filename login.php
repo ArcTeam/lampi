@@ -16,11 +16,11 @@
             <div class="col">
               <div class="form-group">
                 <label for="username">email</label>
-                <input type="email" id="email" name="email" class="form-control" value="" required>
+                <input type="email" id="email" name="email" class="form-control" value="" placeholder="@email" required>
               </div>
               <div class="form-group">
                 <label for="pwd">password</label>
-                <input type="password" id="pwd" name="pwd" class="form-control" value="" required>
+                <input type="password" id="pwd" name="pwd" class="form-control" value="" placeholder="*password" required>
               </div>
             </div>
           </div>
@@ -36,25 +36,25 @@
               </div>
             </div>
           </div>
-          <div class="output text-center alert d-none">
-            <div class="outMsg"></div>
-            <div id="countdowntimer"></div>
-          </div>
         </form>
         <br>
         <form class="form formStretto" name="rescuePwdForm">
           <div class="row">
             <div class="col">
-              <div class="form-group">
-                <label for="rescuePwdInput">Inserisci la mail fornita al momento dell'iscrizione, il server ti invierà una nuova password.</label>
-                <input type="email" id="rescuePwdInput" name="rescueEmail" class="form-control" value="">
-              </div>
-              <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-sm form-control" name="rescuePwdBtn">genera password</button>
+              <p>Inserisci la mail fornita al momento dell'iscrizione, il server ti invierà una nuova password.</p>
+              <div class="input-group mb-3">
+                <input type="email" class="form-control" placeholder="@email" aria-label="@email" aria-describedby="rescue password" required>
+                <div class="input-group-append">
+                  <button class="btn btn-primary" type="submit" name="rescuePwdBtn">genera password</button>
+                </div>
               </div>
             </div>
           </div>
         </form>
+        <div class="output text-center alert d-none formStretto">
+          <div class="outMsg"></div>
+          <div id="countdowntimer"></div>
+        </div>
       </div>
     </div>
     <?php require('inc/footer.php'); ?>
