@@ -17,7 +17,8 @@ create table utenti(
   id serial primary key,
   email character varying unique not null,
   utente character varying not null,
-  password text not null
+  password text not null,
+  attivo boolean not null default 't'
 );
 create index usr_idx on utenti(email);
 SELECT audit.audit_table('utenti');

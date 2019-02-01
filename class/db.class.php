@@ -20,13 +20,13 @@ class Db extends Conn{
     try {
       $exec->execute($dati);
       switch ($action) {
-        case 'nuovo': $out = "New record has been successfully created"; break;
-        case 'modifica': $out = "The record has been successfully updated"; break;
-        case 'elimina': $out = "The record has been permanently deleted"; break;
-        case 'nuova password': $out = "Password has been successfully created"; break;
-        case 'nuovo utente': $out = "New account has been successfully created"; break;
-        case 'modifica utente': $out = "User data has been changed"; break;
-        case '': $out='';
+        case 'nuovo': $out = "Il nuovo record è stato correttamente creato"; break;
+        case 'modifica': $out = "Il record è stato modificato con successo"; break;
+        case 'elimina': $out = "Il recor dè stato definitivamente eliminato"; break;
+        case 'nuova password': $out = "La password è stata creata"; break;
+        case 'nuovo utente': $out = "Il nuovo utente è stato creato"; break;
+        case 'modifica utente': $out = "I dati dell'utente sono stati modificati"; break;
+        default: $out='Operazione avvenuta con successo'; break;
       }
       return $out;
     } catch (Exception $e) {
