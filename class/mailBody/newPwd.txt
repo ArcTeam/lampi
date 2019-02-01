@@ -1,0 +1,12 @@
+Ciao %utente%,\n
+Hai richiesto una nuova password per accedere al sistema di gestione dati dell'associazione G.B.Lampi, ed è stata indicata questa come mail principale, se non sei stato tu ad inviare la richiesta ignora questa mail e contatta l'amministratore del sistema all'indirizzo beppenapo@arc-team.com per segnalare una possibile violazione della tua mail.\n
+\n
+La nuova password è: %password%\n
+\n
+La password è stata generata automaticamente dal sistema, puoi decidere di continuare ad usare questa o, se preferisci, puoi modificarla dopo il primo accesso\n
+\n
+
+Inizia subito collegandoti al seguente indirizzo: http://91.121.82.80/lampi/login.php\n
+
+Cordiali saluti\n
+Lo staff.

@@ -24,7 +24,8 @@ comment on column utenti.classe is '1:utente semplice; 2:amministratore.';
 create index usr_idx on utenti(email);
 SELECT audit.audit_table('utenti');
 alter table utenti owner to lampi;
-insert into utenti(email,password,classe) values ('associazione.lampi@gmail.com','admin',crypt('admin', gen_salt('bf', 8)),2);
+insert into utenti(email,password,classe) values ('associazione.lampi@gmail.com',crypt('admin', gen_salt('bf', 8)),2);
+insert into utenti(email,password,classe) values ('beppenapo@gmail.com',crypt('test', gen_salt('bf', 8)),1);
 
 create table rubrica(
   id serial primary key,

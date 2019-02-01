@@ -1,4 +1,4 @@
-<div class="mainHeader bg-white fixed-top shadow">
+<div class="mainHeader bg-white fixed-top">
   <div class="container-fluid">
     <nav class="navbar navbar-expand-lg navbar-light bg-white">
       <a class="navbar-brand" href="index.php">ASSOCIAZIONE CULTURALE "G.B.LAMPI" - ALTA ANAUNIA</a>
@@ -8,7 +8,7 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">associazione</a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="#">la storia</a>
+              <a class="dropdown-item" href="storia.php">la storia</a>
               <a class="dropdown-item" href="#">lo statuto</a>
               <a class="dropdown-item" href="#">il nome</a>
               <a class="dropdown-item" href="#">organigramma</a>

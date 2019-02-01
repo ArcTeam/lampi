@@ -37,7 +37,7 @@ $(document).ready(function () {
       e.preventDefault()
       oop={file:'utente.class.php',classe:'Utente',func:'rescuePwd'}
       dati={}
-      dati.email=$("[name=email]").val()
+      dati.email=$("[name=rescuePwdInput]").val()
       $.ajax({
         type: "POST",
         url: "class/connector.php",
@@ -54,7 +54,7 @@ $(document).ready(function () {
           $(".outMsg").html(data);
           $(".output").addClass(classe).toggleClass('d-none d-block').fadeIn('fast');
           $("#countdowntimer").text('3');
-          countdown(3,page);
+          //countdown(3,page);
         }
       });
     }

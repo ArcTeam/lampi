@@ -7,4 +7,5 @@ if(isset($funzione) && function_exists($funzione)) {
   echo $trigger;
 }
 function login($class){return json_encode($class->login($_POST['dati']));}
+function rescuePwd($class){return json_encode($class->rescuePwd($_POST['dati']));}
 ?>

@@ -1,0 +1,8 @@
+Ciao,\n
+E' stato creato un nuovo account per il sistema di gestione dati di Arc-Team, ed è stata indicata questa come mail principale, se non sei stato tu ad inviare la richiesta ignora questa mail e contatta l'amministratore del sistema all'indirizzo beppenapo@arc-team.com per segnalare una possibile violazione della tua mail.\n
+\n
+La nuova password è: %password%\n
+\n
+La password è stata generata automaticamente dal sistema, puoi decidere di continuare ad usare questa o, se preferisci, puoi modificarla dopo il primo accesso\n
+\n
+Inizia subito collegandoti al seguente indirizzo: https://www.eburum.com\n

@@ -43,7 +43,7 @@
             <div class="col">
               <p>Inserisci la mail fornita al momento dell'iscrizione, il server ti invierà una nuova password.</p>
               <div class="input-group mb-3">
-                <input type="email" class="form-control" placeholder="@email" aria-label="@email" aria-describedby="rescue password" required>
+                <input type="email" name="rescuePwdInput" class="form-control" placeholder="@email" aria-label="@email" aria-describedby="rescue password" required>
                 <div class="input-group-append">
                   <button class="btn btn-primary" type="submit" name="rescuePwdBtn">genera password</button>
                 </div>
