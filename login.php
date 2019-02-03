@@ -8,7 +8,9 @@
     </style>
   </head>
   <body>
-    <?php require('inc/header.php'); ?>
+    <div class="mainHeader bg-white fixed-top">
+      <?php require('inc/header.php'); ?>
+    </div>
     <div class="mainContent">
       <div class="container bg-white p-3 border rounded">
         <form class="form formStretto" name="loginForm">

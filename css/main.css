@@ -37,6 +37,11 @@ summary{outline: none;}
 .cursor{cursor:pointer;}
 
 .formStretto{postion:relative; width:90%;margin: 0 auto;}
+
+.blockquote{font-size: 14px;}
+.submenu a{color:#336791;background: #fff;font-size: 14px;}
+.submenu a:hover, .submenu a.active{color:#fff;background: #336791;}
+
 /* // Extra small devices (portrait phones, lblockess than 576px) */
 @media (max-width: 575px) {
   .usrMenu{top:29px;}

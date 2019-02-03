@@ -18,3 +18,24 @@ function countdown(sec,page){
     // clearInterval(downloadTimer);
   },1000);
 }
+function createSubmenu(){
+  var sec=[];
+  var $header = $('.header');
+  $header.each(function() {
+    sec.push($(this).data('ancora'));
+    li=$("<li/>",{class:'nav-item'}).appendTo('.submenu>.nav');
+    $("<a/>",{class:"nav-link scroll animation",href:"#"+$(this).data('ancora')}).text($(this).find('h3').text().toLowerCase()).appendTo(li);
+    scrollSpy(sec);
+  });
+  $(window).scroll( function() { scrollSpy(sec); });
+}
+function scrollSpy(sec) {
+  sec.forEach(function(v,i){
+    w=$(window).scrollTop();
+    t=$("#"+v).offset().top - 300;
+    if (t <= w) {
+      $(".scroll[href='#"+v+"']").addClass('active');
+      $(".scroll").not("[href='#"+v+"']").removeClass('active');
+    }
+  })
+}
