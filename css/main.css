@@ -4,6 +4,8 @@ a:hover{text-decoration: none;}
 ul{list-style-type: none;margin:0;padding:0;}
 textarea{resize: none;}
 summary{outline: none;}
+.bg-lampi{background: #336791;}
+.text-lampi{color: #fff;}
 .mainHeader{color:#336791; border-bottom:1px solid rgba(0,0,0,.15); z-index: 2000;}
 .navbar{padding:0;}
 .navbar-light .navbar-brand,.navbar-light .navbar-nav .nav-link{color:#336791;}
@@ -15,8 +17,8 @@ summary{outline: none;}
 .dropdown-item{border-top:1px solid rgba(0,0,0,0);border-bottom:1px solid rgba(0,0,0,0);}
 .dropdown-item:focus, .dropdown-item:hover {border-top:1px solid rgba(0,0,0,.15);border-bottom:1px solid rgba(0,0,0,.15);}
 .bannerWrap{top:29px;height:300px;left:0;width:100%;z-index:10;background-image: url('../img/header01.jpg'); background-repeat: no-repeat; background-position: top center; background-size: cover;}
-.mainContent{ position:relative; z-index:1000; min-height:300px;height: auto;margin-top:50px;}
-.mainContent.home{margin-top:327px !important;}
+.mainContent{ position:relative; z-index:1000; min-height:300px;height: auto;margin-top:25px;padding:50px 20px 20px;}
+.mainContent.home{margin-top:327px !important;padding:0}
 .manifest{position:relative;background-color: #D0C9B7;}
 .manifest p{line-height: 2rem;}
 .manifestLogo{background-image: url('../img/busto_lampi.png'); background-repeat: no-repeat; background-position: center center; background-size: contain;}
@@ -39,7 +41,7 @@ summary{outline: none;}
 .formStretto{postion:relative; width:90%;margin: 0 auto;}
 
 .blockquote{font-size: 14px;}
-.submenu a{color:#336791;background: #fff;font-size: 14px;}
+.submenu a{color:#336791;background: #fff;font-size: 10px;}
 .submenu a:hover, .submenu a.active{color:#fff;background: #336791;}
 
 /* // Extra small devices (portrait phones, lblockess than 576px) */
@@ -61,6 +63,7 @@ summary{outline: none;}
   .bannerWrap{top:40px;height:400px;}
   .mainContent{ min-height:300px;}
   .mainContent.home{ margin-top:440px;}
+  .submenu a{font-size: 12px;}
 }
 
 /* // Large devices (desktops, 992px and up) */
@@ -73,6 +76,7 @@ summary{outline: none;}
   .navbar-brand{font-size:1.1rem;}
   .nav-link{font-size:.9rem;}
   .dropdown-item{font-size:.8rem;padding: .25rem .7rem;}
+  .submenu a{font-size: 14px;}
 }
 /* // Extra large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
@@ -85,4 +89,5 @@ summary{outline: none;}
   .nav-link{font-size:1rem;}
   .dropdown-item{font-size:.9rem;padding: .25rem .7rem;}
   .formStretto{postion:relative; width:50%;margin: 0 auto;}
+  .submenu a{font-size: 14px;}
 }

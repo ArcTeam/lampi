@@ -9,7 +9,7 @@
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             <a class="dropdown-item" href="storia.php">la storia</a>
             <a class="dropdown-item" href="#"><del>lo statuto</del></a>
-            <a class="dropdown-item" href="#">il nome</a>
+            <a class="dropdown-item" href="nome.php">il nome</a>
             <a class="dropdown-item" href="#">organigramma</a>
           </div>
         </li>
