@@ -1,18 +1,13 @@
+<?php
+session_start();
+require("class/function.php");
+$bannerBg = randomBg();
+?>
 <!doctype html>
 <html lang="it">
   <head>
     <?php require('inc/meta.php'); ?>
     <?php require('inc/css.php'); ?>
-    <style media="screen">
-      .mainContent{
-        background-image: url('img/header01.jpg');
-        background-repeat: no-repeat;
-        background-position: top center;
-        background-size: contain;
-        margin-top:70px;
-        padding:80px 20px 20px;
-      }
-    </style>
   </head>
   <body>
     <div class="mainHeader bg-white fixed-top">
@@ -21,11 +16,16 @@
           <ul class="nav justify-content-center"></ul>
       </div>
     </div>
-    <div class="mainContent">
-      <div class="container bg-white p-3 border rounded">
+    <div class="bannerWrap position-fixed bg-white lozad" data-background-image="img/background/<?php echo $bannerBg; ?>">
+      <div class="bannerTitle">
+        <h1>La storia dell'associazione</h1>
+      </div>
+    </div>
+    <div class="mainContent bg-white">
+      <div class="container">
         <div class="row">
           <div class="col">
-            <div id="origini" class="header" data-ancora="origini">
+            <div id="origini" class="header pt-5" data-ancora="origini">
               <h3 class="border-bottom">LE ORIGINI</h3>
               <blockquote class="blockquote mb-5">
                 <p class="text-justify">Durante gli anni Ottanta del secolo scorso alcune persone di Romeno appassionate della storia, degli usi e dei costumi locali decisero di costituire il Comitato di Ricerca Storica delle Comunità di Romeno, Salter e Malgolo. Di detto Comitato fecero parte don Fabio Fattor, quale Presidente, il Parroco don Luigi Pezzi, l'avvocato Marcello Graiff, gli insegnanti Rita Zucal, Ivana Calliari e Aldo Zuech, nonché Diego Covi e Gino Graiff. Altre persone apprezzando l'iniziativa, collaborarono alla predisposizione e realizzazione dei programmi non tutti peraltro concretizzati.</p>
@@ -49,8 +49,8 @@
           </div>
         </div>
       </div>
+      <?php require('inc/footer.php'); ?>
     </div>
-    <?php require('inc/footer.php'); ?>
     <?php require('inc/lib.php'); ?>
     <script type="text/javascript">
       $(document).ready(function() {
