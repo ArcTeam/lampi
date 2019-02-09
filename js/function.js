@@ -1,3 +1,7 @@
+const observer = lozad('.lozad', {
+    loaded: function(el) { el.classList.add('fadeBg'); }
+});
+observer.observe();
 $(document).ready(function () {
   $(".toggleMenu").on('click',function(e){
     e.preventDefault();
@@ -15,7 +19,6 @@ function countdown(sec,page){
     sec--;
     document.getElementById("countdowntimer").textContent = sec;
     if(sec <= 0){ window.location.href=page; }
-    // clearInterval(downloadTimer);
   },1000);
 }
 function createSubmenu(){
