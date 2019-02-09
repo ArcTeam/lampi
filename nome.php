@@ -3,22 +3,15 @@
   <head>
     <?php require('inc/meta.php'); ?>
     <?php require('inc/css.php'); ?>
-    <style media="screen">
-      .mainContent{
-        background-image: url('img/header01.jpg');
-        background-repeat: no-repeat;
-        background-position: top center;
-        background-size: contain;
-      }
-    </style>
   </head>
   <body>
     <div class="mainHeader bg-white fixed-top">
       <?php require('inc/header.php'); ?>
     </div>
-    <div class="mainContent">
-      <div class="container mb-5">
-        <div class="manifest rounded">
+    <div class="bannerWrap position-fixed"></div>
+    <div class="mainContent home bg-white">
+      <div class="manifest">
+        <div class="container">
           <div class="row">
             <div class="col-md-5 imgLampi p-5">
               <img src="img/401px-Giovanni_Battista_Lampi_autoritratto_Innsbruck.jpg" alt="autoritratto" class="img-fluid rounded">
@@ -65,6 +58,18 @@
     </div>
     <?php require('inc/footer.php'); ?>
     <?php require('inc/lib.php'); ?>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $.getJSON('https://commons.wikimedia.org/w/api.php?', {
+          action: 'query',
+          list: 'search',
+          srsearch: '%22Johann-Baptist_Lampi_d._%C3%84.%22',
+          srnamespace: '6'
+        }, function(json, textStatus) {
+            console.log(json);
+        });
+      });
+    </script>
   </body>
 </html>
 

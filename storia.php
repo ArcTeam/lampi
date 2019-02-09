@@ -4,14 +4,7 @@
     <?php require('inc/meta.php'); ?>
     <?php require('inc/css.php'); ?>
     <style media="screen">
-      .mainContent{
-        background-image: url('img/header01.jpg');
-        background-repeat: no-repeat;
-        background-position: top center;
-        background-size: contain;
-        margin-top:70px;
-        padding:80px 20px 20px;
-      }
+
     </style>
   </head>
   <body>
@@ -21,8 +14,9 @@
           <ul class="nav justify-content-center"></ul>
       </div>
     </div>
-    <div class="mainContent">
-      <div class="container bg-white p-3 border rounded">
+    <div class="bannerWrap position-fixed"></div>
+    <div class="mainContent home bg-white">
+      <div class="container bg-white p-3 ">
         <div class="row">
           <div class="col">
             <div id="origini" class="header" data-ancora="origini">

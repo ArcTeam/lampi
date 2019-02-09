@@ -11,7 +11,7 @@ session_start();
     <div class="mainHeader bg-white fixed-top">
       <?php require('inc/header.php'); ?>
     </div>
-    <div class="bannerWrap position-fixed bg-white"></div>
+    <div class="bannerWrap position-fixed"></div>
     <div class="mainContent home bg-white">
       <div class="manifest shadow">
         <div class="container">

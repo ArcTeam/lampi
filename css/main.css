@@ -1,5 +1,5 @@
 /* csslint adjoining-classes: false ,order-alphabetical: false, ids: false,unqualified-attributes: false, unique-headings:false, qualified-headings:false */
-html,body{font-family: 'Open Sans', sans-serif;color: #363A3F;background: #ecf0f5;}
+html,body{font-family: 'Open Sans', sans-serif;color: #363A3F;background: #fff;}
 a:hover{text-decoration: none;}
 ul{list-style-type: none;margin:0;padding:0;}
 textarea{resize: none;}
