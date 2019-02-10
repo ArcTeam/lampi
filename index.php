@@ -13,16 +13,12 @@ $bannerBg = randomBg();
     <div class="mainHeader bg-white fixed-top">
       <?php require('inc/header.php'); ?>
     </div>
-<<<<<<< HEAD
-    <div class="bannerWrap position-fixed"></div>
-=======
     <div class="bannerWrap position-fixed bg-white lozad" data-background-image="img/background/<?php echo $bannerBg; ?>">
       <div class="bannerTitle">
         <h1>Associazione culturale G.B.Lampi</h1>
         <h3>ALTA ANAUNIA</h3>
       </div>
     </div>
->>>>>>> 16abd846bf8cda6ea524ac4867a23e6c1805ec8d
     <div class="mainContent home bg-white">
       <div class="manifest shadow">
         <div class="container">

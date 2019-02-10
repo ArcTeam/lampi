@@ -650,7 +650,6 @@ class SMTP
          * so we will break the data up into lines by \r and/or \n then if needed we will break each of those into
          * smaller lines to fit within the limit.
          * We will also look for lines that start with a '.' and prepend an additional '.'.
-         * NOTE: this does not count towards line-length limit.
          */
 
         // Normalize line breaks before exploding

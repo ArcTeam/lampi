@@ -1,6 +1,5 @@
-const observer = lozad('.lozad', {
-    loaded: function(el) { el.classList.add('fadeBg'); }
-});
+const observer = lozad('.lozad', { loaded: function(el) { el.classList.add('fadeBg'); } });
+const galleryObserver = lozad('.lozadImg', { loaded: function(el) { console.log(el + "loaded"); } });
 observer.observe();
 $(document).ready(function () {
   $(".toggleMenu").on('click',function(e){
@@ -42,3 +41,11 @@ function scrollSpy(sec) {
     }
   })
 }
+function wikiApi( endpointUrl, sparqlQuery, doneCallback ) {
+  var settings = {
+    headers: { Accept: 'application/sparql-results+json' },
+    data: { query: sparqlQuery }
+  };
+  return $.ajax( endpointUrl, settings ).then( doneCallback );
+}
+function wrapImgWidth(){ $(".imgDiv").height($("#img0").width()) }

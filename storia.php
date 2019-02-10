@@ -8,12 +8,6 @@ $bannerBg = randomBg();
   <head>
     <?php require('inc/meta.php'); ?>
     <?php require('inc/css.php'); ?>
-<<<<<<< HEAD
-    <style media="screen">
-
-    </style>
-=======
->>>>>>> 16abd846bf8cda6ea524ac4867a23e6c1805ec8d
   </head>
   <body>
     <div class="mainHeader bg-white fixed-top">
@@ -22,11 +16,6 @@ $bannerBg = randomBg();
           <ul class="nav justify-content-center"></ul>
       </div>
     </div>
-<<<<<<< HEAD
-    <div class="bannerWrap position-fixed"></div>
-    <div class="mainContent home bg-white">
-      <div class="container bg-white p-3 ">
-=======
     <div class="bannerWrap position-fixed bg-white lozad" data-background-image="img/background/<?php echo $bannerBg; ?>">
       <div class="bannerTitle">
         <h1>La storia dell'associazione</h1>
@@ -34,7 +23,6 @@ $bannerBg = randomBg();
     </div>
     <div class="mainContent bg-white">
       <div class="container">
->>>>>>> 16abd846bf8cda6ea524ac4867a23e6c1805ec8d
         <div class="row">
           <div class="col">
             <div id="origini" class="header pt-5" data-ancora="origini">
