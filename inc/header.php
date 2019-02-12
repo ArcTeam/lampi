@@ -7,28 +7,29 @@
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">associazione</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href="storia.php">la storia</a>
-          <a class="dropdown-item" href="#"><del>lo statuto</del></a>
           <a class="dropdown-item" href="nome.php">il nome</a>
-          <a class="dropdown-item" href="#">organigramma</a>
+          <a class="dropdown-item" href="#"><del>lo statuto</del></a>
+          <a class="dropdown-item" href="#"><del>organigramma</del></a>
+          <a class="dropdown-item" href="#"><del>bilancio annuale</del></a>
         </div>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">attività</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="#">eventi</a>
-          <a class="dropdown-item" href="#">incontri</a>
-          <a class="dropdown-item" href="#">viaggi</a>
+          <a class="dropdown-item" href="#"><del>eventi</del></a>
+          <a class="dropdown-item" href="#"><del>incontri</del></a>
+          <a class="dropdown-item" href="#"><del>viaggi</del></a>
         </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">pubblicazioni</a>
+        <a class="nav-link" href="#"><del>pubblicazioni</del></a>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">centro studi</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="#">Casa de Gentili</a>
-          <a class="dropdown-item" href="#">progetti</a>
-          <a class="dropdown-item" href="#">scopi della casa</a>
+          <a class="dropdown-item" href="#"><del>Casa de Gentili</del></a>
+          <a class="dropdown-item" href="#"><del>progetti</del></a>
+          <a class="dropdown-item" href="#"><del>scopi della casa</del></a>
         </div>
       </li>
       <?php if(!isset($_SESSION['id'])){ ?>

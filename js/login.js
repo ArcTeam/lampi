@@ -62,5 +62,5 @@ $(document).ready(function () {
 
   $("[name=toggleRescueForm]").on('click', function() {
     $("[name=rescuePwdForm]").slideToggle('fast')
-76  });
+  });
 })
