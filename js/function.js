@@ -1,5 +1,6 @@
 const observer = lozad('.lozad', { loaded: function(el) { el.classList.add('fadeBg'); } });
 const galleryObserver = lozad('.lozadImg', { loaded: function(el) { console.log(el + "loaded"); } });
+const connector = "class/connector.php";
 observer.observe();
 $(document).ready(function () {
   $(".toggleMenu").on('click',function(e){
@@ -13,6 +14,22 @@ $(document).ready(function () {
   $('.tip').tooltip({boundary:'window', container:'body', placement:function(tip,element){return $(element).data('placement');}, html:true, trigger:'hover' })
   footerMenu();
 })
+
+function initTable (disorder) {
+  var cols = !disorder ? [] : disorder
+  var t = $('.table').DataTable({
+    responsive: true,
+    searchHighlight: true,
+    'lengthMenu': [[10, 25, 50, -1], [10, 25, 50, 'Tutti']],
+    'columnDefs': [{ 'orderable': false, 'targets': cols }]
+  })
+  t.on( 'draw', function () {
+    var body = $( t.table().body() );
+    body.unhighlight();
+    body.highlight( t.search() );
+  });
+  $(".dataTables_filter > label > input").attr('placeholder','cerca record');
+}
 
 function countdown(sec,page){
   document.getElementById("countdowntimer").textContent = sec;
@@ -70,4 +87,18 @@ function footerMenu(){
       $("<a/>",{href:$(this).attr('href')}).text('> '+$(this).text()).appendTo(subLi)
     });
   });
+}
+
+
+function buildTable(func,tab,callBack){
+  option = {
+    url: connector,
+    type: 'POST',
+    dataType: 'json',
+    data: {
+      oop:{file:'db.class.php',classe:'Db',func:func},
+      dati:{tab:tab}
+    }
+  }
+  return $.ajax(option).done(callBack);
 }

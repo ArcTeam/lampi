@@ -58,23 +58,23 @@
         <a href="#" class="text-dark animation tip" data-placement="left" title="modifica la tua password [ricordati di farlo regolarmente!]"><span class='animation'>></span> modifica password</a>
       </li>
     </ul>
-    <p class="m-0 p-3 bg-light text-muted border-top"><i class="fas fa-plus-square"></i> inserisci</p>
+    <p class="m-0 p-3 bg-light text-muted border-top"><i class="fas fa-sitemap"></i> sezioni del sito</p>
     <ul>
       <li>
-        <a href="#" class="text-dark animation tip" data-placement="left" title="aggiungi un nuovo post"><span class='animation'>></span> post</a>
+        <a href="#" class="text-dark animation tip" data-placement="left" title="gestisci post"><span class='animation'>></span> post</a>
       </li>
       <li>
-        <a href="#" class="text-dark animation tip" data-placement="left" title="aggiungi un nuovo evento"><span class='animation'>></span> evento</a>
+        <a href="#" class="text-dark animation tip" data-placement="left" title="gestisci eventi"><span class='animation'>></span> eventi</a>
       </li>
       <li>
-        <a href="#" class="text-dark animation tip" data-placement="left" title="aggiungi un nuovo viaggio"><span class='animation'>></span> viaggio</a>
+        <a href="#" class="text-dark animation tip" data-placement="left" title="gestisci viaggi"><span class='animation'>></span> viaggi</a>
       </li>
       <li>
-        <a href="#" class="text-dark animation tip" data-placement="left" title="aggiungi una nuova pubblicazione"><span class='animation'>></span> bibliografia</a>
+        <a href="#" class="text-dark animation tip" data-placement="left" title="gestisci pubblicazioni"><span class='animation'>></span> bibliografia</a>
       </li>
       <?php if ($_SESSION['classe']===2) {?>
       <li>
-        <a href="#" class="text-dark animation border-bottom tip" data-placement="left" title="aggiungi un nuovo utente in rubrica"><span class='animation'>></span> rubrica</a>
+        <a href="rubrica.php" class="text-dark animation border-bottom tip" data-placement="left" title="gestisci rubrica"><span class='animation'>></span> rubrica</a>
       </li>
       <?php } ?>
     </ul>
