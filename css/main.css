@@ -25,11 +25,6 @@ summary{outline: none;}
 .usrMenu{position:fixed;width:200px;bottom:0;box-shadow: 5px 20px 20px rgb(0,0,0);z-index:1999;}
 .usrMenu.opened{right:-1px;overflow: auto;}
 .usrMenu.closed{right:-200px; box-shadow: none;}
-.usrMenu>.switchmenu{ position:relative; background:#fff; padding:7px; width:45px; text-align:center;}
-.usrMenu.opened>.switchmenu{margin-left:0; border-radius: 0;}
-.usrMenu.closed>.switchmenu{margin-left:-45px; border-radius: 25px; box-shadow: 0 5px 15px rgba(0,0,0,.5);}
-.usrMenu.opened>.switchmenu::before{font-family: 'FontAwesome'; content:'\f068'; font-size:20px; color:#336791;}
-.usrMenu.closed>.switchmenu::before{font-family: 'FontAwesome';content:'\f067'; font-size:20px; color:#336791;}
 .menuList a{display:block;padding:.3rem 1rem;font-size: 14px;border-top:1px solid #dee2e6;}
 .menuList a>span{opacity: 0;margin-left:0;}
 .menuList a:hover{background: #f8f9fa;}

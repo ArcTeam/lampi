@@ -8,7 +8,6 @@ if(isset($funzione) && function_exists($funzione)) {
 }
 function login($class){return json_encode($class->login($_POST['dati']));}
 function rescuePwd($class){return json_encode($class->rescuePwd($_POST['dati']));}
-function buildTable($class){
-  return json_encode($class->simple("select * from ".$_POST['dati']['tab']." ;"));
-}
+function buildTable($class){return json_encode($class->simple("select * from ".$_POST['dati']['tab'].";"));}
+function query($class){return json_encode($class->query($_POST['act'],$_POST['dati']));}
 ?>
