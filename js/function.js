@@ -10,6 +10,7 @@ $(document).ready(function () {
   $(document).on("click", function () {
     if ($('.usrMenu').hasClass('opened')) {  $('.usrMenu').toggleClass('closed opened'); }
   })
+  $('.tip').tooltip({boundary:'window', container:'body', placement:function(tip,element){return $(element).data('placement');}, html:true, trigger:'hover' })
   footerMenu();
 })
 

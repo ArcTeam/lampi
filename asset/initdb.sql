@@ -41,16 +41,20 @@ create index rubrica_idx on utenti(email);
 SELECT audit.audit_table('utenti');
 alter table rubrica owner to lampi;
 
-create table soci(
-  id serial primary key,
-  rubrica integer not null references rubrica(id) on delete cascade,
-  data date not null,
-  tipo integer not null check (tipo in(1,2))
-);
-create index soci_idx on soci(data);
+create table soci( rubrica integer primary key references rubrica(id) on delete cascade );
 SELECT audit.audit_table('soci');
-comment on column soci.tipo is '1=iscrizione; 2=rinnovo';
 alter table soci owner to lampi;
+
+create table quote(
+  id serial primary key,
+  socio integer not null references soci(rubrica),
+  data date not null,
+  tipo integer not null check (tipo in(1,2)),
+  constraint quote_unique unique(socio,data)
+);
+SELECT audit.audit_table('quote');
+alter table quote owner to lampi;
+comment on column quote.tipo is '1=iscrizione; 2=rinnovo';
 
 create table iscrizioni(
   id serial primary key,
@@ -67,10 +71,10 @@ alter table iscrizioni owner to lampi;
 
 create table organigramma(
   anno integer primary key,
-  presidente integer not null references soci(id),
-  vicepresidente integer not null references soci(id),
-  segretario integer not null references soci(id),
-  tesoriere integer not null references soci(id),
+  presidente integer not null references soci(rubrica),
+  vicepresidente integer not null references soci(rubrica),
+  segretario integer not null references soci(rubrica),
+  tesoriere integer not null references soci(rubrica),
   consiglieri integer[] not null
 );
 SELECT audit.audit_table('organigramma');

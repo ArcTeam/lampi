@@ -10,7 +10,7 @@
             <li><i class="fas fa-fax fa-fw"></i> fax 0463 510050</li>
             <li><a href="mailto:associazione.lampi@gmail.com?subject=feedback" title="scrivici una mail"><i class="fas fa-at fa-fw"></i> associazione.lampi@gmail.com</a></li>
             <li><a href="https://www.facebook.com/associazione.lampi/" target="_blank" title="facebook page [link esterno]"><i class="fab fa-facebook-square fa-fw"></i> facebook</a></li>
-            <li> <a hr4ef="https://m.me/associazione.lampi?fbclid=IwAR1pJW3sss8BGHPME0OBrGUDaQwSpC2-0b7QjWDS2XqnEe7EIZbClnLygDQ" target="_blank" title="avvia una conversazione su messenger [link esterno]"><i class="fab fa-facebook-messenger fa-fw"></i> messenger</a></li>
+            <li> <a href="https://m.me/associazione.lampi?fbclid=IwAR1pJW3sss8BGHPME0OBrGUDaQwSpC2-0b7QjWDS2XqnEe7EIZbClnLygDQ" target="_blank" title="avvia una conversazione su messenger [link esterno]"><i class="fab fa-facebook-messenger fa-fw"></i> messenger</a></li>
             <li><i class="fas fa-clock fa-fw"></i> orari: Casa de Gentili è aperta durante l’anno in occasione di mostre ed eventi, in estate e d’inverno. La struttura può essere visitata anche quando non vi sono percorsi espositivi scrivendo all’indirizzo mail sopra indicato.</li>
           </ul>
         </address>

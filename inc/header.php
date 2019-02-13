@@ -6,23 +6,23 @@
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">associazione</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="storia.php">la storia</a>
-          <a class="dropdown-item" href="nome.php">il nome</a>
-          <a class="dropdown-item" href="#"><del>lo statuto</del></a>
-          <a class="dropdown-item" href="#"><del>organigramma</del></a>
-          <a class="dropdown-item" href="#"><del>bilancio annuale</del></a>
+          <a class="dropdown-item tip" href="storia.php" title="Un interessante racconto su come è nata la nostra associazione" data-placement="left">la storia</a>
+          <a class="dropdown-item tip" href="nome.php" title="Scopri chi era Giovan Battista Lampi" data-placement="left">il nome</a>
+          <a class="dropdown-item tip" href="#" title="Leggi lo statuto dell'associazione" data-placement="left"><del>lo statuto</del></a>
+          <a class="dropdown-item tip" href="organigramma.php" title="Il consiglio direttivo nel corso degli anni" data-placement="left"><del>organigramma</del></a>
+          <a class="dropdown-item tip" href="#" title="Bilancio annuale" data-placement="left"><del>bilancio annuale</del></a>
         </div>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">attività</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="#"><del>eventi</del></a>
-          <a class="dropdown-item" href="#"><del>incontri</del></a>
-          <a class="dropdown-item" href="#"><del>viaggi</del></a>
+          <a class="dropdown-item tip" href="#" data-placement="left" title="leggi i post scritti dai nostri soci"><del>articoli</del></a>
+          <a class="dropdown-item tip" href="#" data-placement="left" title="mostre, seminari, conferenze, presentazioni e altro ancora"><del>eventi</del></a>
+          <a class="dropdown-item tip" href="#" data-placement="left" title="parti con noi"><del>viaggi</del></a>
         </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#"><del>pubblicazioni</del></a>
+        <a class="nav-link tip" href="#" data-placement="bottom" title="scopri, leggi o scarica le nostre pubblicazioni"><del>pubblicazioni</del></a>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">centro studi</a>
@@ -52,43 +52,29 @@
     <p class="m-0 p-3 bg-light text-muted border-top"><i class='fas fa-user fa-fw'></i> profilo utente</p>
     <ul>
       <li>
-        <a href="#" class="text-dark animation" title="aggiorna i tuoi dati personali">
-          <span class='animation'>></span> modifica dati
-        </a>
+        <a href="#" class="text-dark animation tip" data-placement="left" title="aggiorna i tuoi dati personali"><span class='animation'>></span> modifica dati</a>
       </li>
       <li>
-        <a href="#" class="text-dark animation" title="modifica la tua password [ricordati di farlo regolarmente!]">
-          <span class='animation'>></span> modifica password
-        </a>
+        <a href="#" class="text-dark animation tip" data-placement="left" title="modifica la tua password [ricordati di farlo regolarmente!]"><span class='animation'>></span> modifica password</a>
       </li>
     </ul>
     <p class="m-0 p-3 bg-light text-muted border-top"><i class="fas fa-plus-square"></i> inserisci</p>
     <ul>
       <li>
-        <a href="#" class="text-dark animation" title="aggiungi un nuovo post">
-          <span class='animation'>></span> post
-        </a>
+        <a href="#" class="text-dark animation tip" data-placement="left" title="aggiungi un nuovo post"><span class='animation'>></span> post</a>
       </li>
       <li>
-        <a href="#" class="text-dark animation" title="aggiungi un nuovo evento">
-          <span class='animation'>></span> evento
-        </a>
+        <a href="#" class="text-dark animation tip" data-placement="left" title="aggiungi un nuovo evento"><span class='animation'>></span> evento</a>
       </li>
       <li>
-        <a href="#" class="text-dark animation" title="aggiungi un nuovo viaggio">
-          <span class='animation'>></span> viaggio
-        </a>
+        <a href="#" class="text-dark animation tip" data-placement="left" title="aggiungi un nuovo viaggio"><span class='animation'>></span> viaggio</a>
       </li>
       <li>
-        <a href="#" class="text-dark animation" title="aggiungi una nuova pubblicazione">
-          <span class='animation'>></span> bibliografia
-        </a>
+        <a href="#" class="text-dark animation tip" data-placement="left" title="aggiungi una nuova pubblicazione"><span class='animation'>></span> bibliografia</a>
       </li>
       <?php if ($_SESSION['classe']===2) {?>
       <li>
-        <a href="#" class="text-dark animation border-bottom" title="aggiungi un nuovo utente">
-          <span class='animation'>></span> utente
-        </a>
+        <a href="#" class="text-dark animation border-bottom tip" data-placement="left" title="aggiungi un nuovo utente in rubrica"><span class='animation'>></span> rubrica</a>
       </li>
       <?php } ?>
     </ul>
@@ -96,20 +82,14 @@
     <ul>
       <?php if ($_SESSION['classe']===2) {?>
       <li>
-        <a href="#" class="text-dark animation border-bottom" title="visualizza e gestisci gli utenti presenti nel database">
-          <span class='animation'>></span> utenti
-        </a>
+        <a href="#" class="text-dark animation tip" data-placement="left" title="visualizza e gestisci gli utenti presenti nel database"><span class='animation'>></span> utenti</a>
       </li>
       <li>
-        <a href="#" class="text-dark animation border-bottom" title="modifica o elimina una tag esistente">
-          <span class='animation'>></span> tag
-        </a>
+        <a href="#" class="text-dark animation tip" data-placement="left" title="modifica o elimina una tag esistente"><span class='animation'>></span> tag</a>
       </li>
       <?php } ?>
       <li>
-        <a href="logout.php" class="text-dark animation" title="termina sessione di lavoro ed esci dall'area riservata">
-          <span class='animation'>></span> logout
-        </a>
+        <a href="logout.php" class="text-dark animation tip" data-placement="left" title="termina sessione di lavoro ed esci dall'area riservata"><span class='animation'>></span> logout</a>
       </li>
     </ul>
   </div>

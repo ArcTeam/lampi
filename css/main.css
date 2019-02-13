@@ -6,6 +6,7 @@ textarea{resize: none;}
 summary{outline: none;}
 .bg-lampi{background: #336791;}
 .text-lampi{color: #fff;}
+.tooltip{z-index:2050;}
 .mainHeader{color:#336791; border-bottom:1px solid rgba(0,0,0,.15); padding:0 15px; z-index: 2000;}
 .navbar{padding:0 15px; margin:0 -15px;}
 .navbar-light .navbar-brand,.navbar-light .navbar-nav .nav-link{color:#336791;}
@@ -46,24 +47,22 @@ summary{outline: none;}
 .fadeBg { animation-name: fade; animation-duration: 2s;}
 .footer{font-size: .8em}
 .footer,.footer a{color:#fff;}
-@keyframes fade {
-  from {opacity: 0;}
-  to {opacity: 1;}
-}
+
+@keyframes fade { from {opacity: 0;} to {opacity: 1;} }
 
 /* // Extra small devices (portrait phones, lblockess than 576px) */
 @media (max-width: 575px) {
-  .usrMenu{top:35px;}
+  .usrMenu{top:34px;}
 }
 
 /* // Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) and (max-width: 767px) {
-  .usrMenu{top:35px;}
+  .usrMenu{top:34px;}
 }
 
 /* // Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) and (max-width: 991px) {
-  .usrMenu{top:45px;}
+  .usrMenu{top:41px;}
   .navbar-brand{font-size:20px;}
   .navbar-toggler{font-size:20px;}
   .bannerWrap{top:40px;}
@@ -72,7 +71,7 @@ summary{outline: none;}
 
 /* // Large devices (desktops, 992px and up) */
 @media (min-width: 992px) and (max-width: 1199px) {
-  .usrMenu{top:55px;}
+  .usrMenu{top:48px;}
   .bannerWrap{top:37px;}
   .dropdown-menu{margin-top:0;padding:0; border-top:none; border-top-left-radius: 0; border-top-right-radius: 0;}
   .navbar-brand{font-size:1.1rem;}
@@ -82,7 +81,7 @@ summary{outline: none;}
 }
 /* // Extra large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
-  .usrMenu{top:55px;}
+  .usrMenu{top:48px;}
   .bannerWrap{top:40px;}
   .dropdown-menu{margin-top:0;padding:0; border-top:none; border-top-left-radius: 0; border-top-right-radius: 0;}
   .navbar-brand{font-size:1.3rem;}
