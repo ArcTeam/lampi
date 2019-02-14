@@ -27,6 +27,7 @@ function initTable (disorder) {
     var body = $( t.table().body() );
     body.unhighlight();
     body.highlight( t.search() );
+    $('.tip').tooltip();
   });
   $(".dataTables_filter > label > input").attr('placeholder','cerca record');
 }
@@ -88,8 +89,6 @@ function footerMenu(){
     });
   });
 }
-
-
 function buildTable(func,tab,callBack){
   option = {
     url: connector,

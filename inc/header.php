@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle avigation"><span class="navbar-toggler-icon"></span></button>
   <a class="navbar-brand" href="index.php">ASSOCIAZIONE CULTURALE "G.B.LAMPI"</a>
-  <a class="nav-link toggleMenu toggleDesktop d-lg-none" href="#"><i class="fas fa-bars"></i></a>
+  <a class="toggleMenu toggleDesktop d-lg-none" href="#"><i class="fas fa-bars"></i></a>
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item dropdown">

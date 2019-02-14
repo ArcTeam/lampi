@@ -31,7 +31,7 @@ create table rubrica(
   id serial primary key,
   cognome character varying not null,
   nome character varying,
-  email character varying unique,
+  email character varying not null unique,
   indirizzo character varying,
   cellulare character varying,
   fisso character varying,
