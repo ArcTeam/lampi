@@ -46,6 +46,33 @@ summary{outline: none;}
 
 .outPutMsgAlert{position:absolute;top:150px; display: none; z-index:5000;}
 
+/*dataTable icona*/
+table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>td:first-child:before, table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before{
+  font-family: 'FontAwesome' !important;
+  content:'\f055';
+  top: 4px;
+  left: 4px;
+  height: 14px;
+  width: 14px;
+  display: block;
+  position: absolute;
+  color: inherit !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  box-sizing: content-box;
+  text-align: center;
+  text-indent: 0 !important;
+  line-height: 30px !important;
+  background-color: transparent !important;
+}
+table.dataTable.dtr-inline.collapsed>tbody>tr.parent>td:first-child:before, table.dataTable.dtr-inline.collapsed>tbody>tr.parent>th:first-child:before {
+  content: '\f056';
+  background-color: transparent !important;
+}
+
+
+
 @keyframes fade { from {opacity: 0;} to {opacity: 1;} }
 
 /* // Extra small devices (portrait phones, lblockess than 576px) */

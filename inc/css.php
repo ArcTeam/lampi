@@ -4,4 +4,5 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css"/>
 <link rel="stylesheet" href="https://cdn.datatables.net/plug-ins/1.10.19/features/searchHighlight/dataTables.searchHighlight.css">
 <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat" rel="stylesheet">
+<link rel="stylesheet" href="css/jquery-ui.css">
 <link rel="stylesheet" href="css/main.css">

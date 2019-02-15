@@ -105,7 +105,7 @@ session_start();
                   <th scope="col" class="none">fisso</th>
                   <th scope="col" class="all" width="50px">tipo</th>
                   <th scope="col" class="none">note</th>
-                  <th class="all" width="25px"></th>
+                  <th scope="col" class="all" width="25px"></th>
                 </tr>
               </thead>
               <tbody></tbody>
@@ -126,7 +126,7 @@ session_start();
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Elimina record dalla rubrica</h5>
+            <h5 class="modal-title" id="delRubricaLabel">Elimina record dalla rubrica</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           </div>
           <div class="modal-body">
