@@ -8,6 +8,20 @@ class Generica extends Db{
     return $this->prepared($sql, $dati);
   }
 
+  public function organigramma($act, $dati){
+    if ($act['act']=='inserisci') {
+      return $this->orgIns($dati);
+    }else {
+      return $this->orgIns($dati);
+    }
+  }
+
+  private function orgIns($dati = array()){
+    $sql="insert into organigramma(anno, presidente, vicepresidente, segretario, tesoriere, consiglieri) values (:anno, :presidente, :vicepresidente, :segretario, :tesoriere, :consiglieri);";
+    $dati['consiglieri']='{'.implode(",",$dati['consiglieri']).'}';
+    return $this->prepared($sql, $dati);
+  }
+
   private function prepareData($act=array(),$dati=array()){
     if ($act['act'] === 'inserisci') {
       foreach ($dati as $key => $value) {

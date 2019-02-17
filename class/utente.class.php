@@ -58,6 +58,7 @@ class Utente extends Db{
     $_SESSION['username']=$username;
     $_SESSION['id']=$dati['id'];
     $_SESSION['classe']=$dati['classe'];
+    $_SESSION['act']='logged';
     return true;
   }
   protected function getUsername($email){$u = explode("@",$email);return $u[0];}
