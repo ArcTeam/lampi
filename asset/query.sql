@@ -17,27 +17,26 @@
 -- left join utenti u on u.email = r.email;
 -- alter view rubrica_view owner to lampi;
 
-drop view if exists organigramma_view;
-create view organigramma_view as(
-with consiglieri as (
-  select o.anno, json_object_agg(r.id,r.cognome||' '||r.nome) as cons
-  from rubrica r
-  inner join (select o.anno, unnest(o.consiglieri) c from organigramma o) o on o.c = r.id
-  group by o.anno
-)
-SELECT
-  org.*,
-  pr.cognome||' '||pr.nome pres,
-  vp.cognome||' '||vp.nome vicepres,
-  seg.cognome||' '||seg.nome segr,
-  tes.cognome||' '||tes.nome tes,
-  consiglieri.cons
-FROM organigramma org
-INNER JOIN rubrica pr ON org.presidente = pr.id
-INNER JOIN rubrica vp ON org.vicepresidente = vp.id
-INNER JOIN rubrica seg ON org.segretario = seg.id
-INNER JOIN rubrica tes ON org.tesoriere = tes.id
-INNER JOIN consiglieri on consiglieri.anno = org.anno
-ORDER BY anno DESC);
-ALTER VIEW organigramma_view OWNER TO lampi;
-
+-- drop view if exists organigramma_view;
+-- create view organigramma_view as(
+-- with consiglieri as (
+--   select o.anno, json_object_agg(r.id,r.cognome||' '||r.nome) as cons
+--   from rubrica r
+--   inner join (select o.anno, unnest(o.consiglieri) c from organigramma o) o on o.c = r.id
+--   group by o.anno
+-- )
+-- SELECT
+--   org.*,
+--   pr.cognome||' '||pr.nome pres,
+--   vp.cognome||' '||vp.nome vicepres,
+--   seg.cognome||' '||seg.nome segr,
+--   tes.cognome||' '||tes.nome tes,
+--   consiglieri.cons
+-- FROM organigramma org
+-- INNER JOIN rubrica pr ON org.presidente = pr.id
+-- INNER JOIN rubrica vp ON org.vicepresidente = vp.id
+-- INNER JOIN rubrica seg ON org.segretario = seg.id
+-- INNER JOIN rubrica tes ON org.tesoriere = tes.id
+-- INNER JOIN consiglieri on consiglieri.anno = org.anno
+-- ORDER BY anno DESC);
+-- ALTER VIEW organigramma_view OWNER TO lampi;
