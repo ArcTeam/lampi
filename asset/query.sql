@@ -1,4 +1,4 @@
--- insert into rubrica(nome,cognome, email) values
+﻿-- insert into rubrica(nome,cognome, email) values
 --   ('Walter','Iori','iori@walter.com'),
 --   ('Giuseppe', 'Wegher','g@w.com'),
 --   ('Costantino', 'Pellegrini','g@p.com'),
@@ -18,9 +18,9 @@
 -- alter view rubrica_view owner to lampi;
 
 drop view if exists organigramma_view;
-create view organigramma_view as
+create view organigramma_view as(
 with consiglieri as (
-  select o.anno, array_to_string(array_agg(r.cognome||' '||r.nome),', ') as cons
+  select o.anno, json_object_agg(r.id,r.cognome||' '||r.nome) as cons
   from rubrica r
   inner join (select o.anno, unnest(o.consiglieri) c from organigramma o) o on o.c = r.id
   group by o.anno
@@ -38,5 +38,6 @@ INNER JOIN rubrica vp ON org.vicepresidente = vp.id
 INNER JOIN rubrica seg ON org.segretario = seg.id
 INNER JOIN rubrica tes ON org.tesoriere = tes.id
 INNER JOIN consiglieri on consiglieri.anno = org.anno
-ORDER BY anno DESC;
+ORDER BY anno DESC);
 ALTER VIEW organigramma_view OWNER TO lampi;
+

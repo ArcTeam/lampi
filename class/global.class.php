@@ -10,10 +10,12 @@ class Generica extends Db{
 
   public function organigramma($act, $dati){
     if ($act['act']=='inserisci') {
-      return $this->orgIns($dati);
+      $sql="insert into organigramma(anno, presidente, vicepresidente, segretario, tesoriere, consiglieri) values (:anno, :presidente, :vicepresidente, :segretario, :tesoriere, :consiglieri);";
     }else {
-      return $this->orgIns($dati);
+      $sql="update organigramma set anno=:anno, presidente=:presidente, vicepresidente=:vicepresidente, segretario=:segretario, tesoriere=:tesoriere, consiglieri=:consiglieri where anno = :pk;";
     }
+    $dati['consiglieri']='{'.implode(",",$dati['consiglieri']).'}';
+    return $this->prepared($sql, $dati);
   }
 
   private function orgIns($dati = array()){

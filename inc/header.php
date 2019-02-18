@@ -10,7 +10,7 @@
           <a class="dropdown-item tip" href="storia.php" title="Un interessante racconto su come è nata la nostra associazione" data-placement="left">la storia</a>
           <a class="dropdown-item tip" href="nome.php" title="Scopri chi era Giovan Battista Lampi" data-placement="left">il nome</a>
           <a class="dropdown-item tip" href="#" title="Leggi lo statuto dell'associazione" data-placement="left"><del>lo statuto</del></a>
-          <a class="dropdown-item tip" href="organigramma.php" title="Il consiglio direttivo nel corso degli anni" data-placement="left"><del>organigramma</del></a>
+          <a class="dropdown-item tip" href="organigramma.php" title="Il consiglio direttivo nel corso degli anni" data-placement="left">organigramma</a>
           <a class="dropdown-item tip" href="#" title="Bilancio annuale" data-placement="left"><del>bilancio annuale</del></a>
         </div>
       </li>

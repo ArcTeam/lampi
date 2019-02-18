@@ -28,7 +28,7 @@ session_start();
                 <div class="form-row">
                   <div class="col-xs-12 col-md-6 insertValue">
                     <h5>Seleziona valori</h5>
-                    <input type="number" data-campo="anno" name="anno" class="form-control mb-3 campo" min="1993" max="<?php echo date("Y"); ?>" step="1" value="" placeholder="anno inizio mandato" required>
+                    <input type="number" data-campo="anno" name="anno" class="form-control mb-3" min="1993" max="<?php echo date("Y"); ?>" step="1" value="" placeholder="anno inizio mandato" required>
                     <input type="search" data-campo="presidente" class="form-control mb-3 auto" placeholder="presidente">
                     <input type="search" data-campo="vicepresidente" class="form-control mb-3 auto" value="" placeholder="vicepresidente" >
                     <input type="search" data-campo="segretario" class="form-control mb-3 auto" value="" placeholder="segretario" >
@@ -125,15 +125,36 @@ session_start();
         }else {
           $(".tableWrap>p").addClass('d-none')
           data.forEach(function(v,i){
+            soci=$.parseJSON(v.cons)
+            tdSoci=[]
+            $.each(soci, function(k,el){ tdSoci.push(el) })
+            tdSociTxt = tdSoci.join(', ');
             btn=$("<button/>",{type:'button',class:'btn btn-outline-info btn-sm'})
             .html("<i class='fas fa-pencil-alt'></i>")
             .on('click',function(){
+              $(".checkField > input").css("opacity","1")
               if ($('#orgFormWrap').is(':hidden')) {
                 $('.toggleForm').find('i').toggleClass('fa-angle-down fa-angle-up')
                 $("#orgFormWrap").collapse('show');
               }
               $(".submitBtn").attr("data-act","aggiorna").text('aggiorna record');
-              $.each(v,function(idx,val){ $('.campo[name='+idx+']').val(val) })
+              $("<input/>",{type:'hidden',name:'pk'}).val(v.anno).appendTo('.hiddenValue')
+              $("[name=anno],#anno").val(v.anno)
+              $("#presidente").val(v.pres)
+              $("#vicepresidente").val(v.vicepres)
+              $("#segretario").val(v.segr)
+              $("#tesoriere").val(v.tes)
+              $.each(v,function(idx,val){ $('.hiddenValue').find('[name='+idx+']').val(val)})
+              $.each(soci,function(index, el) {
+                id = $("<input/>",{type:'hidden',name:'consiglieri', class: 'consigliere'+index }).val(index).appendTo('.hiddenValue')
+                div = $("<div/>",{class:'input-group mb-3 consigliere'+index}).appendTo('.checkField')
+                $("<input/>",{type:'text', class:'form-control',readonly:'readonly'}).val(el).appendTo(div).css("opacity","1")
+                addon = $("<div/>",{class:'input-group-append'}).appendTo(div)
+                $("<button/>",{class:'btn btn-danger',type:'button'}).html('<i class="fas fa-times"></i>')
+                  .appendTo(addon)
+                  .on('click', function() { removeField(index); }
+                );
+              });
             });
             tr = $("<tr/>").appendTo('.tableWrap>table>tbody')
             $("<td/>",{text:v.anno}).appendTo(tr)
@@ -141,10 +162,8 @@ session_start();
             $("<td/>",{text:v.vicepres}).appendTo(tr)
             $("<td/>",{text:v.segr}).appendTo(tr)
             $("<td/>",{text:v.tes}).appendTo(tr)
-            $("<td/>",{text:v.cons}).appendTo(tr)
-            if ($('body').data('act')=='logged') {
-              $("<td/>",{html:btn}).appendTo(tr)
-            }
+            $("<td/>",{text:tdSociTxt}).appendTo(tr)
+            if ($('body').data('act')=='logged') { $("<td/>",{html:btn}).appendTo(tr) }
           })
           $(".tableWrap>table").removeClass('d-none');
         }
@@ -162,6 +181,7 @@ session_start();
         }
         $(".submitBtn").attr("data-act","inserisci").text('salva record');
         $(".checkField input[readonly]").animate({opacity:0},500)
+        $("[name=consiglieri],div[class*=' consigliere']").remove();
         form[0].reset();
         if (!$(".deleteBtn").hasClass('d-none')) {$(".deleteBtn").addClass('d-none')}
       });
@@ -198,6 +218,8 @@ session_start();
             $(".outMsg").removeClass('d-none').fadeIn(500);
           }else {
             act = $(this).data('act')
+            console.log(dati);
+            console.log(act);
             $.ajax({
               url: connector,
               type: 'POST',
@@ -223,7 +245,6 @@ session_start();
             })
             .fail(function() { console.log("error"); })
             .always(function() { console.log("complete"); });
-            console.log(dati);
           }
         }
       });
@@ -245,12 +266,12 @@ session_start();
               $('#outPutMsg').html('Ok, il record è stato definitivamente eliminato!')
               $("#countdowntimer").text('3')
               $(".outPutMsgAlert").addClass('alert-success').fadeIn(500);
-              // countdown(3,window.location.pathname.split('/').pop());
+              countdown(3,window.location.pathname.split('/').pop());
             }else{
               $('#outPutMsg').html('Ops, qualcosa è andato storto!<br>Controlla i dati immessi e riprova,<br>se l\'errore si ripresenta contatta l\'amministratore di sistema<br><a href="mailto:beppenapo@arc-team.com?subject=lampi%bug">beppenapo@arc-team.com</a>')
               $("#countdowntimer").text('5')
               $(".outPutMsgAlert").addClass('alert-danger').fadeIn(500);
-              // countdown(5,window.location.pathname.split('/').pop());
+              countdown(5,window.location.pathname.split('/').pop());
             }
           })
           .fail(function() { console.log("error"); })

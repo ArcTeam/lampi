@@ -70,7 +70,7 @@ table.dataTable.dtr-inline.collapsed>tbody>tr.parent>td:first-child:before, tabl
   content: '\f056';
   background-color: transparent !important;
 }
-.ui-widget-content{z-index:5000;}
+.ui-widget-content{z-index:5000 !important;}
 .checkField input[readonly]{opacity: 0;}
 
 
