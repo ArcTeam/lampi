@@ -15,7 +15,7 @@ class Conn{
         $this->dbuser = getenv('LAMPIUSER');
         $this->dbpwd = getenv('LAMPIPWD');
         $this->dbname = getenv('LAMPIDB');
-        $this->dsn = "pgsql:host=".$this->dbhost." user=".$this->dbuser." password=".$this->dbpwd." dbname=".$this->dbname;
+        $this->dsn = "pgsql:host=".$this->dbhost." user=".$this->dbuser." port=".$this->dbport." password=".$this->dbpwd." dbname=".$this->dbname;
         $this->conn = new PDO($this->dsn);
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }

@@ -23,7 +23,7 @@ class Db extends Conn{
       return $e->getMessage();
     }
   }
-  protected function countRow($sql){
+  public function countRow($sql){
     try {
       $pdo = $this->pdo();
       $row = $pdo->query($sql)->rowCount();

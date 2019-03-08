@@ -72,7 +72,7 @@ function wrapImgWidth(){ $(".imgDiv").height($("#img0").width()) }
 function footerMenu(){
   main = $("#navbarNavDropdown>ul>li>a").slice(0, -1)
   main.each(function(i, el) {
-    li = $("<li/>",{class:'list-inline-item align-top'}).appendTo('.menuFooter');
+    li = $("<li/>",{class:''}).appendTo('.menuFooter');
     $("<a/>",{href:$(this).attr('href')}).text($(this).text()).appendTo(li).on('click', function(event) {
       if ($(this).attr('href')=='#') {
         event.preventDefault();
@@ -80,7 +80,7 @@ function footerMenu(){
         $(this).prepend('> ')
       }
     });
-    ul = $("<ul/>").appendTo(li)
+    ul = $("<ul/>",{class:'pl-3'}).appendTo(li)
     a = $(el).next().find('a.dropdown-item')
     // console.log(a);
     a.each(function(index, v) {

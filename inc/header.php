@@ -11,7 +11,7 @@
           <a class="dropdown-item tip" href="nome.php" title="Scopri chi era Giovan Battista Lampi" data-placement="left">il nome</a>
           <a class="dropdown-item tip" href="#" title="Leggi lo statuto dell'associazione" data-placement="left"><del>lo statuto</del></a>
           <a class="dropdown-item tip" href="organigramma.php" title="Il consiglio direttivo nel corso degli anni" data-placement="left">organigramma</a>
-          <a class="dropdown-item tip" href="#" title="Bilancio annuale" data-placement="left"><del>bilancio annuale</del></a>
+          <a class="dropdown-item tip" href="amministrazione_trasparente.php" title="amministrazione trasparente" data-placement="left">amministrazione trasparente</a>
         </div>
       </li>
       <li class="nav-item dropdown">
@@ -61,7 +61,7 @@
     <p class="m-0 p-3 bg-light text-muted border-top"><i class="fas fa-sitemap"></i> sezioni del sito</p>
     <ul>
       <li>
-        <a href="#" class="text-dark animation tip" data-placement="left" title="gestisci post"><span class='animation'>></span> post</a>
+        <a href="post.php" class="text-dark animation tip" data-placement="left" title="gestisci post"><span class='animation'>></span> post</a>
       </li>
       <li>
         <a href="#" class="text-dark animation tip" data-placement="left" title="gestisci eventi"><span class='animation'>></span> eventi</a>

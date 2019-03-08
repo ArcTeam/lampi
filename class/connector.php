@@ -14,4 +14,5 @@ function organigramma($class){
   return json_encode($class->organigramma($_POST['act'],$_POST['dati']));
 }
 function delRubrica($class){return json_encode($class->prepared("delete from rubrica where id = :id;",$_POST['dati']));}
+function tagList($class){return json_encode($class->simple("select tag as value from tag order by tag asc;"));}
 ?>

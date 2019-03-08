@@ -8,4 +8,6 @@
 <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.10.19/features/searchHighlight/dataTables.searchHighlight.min.js" charset="utf-8"></script>
 <script src="https://bartaz.github.io/sandbox.js/jquery.highlight.js" charset="utf-8"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
+<script src="js/tagmanager.js"></script>
 <script src="js/function.js"></script>

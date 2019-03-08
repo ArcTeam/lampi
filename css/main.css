@@ -5,6 +5,9 @@ ul{list-style-type: none;margin:0;padding:0;}
 textarea{resize: none;}
 summary{outline: none;}
 
+/* summernote editor */
+.modal-backdrop.show{z-index:10 !important;}
+
 .bg-lampi{background: #336791;}
 .text-lampi{color: #fff;}
 .tooltip{z-index:2050;}
