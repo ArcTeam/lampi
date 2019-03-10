@@ -18,6 +18,15 @@ class Generica extends Db{
     return $this->prepared($sql, $dati);
   }
 
+  public function delAmministrazione($dati){
+    $sql = "delete from amministrazione where id = :id and file = :file;";
+    $res = $this->prepared($sql, $dati);
+    if ($res === true) {
+      unlink("../upload/amministrazione/".$dati['file']);
+    }
+    return $res;
+  }
+
   private function orgIns($dati = array()){
     $sql="insert into organigramma(anno, presidente, vicepresidente, segretario, tesoriere, consiglieri) values (:anno, :presidente, :vicepresidente, :segretario, :tesoriere, :consiglieri);";
     $dati['consiglieri']='{'.implode(",",$dati['consiglieri']).'}';
@@ -43,6 +52,28 @@ class Generica extends Db{
     }
     return $sql;
   }
+
+  function fileSizeConv($bytes, $decimals = 2) {
+    $sz = 'BKMGTP';
+    $factor = floor((strlen($bytes) - 1) / 3);
+    return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor];
+  }
+
+  ##NOTE: liste
+  public function tipo_doc(){ return $this->simple("select * from liste.tipo_doc order by tipo asc;"); }
+  public function amministrazione(){
+    $out = $this->simple("select a.id, a.anno, c.tipo, a.file from amministrazione a, liste.tipo_doc c where a.categoria = c.id order by a.anno desc;");
+    foreach ($out as $i => $file) {
+      $filename = "upload/amministrazione/".$file['file'];
+      if (file_exists ($filename)) {
+        $bytes = filesize($filename);
+        $size = $this->fileSizeConv($bytes);
+        $out[$i]['size']=$size;
+      }
+    }
+    return $out;
+  }
+
 }
 
 ?>

@@ -218,8 +218,6 @@ session_start();
             $(".outMsg").removeClass('d-none').fadeIn(500);
           }else {
             act = $(this).data('act')
-            console.log(dati);
-            console.log(act);
             $.ajax({
               url: connector,
               type: 'POST',
@@ -232,7 +230,7 @@ session_start();
             })
             .done(function(res) {
               if(res === true){
-                $('#outPutMsg').html('Ok, il record è sato correttamente modificato!')
+                $('#outPutMsg').html('Ok, il record è stato correttamente modificato!')
                 $("#countdowntimer").text('3')
                 $(".outPutMsgAlert").addClass('alert-success').fadeIn(500);
                 countdown(3,window.location.pathname.split('/').pop());

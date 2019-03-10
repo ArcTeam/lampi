@@ -4,14 +4,13 @@ a:hover{text-decoration: none;}
 ul{list-style-type: none;margin:0;padding:0;}
 textarea{resize: none;}
 summary{outline: none;}
-
 /* summernote editor */
-.modal-backdrop.show{z-index:10 !important;}
+/* .modal-backdrop.show{z-index:10 !important;} */
 
 .bg-lampi{background: #336791;}
 .text-lampi{color: #fff;}
 .tooltip{z-index:2050;}
-.mainHeader{color:#336791; border-bottom:1px solid rgba(0,0,0,.15); padding:0 15px; z-index: 2000;}
+.mainHeader{color:#336791; border-bottom:1px solid rgba(0,0,0,.15); padding:0 15px; z-index: 1001;}
 .navbar{padding:0 15px; margin:0 -15px;}
 .navbar-light .navbar-brand,.navbar-light .navbar-nav .nav-link{color:#336791;}
 .navbar-brand{font-size:12px; margin: 0;}

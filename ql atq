@@ -1,0 +1,16 @@
+                                    Lista dei database
+    Nome     | Proprietario | Codifica | Ordinamento |    Ctype    | Privilegi di accesso  
+-------------+--------------+----------+-------------+-------------+-----------------------
+ andalo      | andalo       | UTF8     | C.UTF-8     | C.UTF-8     | 
+ arcteam     | arcteam      | UTF8     | C.UTF-8     | C.UTF-8     | 
+ atworks     | arcteam      | UTF8     | it_IT.UTF-8 | it_IT.UTF-8 | 
+ geotemplate | andalo       | UTF8     | C.UTF-8     | C.UTF-8     | 
+ lampi       | lampi        | UTF8     | C.UTF-8     | C.UTF-8     | 
+ postgres    | postgres     | UTF8     | C.UTF-8     | C.UTF-8     | 
+ template0   | postgres     | UTF8     | C.UTF-8     | C.UTF-8     | =c/postgres          +
+             |              |          |             |             | postgres=CTc/postgres
+ template1   | postgres     | UTF8     | C.UTF-8     | C.UTF-8     | =c/postgres          +
+             |              |          |             |             | postgres=CTc/postgres
+ vca         | claudia      | UTF8     | C.UTF-8     | C.UTF-8     | 
+(9 righe)
+

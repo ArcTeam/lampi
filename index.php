@@ -16,7 +16,6 @@ $bannerBg = randomBg();
     <div class="bannerWrap position-fixed bg-white lozad" data-background-image="img/background/<?php echo $bannerBg; ?>">
       <div class="bannerTitle">
         <h1>Associazione culturale G.B.Lampi</h1>
-        <h3>ALTA ANAUNIA</h3>
       </div>
     </div>
     <div class="mainContent home bg-white">
@@ -25,7 +24,7 @@ $bannerBg = randomBg();
           <div class="row">
             <div class="col-md-4 manifestLogo"></div>
             <div class="col-md-8 py-3">
-              <p>L'<strong>Associazione Culturale "G. B. Lampi" - Alta Anaunia</strong> promuove lo studio e la divulgazione della cultura locale nel territorio dell'Alta Val di Non e della c.d. "Terza Sponda" in Trentino.<br>Fondata nel 1992, da vent'anni si dedica all'organizzazione di conferenze, serate culturali, convegni e alla pubblicazioni di volumi inerenti la storia, l'archeologia, la storia dell'arte e, più in generale, le manifestazioni culturali della gente d'Anaunia.</p>
+              <p>L'<strong>Associazione Culturale "G. B. Lampi"</strong> promuove lo studio e la divulgazione della cultura locale nel territorio dell'Alta Val di Non e della c.d. "Terza Sponda" in Trentino.<br>Fondata nel 1992, da vent'anni si dedica all'organizzazione di conferenze, serate culturali, convegni e alla pubblicazioni di volumi inerenti la storia, l'archeologia, la storia dell'arte e, più in generale, le manifestazioni culturali della gente d'Anaunia.</p>
               <p class="h4 border-bottom border-dark">DIVENTA SOCIO DELLA LAMPI!</p>
               <p>Iscriversi all'Associazione è semplice!<br>Scopri i vantaggi e le modalità d'iscrizione</p>
               <a href="iscrizione.php" class="btn btn-primary">diventa socio</a>

@@ -11,7 +11,7 @@
           <a class="dropdown-item tip" href="nome.php" title="Scopri chi era Giovan Battista Lampi" data-placement="left">il nome</a>
           <a class="dropdown-item tip" href="#" title="Leggi lo statuto dell'associazione" data-placement="left"><del>lo statuto</del></a>
           <a class="dropdown-item tip" href="organigramma.php" title="Il consiglio direttivo nel corso degli anni" data-placement="left">organigramma</a>
-          <a class="dropdown-item tip" href="amministrazione_trasparente.php" title="amministrazione trasparente" data-placement="left">amministrazione trasparente</a>
+          <a class="dropdown-item tip" href="amministrazione.php" title="amministrazione trasparente" data-placement="left">amministrazione trasparente</a>
         </div>
       </li>
       <li class="nav-item dropdown">
@@ -35,11 +35,11 @@
       </li>
       <?php if(!isset($_SESSION['id'])){ ?>
       <li class="nav-item">
-        <a class="nav-link" href="login.php"><i class="fas fa-sign-in-alt"></i> <span class="d-inline-block d-lg-none">login</span></a>
+        <a class="nav-link p-3" href="login.php"><i class="fas fa-sign-in-alt"></i> <span class="d-inline-block d-lg-none">login</span></a>
       </li>
       <?php }else{ ?>
       <li class="nav-item d-none d-lg-inline-block">
-        <a class="nav-link toggleMenu toggleDesktop" href="#"><i class="fas fa-bars"></i></a>
+        <a class="nav-link toggleMenu toggleDesktop p-3" href="#"><i class="fas fa-bars"></i></a>
       </li>
       <?php } ?>
     </ul>
