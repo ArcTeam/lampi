@@ -33,7 +33,7 @@ class Generica extends Db{
     return $this->prepared($sql, $dati);
   }
 
-  private function prepareData($act=array(),$dati=array()){
+  protected function prepareData($act=array(),$dati=array()){
     if ($act['act'] === 'inserisci') {
       foreach ($dati as $key => $value) {
         if (isset($value) && $value !== "") {

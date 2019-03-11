@@ -15,7 +15,6 @@ function organigramma($class){
 }
 function delRubrica($class){return json_encode($class->prepared("delete from rubrica where id = :id;",$_POST['dati']));}
 function tagList($class){return json_encode($class->simple("select tag as value from tag order by tag asc;"));}
-function delAmministrazione($class){
-  return json_encode($class->delAmministrazione($_POST['dati']));
-}
+function delAmministrazione($class){ return json_encode($class->delAmministrazione($_POST['dati']));}
+function addPost($class){return json_encode($class->addPost($_POST['dati']));}
 ?>

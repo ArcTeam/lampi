@@ -84,7 +84,7 @@ $table = $class->amministrazione();
               </form>
             </div>
           </div>
-        <div class="row mt-5">
+        <div class="row mt-1">
           <div class="col tableWrap">
             <table class="table table-sm table-striped">
               <thead>
@@ -100,9 +100,9 @@ $table = $class->amministrazione();
                   echo "<tr>";
                   echo "<td>".$value['anno']."</td>";
                   echo "<td>".$value['tipo']."</td>";
-                  echo "<td><a href='upload/amministrazione/".$value['file']."'>".$value['file']." (".$value['size'].")</a></td>";
+                  echo "<td><a href='upload/amministrazione/".$value['file']."' class='tip' data-placement='top' title='apri documento' target='_blank'>".$value['file']." (".$value['size'].")</a></td>";
                   if(isset($_SESSION['id'])){
-                    echo "<td><button type='button' class='btn btn-outline-danger btn-sm' name='delDoc' value='".$value['id']."' title='elimina documento' data-toggle='modal' data-target='#delDoc' data-file='".$value['file']."'><i class='fas fa-times'></i></button></td>";
+                    echo "<td><button type='button' class='btn btn-outline-danger btn-sm tip' data-placement='top' name='delDoc' value='".$value['id']."' title='elimina documento' data-toggle='modal' data-target='#delDoc' data-file='".$value['file']."'><i class='fas fa-times'></i></button></td>";
                   }
                   echo "</tr>";
                 } ?>
@@ -145,6 +145,10 @@ $table = $class->amministrazione();
         var fileName = e.target.files[0].name;
         $('.custom-file-label').html(fileName);
       })
+      form.find("input[type=number]").on({
+        focus:function(){$(this).val('')},
+        blur:function(){$(this).val(0)},
+      })
       $('.toggleForm').on('click', function() {
         if ($('#formWrap').is(':hidden')) {
           $(this).find('i').toggleClass('fa-angle-down fa-angle-up')
@@ -184,7 +188,7 @@ $table = $class->amministrazione();
             datiForm = new FormData();
             $(".formData").each(function(i,v){datiForm.append($(this).attr('name'),$(this).val());});
             datiForm.append("file",file);
-            $.ajax({ url: 'class/function.php', type: 'POST', dataType: 'json', data: datiForm, contentType: false, processData:false })
+            $.ajax({ url: 'class/uploadAmmDoc.php', type: 'POST', dataType: 'json', data: datiForm, contentType: false, processData:false })
               .done(function(data) {
                 classe = data.err == 0 ? 'text-success text-center' : 'text-danger text-center';
                 $("#submitMsg").addClass(classe).text(data.msg);

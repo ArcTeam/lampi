@@ -35,11 +35,11 @@
       </li>
       <?php if(!isset($_SESSION['id'])){ ?>
       <li class="nav-item">
-        <a class="nav-link p-3" href="login.php"><i class="fas fa-sign-in-alt"></i> <span class="d-inline-block d-lg-none">login</span></a>
+        <a class="nav-link p-2" href="login.php"><i class="fas fa-sign-in-alt"></i> <span class="d-inline-block d-lg-none">login</span></a>
       </li>
       <?php }else{ ?>
       <li class="nav-item d-none d-lg-inline-block">
-        <a class="nav-link toggleMenu toggleDesktop p-3" href="#"><i class="fas fa-bars"></i></a>
+        <a class="nav-link toggleMenu toggleDesktop p-2" href="#"><i class="fas fa-bars"></i></a>
       </li>
       <?php } ?>
     </ul>
