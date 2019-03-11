@@ -74,6 +74,43 @@ class Generica extends Db{
     return $out;
   }
 
+  public function index(){
+    $out['post']= $this->postList(5,false,null);
+    // $out['eventi']= $this->eventiList(5);
+    // $out['viaggi']= $this->eventiList(5);
+    return $out;
+  }
+  protected function postList($l=null,$b=null, $filtri=null){
+    $limit = $l ? ' limit '.$l:'';
+    if ($b || $filtri) {
+      $where = ' AND ';
+      if ($b) { $where .= 'bozza = '.$b.' ';}
+      if ($filtri) { $where .= $this->filterBuild($filtri);}
+    }else {
+      $where = '';
+    }
+    $sql ="select p.id, p.titolo, p.data, p.testo, p.tag, u.email from post p, utenti u where p.usr = u.id ".$where." order by data desc ".$limit.";";
+    return array($sql,$this->simple($sql));
+  }
+
+  protected function filterBuild($filtri){
+    if (is_array($filtri)) {
+      $fArr=[];
+      foreach ($filtri as $key => $val) {
+        if (is_string($val)) {
+          $fArr[]=$key." ilike '%".$val."%'";
+        }else {
+          $fArr[]=$key."=".$val;
+        }
+      }
+      return implode(" AND ", $fArr);
+    } elseif (is_string($filtri)) {
+      return $key." ilike '%".$val."'%";
+    }else {
+      return $key."=".$val;
+    }
+  }
+
 }
 
 ?>

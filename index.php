@@ -1,7 +1,11 @@
 <?php
 session_start();
 require("class/function.php");
+require("class/global.class.php");
 $bannerBg = randomBg();
+$idx = new Generica;
+$eventi = $idx->index();
+print_r($eventi);
 ?>
 <!doctype html>
 <html lang="it">
