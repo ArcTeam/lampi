@@ -30,7 +30,18 @@
           </ul>
         </div>
       </div>
-      <div class="col-md-4 mb-3">
+      <div class="col-md-2 mb-3">
+        <p class="border-bottom text-left"><strong>Link consigliati</strong></p>
+        <ul class="linkConsigliati">
+          <li><a href="http://www.centrostudivaldisole.it" target="_blank" title="Il Centro Studi per la Val di Sole è una libera associazione culturale, che opera, senza scopo di lucro, in Valle di Sole e nel Trentino dal 1967. Sito ufficiale">Centro Studi Val di Sole</a></li>
+          <li><a href="http://www.centrostudinonesi.it/" target="_blank" title="La 'Pro Cultura' è un’associazione di promozione sociale che si propone di svolgere attività nei settori della storia, dell’arte, della cultura in generale. Sito ufficiale">Pro Cultura Centro Studi Nonesi</a></li>
+          <li><a href="http://www.mart.trento.it/" target="_blank" title="Museo di arte moderna e contemporanea di Trento e Rovereto">MART Rovereto</a></li>
+          <li><a href="http://www.studitrentini.it/" target="_blank" title="Società di Studi Trentini di Scienze Storiche">Studi Trentini di Scienze Storiche</a></li>
+          <li><a href="http://www.agiati.it/" target="_blank" title="Accademia Roveretana degli Agiati di Scienze, Lettere ed Arti">Accademia degli Agiati</a></li>
+          <li><a href="http://www.visitvaldinon.it/" target="_blank" title="Azienda Promozione Turistica della Val Di Non">A.P.T. Val di Non</a></li>
+        </ul>
+      </div>
+      <div class="col-md-2 mb-3">
         <p class="border-bottom text-left"><strong>Sitemap</strong></p>
         <ul class="menuFooter"></ul>
       </div>
