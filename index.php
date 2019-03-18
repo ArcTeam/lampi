@@ -40,7 +40,7 @@ $eventi = $idx->index();
           <div class="row">
             <div class="col-lg-4 mb-2 news">
               <div class="card">
-                <div class="card-header"> <h5>News</h5> </div>
+                <div class="card-header"> <h5>Articoli</h5> </div>
                 <div class="card-body">
 
                 </div>

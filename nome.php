@@ -96,6 +96,11 @@ $bannerBg = randomBg();
           </div>
         </div>
         <hr>
+        <div class="row mt-5">
+          <div class="col">
+            <h3>Alcuni ritratti di Giovan Battista Lampi presenti su Wikipedia:</h3>
+          </div>
+        </div>
         <div class="row mt-5 galleryWrap"></div>
         <hr>
         <div class="row mb-5">
@@ -129,12 +134,15 @@ $bannerBg = randomBg();
 
         wikiApi( endpointUrl, sparqlQuery, function( data ) {
           imgList = data.results.bindings;
+          console.log(data);
           imgList.forEach(function(v,i){
             if (v.immagine) {
               ext = v.immagine.value.split('.').pop();
               if (ext != 'tif') {
+                overlay=$("<a/>",{href:v.dipinto.value,class:'wikiUrl d-block animation',html:'<i class="fas fa-link"></i> wikidata',title:'link esterno alla pagina di Wikidata',  target:'_blank'});
                 $("<div/>",{id:'img'+i,class:'col-4 col-lg-3 p-0 imgDiv galleryItem lozadImg'})
                 .attr("data-background-image",v.immagine.value+"?width=300")
+                .html(overlay)
                 .appendTo('.galleryWrap');
               }
             }

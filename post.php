@@ -1,5 +1,10 @@
 <?php
 session_start();
+require('class/eventi.class.php');
+$post = new Eventi;
+$bozza = !isset($_SESSION['id']) ? 'f' : null;
+$lista = $post->postList(null,$bozza, null);
+
 ?>
 
 <!doctype html>
@@ -16,8 +21,14 @@ session_start();
       <?php require('inc/header.php'); ?>
     </div>
     <div class="mainContent">
+      <?php if(isset($_SESSION['id'])){ ?>
+      <div class="px-3 py-2 border-bottom">
+        <button type="button" class="btn btn-primary btn-sm toggleForm" ><i class="fas fa-angle-down"></i> crea post</button>
+      </div>
+      <?php } ?>
       <div class="container bg-white p-3">
-        <div class="row">
+        <?php if(isset($_SESSION['id'])){ ?>
+        <div class="row collapse" id="postFormWrap">
           <div class="col">
             <p class="h3">Crea post</p>
             <p class="text-secondary border-bottom ">condividi con i tuoi utenti notizie, articoli o altre informazioni. Se vuoi aggiungere un viaggio o un evento utilizza i form dedicati, accessibili dal menù laterale.</p>
@@ -48,6 +59,40 @@ session_start();
             </form>
           </div>
         </div>
+        <?php } ?>
+        <div class="row">
+          <div class="col">
+            <h3 class='text-muted'>Archivio post <span class="badge badge-light float-right"><small><?php echo count($lista); ?> post presenti</small></span></h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <table class="table">
+              <thead class="d-none"><tr><th></th></tr></thead>
+              <tbody>
+                <?php foreach ($lista as $p) {
+                  $usr = explode("@",$p['email']);
+                  $tags = preg_replace('/[{|}]/', '',$p['tag']);
+                  $tags = explode(',',$tags);
+                  $b = $p['bozza'] == true ? '<span class="float-right badge badge-warning"><small>bozza</small></span>' : '<span class="float-right badge badge-success"><small>pubblicato</small></span>';
+                  echo "<tr><td>";
+                  echo "<h3 class='mb-0 postTitle'>".$p['titolo'].$b."</h3>";
+                  echo "<small>creato il <strong>".$p['data']."</strong> da <strong>".$usr[0]."</strong></small>";
+                  echo "<div class='mt-3'>".$post->truncate($p['testo'], 2000, array('html' => true, 'ending' => '...'))."</div>";
+                  echo "<div class='w-75 d-inline-block'>";
+                  foreach ($tags as $tag) {
+                    echo "<span class='bg-info px-1 mr-1 mb-1 rounded text-white'><small>".$tag."</small></span>";
+                  }
+                  echo "</div>";
+                  echo "<div class='w-25 d-inline-block'>";
+                  echo "<button type='button' class='btn btn-sm btn-primary float-right' data-post='".$p['id']."'>modifica</button>";
+                  echo "</div>";
+                  echo "</td></tr>";
+                } ?>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
       <?php require('inc/footer.php'); ?>
     </div>
@@ -59,6 +104,13 @@ session_start();
 
     <?php require('inc/lib.php'); ?>
     <script type="text/javascript">
+      form = $("form[name=postForm]");
+      $('.toggleForm').on('click', function(e) {
+        toggleForm('#postFormWrap',e)
+        // $(".submitBtn").attr("data-act","inserisci").text('salva record');
+        // form[0].reset();
+        // if (!$(".deleteBtn").hasClass('d-none')) {$(".deleteBtn").addClass('d-none')}
+      });
       checkTxt = $("#checkValidation");
       $(".mainContent").css({"top" : $(".mainHeader").height() + 3})
       $('#summernote').summernote({

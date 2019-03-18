@@ -20,8 +20,23 @@ function initTable (disorder) {
   var t = $('.table').DataTable({
     responsive: true,
     searchHighlight: true,
-    'lengthMenu': [[10, 25, 50, -1], [10, 25, 50, 'Tutti']],
-    'columnDefs': [{ 'orderable': false, 'targets': cols }]
+    lengthMenu: [[10, 25, 50, -1], [10, 25, 50, 'Tutti']],
+    columnDefs: [{ 'orderable': false, 'targets': cols }],
+    language: {
+      lengthMenu: "Mostra _MENU_ records",
+      search: "",
+      emptyTable: "Nessun record presente nel database",
+      info: "_START_ / _END_ di _TOTAL_ records",
+      infoEmpty: "nessun record corrispondente ai criteri di ricerca",
+      infoFiltered: "",
+      zeroRecords: "0 record trovati",
+      paginate: {
+        first:      "prima",
+        last:       "ultima",
+        next:       "prossima",
+        previous:   "precedente"
+      }
+    }
   })
   t.on( 'draw', function () {
     var body = $( t.table().body() );
@@ -109,4 +124,13 @@ function checkDimFile(bytes,decimals) {
   sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
   i = Math.floor(Math.log(bytes) / Math.log(k));
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+}
+function toggleForm(formWrap,btn){
+  if ($(formWrap).is(':hidden')) {
+    $(btn.target).find('i').toggleClass('fa-angle-down fa-angle-up')
+    $(formWrap).collapse('show');
+  }else {
+    $(btn.target).find('i').toggleClass('fa-angle-up fa-angle-down')
+    $(formWrap).collapse('hide');
+  }
 }

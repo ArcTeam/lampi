@@ -45,9 +45,12 @@ summary{outline: none;}
 .fadeBg { animation-name: fade; animation-duration: 2s;}
 .footer{font-size: .8em}
 .footer,.footer a{color:#fff;}
-
+.footer a:hover{text-decoration: underline;}
 .outPutMsgAlert{position:absolute;top:150px; display: none; z-index:5000;}
-
+.wikiUrl{position: absolute;bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,.5); color: rgba(255,255,255,.5); padding: 0 5px; font-size: 12px;text-align: right}
+.wikiUrl:hover{color: #fff;background: rgba(0,0,0,.8);}
+.table{font-size:14px;}
+.postTitle{color:#336791;}
 /*dataTable icona*/
 table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>td:first-child:before, table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before{
   font-family: 'FontAwesome' !important;
