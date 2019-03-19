@@ -6,7 +6,9 @@ textarea{resize: none;}
 summary{outline: none;}
 /* summernote editor */
 /* .modal-backdrop.show{z-index:10 !important;} */
-
+.animation{-webkit-transition: all .5s ease; -moz-transition: all .5s ease; -ms-transition: all .5s ease; -o-transition: all .5s ease; transition: all .5s ease;}
+.cursor{cursor:pointer;}
+.hide{display: none;}
 .bg-lampi{background: #336791;}
 .text-lampi{color: #fff;}
 .tooltip{z-index:2050;}
@@ -32,8 +34,6 @@ summary{outline: none;}
 .menuList a>span{opacity: 0;margin-left:0;}
 .menuList a:hover{background: #f8f9fa;}
 .menuList a:hover>span{opacity: 1;margin-left:10px;}
-.animation{-webkit-transition: all .5s ease; -moz-transition: all .5s ease; -ms-transition: all .5s ease; -o-transition: all .5s ease; transition: all .5s ease;}
-.cursor{cursor:pointer;}
 .formStretto{postion:relative; width:90%;margin: 0 auto;}
 .blockquote{font-size: 14px;}
 .submenu a{color:#336791;background: #fff;font-size: 10px;}

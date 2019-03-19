@@ -2,17 +2,20 @@ const observer = lozad('.lozad', { loaded: function(el) { el.classList.add('fade
 const galleryObserver = lozad('.lozadImg', { loaded: function(el) { console.log(el + "loaded"); } });
 const connector = "class/connector.php";
 observer.observe();
+footerMenu();
+footerLink();
 $(document).ready(function () {
-  $(".toggleMenu").on('click',function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    $(".usrMenu").toggleClass('opened closed');
-  })
-  $(document).on("click", function () {
-    if ($('.usrMenu').hasClass('opened')) {  $('.usrMenu').toggleClass('closed opened'); }
-  })
+  $(".toggleMenu").on('click',function(e){ e.preventDefault(); e.stopPropagation(); $(".usrMenu").toggleClass('opened closed'); })
+  $(document).on("click", function () { if ($('.usrMenu').hasClass('opened')) {  $('.usrMenu').toggleClass('closed opened'); } })
   $('.tip').tooltip({boundary:'window', container:'body', placement:function(tip,element){return $(element).data('placement');}, html:true, trigger:'hover' })
-  footerMenu();
+  $('[data-toggle="popover"]').popover({
+    html: true,
+    placement:'bottom',
+    content: function () {
+      div = $(this).data('id')
+      return $(div).html()
+    }
+  });
 })
 
 function initTable (disorder) {
@@ -97,13 +100,28 @@ function footerMenu(){
     });
     ul = $("<ul/>",{class:'pl-3'}).appendTo(li)
     a = $(el).next().find('a.dropdown-item')
-    // console.log(a);
     a.each(function(index, v) {
       subLi=$("<li/>").appendTo(ul)
       $("<a/>",{href:$(this).attr('href')}).text('> '+$(this).text()).appendTo(subLi)
     });
   });
 }
+function footerLink(){
+  $.getJSON('json/link.php',function(data){
+    data.forEach(function(v,i){
+      url = v.url.indexOf('http://') == -1 ? 'http://'+v.url : v.url;
+      li=$("<li/>").appendTo('.linkConsigliati');
+      $("<a/>",{href:url,title:v.title,target:'_blank',text:'- '+v.label})
+      .attr({"data-placement":'left'})
+      .appendTo(li)
+      .tooltip({boundary:'window', container:'body', placement:'left', html:true, trigger:'hover' })
+    })
+  });
+  $('body').on('click', '[name=addLinkBtn]', function(e){
+
+  })
+}
+
 function buildTable(func,tab,callBack){
   option = {
     url: connector,
