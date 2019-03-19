@@ -9,9 +9,44 @@ class Generica extends Db{
     return $this->prepared($sql, $dati);
   }
 
+  protected function prepareData($act=array(),$dati=array()){
+    if ($act['act'] === 'inserisci') {
+      foreach ($dati as $key => $value) {
+        if (isset($value) && $value !== "") {
+          $campi[]=":".$key;
+          $val[$key]=$value;
+        }
+      }
+      $sql = "insert into ".$act['tab']."(".str_replace(":","",implode(",",$campi)).") values(".implode(",",$campi).");";
+    }elseif($act['act'] === 'modifica') {
+      foreach ($dati as $key => $value) {
+        if ($value=="") {$value=null;}
+        $campi[]=$key."=:".$key;
+        $val[$key]=$value;
+      }
+      $sql = "update ".$act['tab']." set ".implode(",",$campi)." where id=:id;";
+    }else {
+      $k='';
+      foreach ($dati as $key => $value) {
+        $k=$key."=:".$key;
+      }
+      $sql="delete from ".$act['tab']." where ".$k.";";
+    }
+    return $sql;
+  }
+
   public function organigramma($act, $dati){
     if ($act['act']=='inserisci') {
       $sql="insert into organigramma(anno, presidente, vicepresidente, segretario, tesoriere, consiglieri) values (:anno, :presidente, :vicepresidente, :segretario, :tesoriere, :consiglieri);";
+    }else {
+      $sql="update organigramma set anno=:anno, presidente=:presidente, vicepresidente=:vicepresidente, segretario=:segretario, tesoriere=:tesoriere, consiglieri=:consiglieri where anno = :pk;";
+    }
+    $dati['consiglieri']='{'.implode(",",$dati['consiglieri']).'}';
+    return $this->prepared($sql, $dati);
+  }
+  public function link($act, $dati){
+    if ($act['act']=='inserisci') {
+      $sql="insert into link(anno, presidente, vicepresidente, segretario, tesoriere, consiglieri) values (:anno, :presidente, :vicepresidente, :segretario, :tesoriere, :consiglieri);";
     }else {
       $sql="update organigramma set anno=:anno, presidente=:presidente, vicepresidente=:vicepresidente, segretario=:segretario, tesoriere=:tesoriere, consiglieri=:consiglieri where anno = :pk;";
     }
@@ -34,25 +69,7 @@ class Generica extends Db{
     return $this->prepared($sql, $dati);
   }
 
-  protected function prepareData($act=array(),$dati=array()){
-    if ($act['act'] === 'inserisci') {
-      foreach ($dati as $key => $value) {
-        if (isset($value) && $value !== "") {
-          $campi[]=":".$key;
-          $val[$key]=$value;
-        }
-      }
-      $sql = "insert into ".$act['tab']."(".str_replace(":","",implode(",",$campi)).") values(".implode(",",$campi).");";
-    }else {
-      foreach ($dati as $key => $value) {
-        if ($value=="") {$value=null;}
-        $campi[]=$key."=:".$key;
-        $val[$key]=$value;
-      }
-      $sql = "update ".$act['tab']." set ".implode(",",$campi)." where id=:id;";
-    }
-    return $sql;
-  }
+
 
   function fileSizeConv($bytes, $decimals = 2) {
     $sz = 'BKMGTP';

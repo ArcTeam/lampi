@@ -87,6 +87,9 @@
       <li>
         <a href="#" class="text-dark animation tip" data-placement="left" title="modifica o elimina una tag esistente"><span class='animation'>></span> tag</a>
       </li>
+      <li>
+        <a href="link.php" class="text-dark animation tip" data-placement="left" title="gestisci i link consigliati"><span class='animation'>></span> link consigliati</a>
+      </li>
       <?php } ?>
       <li>
         <a href="logout.php" class="text-dark animation tip" data-placement="left" title="termina sessione di lavoro ed esci dall'area riservata"><span class='animation'>></span> logout</a>

@@ -33,30 +33,8 @@
       <div class="col-md-2 mb-3">
         <p class="border-bottom text-left">
           <strong>Link consigliati</strong>
-          <span class="float-right cursor addLink" title="aggiungi un link consigliato" data-toggle="popover" data-id="#addLinkForm">
-            <i class="fas fa-plus"></i>
-          </span>
         </p>
         <ul class="linkConsigliati"></ul>
-        <div id="addLinkForm" class="hide">
-          <form class="form">
-            <div class="form-group mb-1">
-              <label for="linkLabel"><small>Inserisci il testo del link</small></label>
-              <input type="text" id="linkLabel" name="linkLabel" value="" class="form-control form-control-sm" placeholder="testo" required>
-            </div>
-            <div class="form-group mb-1">
-              <label for="linkTitle"><small>Inserisci una breve descrizione</small></label>
-              <input type="text" id="linkTitle" name="linkTitle" value="" class="form-control form-control-sm" placeholder="breve descrizione" required>
-            </div>
-            <div class="form-group mb-1">
-              <label for="linkUrl"><small>Inserisci l'indirizzo...prima di salvare verifica che il link sia attivo e il sito on-line</small></label>
-              <input type="url" id="linkUrl" name="linkUrl" value="" class="form-control form-control-sm" placeholder="es. http://www.sito.it/" required>
-            </div>
-            <div class="form-group">
-              <button type="submit" class="btn btn-sm btn-primary form-control" name="addLinkBtn">Salva</button>
-            </div>
-          </form>
-        </div>
       </div>
       <div class="col-md-2 mb-3">
         <p class="border-bottom text-left"><strong>Sitemap</strong></p>

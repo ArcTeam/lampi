@@ -117,9 +117,6 @@ function footerLink(){
       .tooltip({boundary:'window', container:'body', placement:'left', html:true, trigger:'hover' })
     })
   });
-  $('body').on('click', '[name=addLinkBtn]', function(e){
-
-  })
 }
 
 function buildTable(func,tab,callBack){
