@@ -20,6 +20,8 @@ session_start();
           <div class="row" id="linkFormWrap">
             <div class="col">
               <form class="form" name="linkForm">
+                <input type="hidden" name="id" value="">
+                <input type="hidden" name="act" value="inserisci">
                 <div class="form-row">
                   <div class="col-md-3">
                     <div class="form-group mb-1">
@@ -39,7 +41,8 @@ session_start();
                       <div class="input-group input-group-sm mb-3">
                         <input type="url" id="linkUrl" name="url" value="" class="form-control" placeholder="es. http://www.sito.it/" required>
                         <div class="input-group-append">
-                          <button type="submit" class="btn btn-primary form-control" id="addLinkBtn" data-act='inserisci'>Salva</button>
+                          <button type="submit" class="btn btn-primary" id="addLinkBtn" data-act='inserisci'>Salva</button>
+                          <button type="button" class="btn btn-secondary" id="resetForm">annulla</button>
                         </div>
                       </div>
                     </div>
@@ -69,29 +72,36 @@ session_start();
     </div>
     <?php require('inc/lib.php'); ?>
     <script type="text/javascript">
-      oop = {file:'global.class.php',classe:'Generica',func:'query'}
       form = $("form[name=linkForm]");
-      dati={}
+      oop = {file:'global.class.php',classe:'Generica',func:'query'}
       $.getJSON('json/link.php',function(data){
         data.forEach(function(v){
-          url = v.url.indexOf('http://') == -1 ? 'http://'+v.url : v.url;
+          let url = v.url.indexOf('http://') == -1 ? 'http://'+v.url : v.url;
           a = $("<a/>",{href:url, target:'_blank', title:'apri link',class:'tip',text:v.url}).attr("data-placement",'top')
           btnGroup = $("<div/>",{class:'btn-group btn-group-sm',role:"group"})
           $("<button/>",{type:'button',name:'modLink', class:'btn btn-info tip', title:'modifica link'})
           .attr({"data-placement":'top',"data-id":v.id})
           .html('<i class="fas fa-redo"></i>')
           .appendTo(btnGroup)
-          .on('click', function(e){
-
+          .on('click', function(){
+            form[0].reset();
+            $("[name=id]").val(v.id)
+            $("[name=act]").val('modifica')
+            $("[name=label]").val(v.label)
+            $("[name=title]").val(v.title)
+            $("[name=url]").val(url)
           })
           $("<button/>",{type:'button',name:'delLink', class:'btn btn-danger tip', title:'elimina link<br>Attenzione, una volta eliminato il link non sarà più recuperabile'})
           .attr({"data-placement":'top',"data-id":v.id})
-          .html('<i class="fas fa-redo"></i>')
+          .html('<i class="fas fa-times"></i>')
           .appendTo(btnGroup)
-          .on('click', function(e){
-            dati['id'] = v.id
-            act = {act:'elimina',tab:'link'}
-            process(oop, act, dati)
+          .on('click', function(){
+            let act={};
+            let dati={};
+            dati['id']=v.id
+            act['act']='elimina'
+            act['tab']='link'
+            process(oop,act,dati)
           })
           tr = $("<tr/>").appendTo('.table>tbody')
           $("<td/>",{text:v.label}).appendTo(tr)
@@ -101,36 +111,47 @@ session_start();
         })
         $('.tip').tooltip({boundary:'window', container:'body', placement:function(tip,element){return $(element).data('placement');}, html:true, trigger:'hover' })
       })
-      $("#addLinkBtn").on('click',function(e){
+      $("body").on('click',"#addLinkBtn",function(e){
+        let act={};
+        let dati={};
         isvalidate = form[0].checkValidity();
         if (isvalidate) {
           e.preventDefault()
-          form.find('input').each(function(i,v){
-            field = $(this).attr('name')
-            val = $(this).val()
-            dati[field]=val
-          })
+          if ($("[name=act]").val()==='modifica') { dati['id'] = $("[name=id]").val() }
+          dati['label'] = $("[name=label]").val()
+          dati['title'] = $("[name=title]").val()
+          dati['url'] = $("[name=url]").val()
         }
-        act = {act:$(this).data('act'),tab:'link'}
-        process(oop, act, dati)
+        act['act']=$("[name=act]").val()
+        act['tab']='link'
+        process(oop,act,dati)
       })
+      $("body").on('click',"#resetForm",function(){
+        $("input[name=id]").val('')
+        $("input[name=act]").val('inserisci')
+        form[0].reset()
+      })
+
       function process(oop,act,dati){
         $.ajax({
           url: connector,
           type: 'POST',
           dataType: 'json',
-          data: {
-            oop:oop,
-            act:act,
-            dati:dati
-          }
+          data: { oop:oop, act:act, dati:dati}
         })
         .done(function(data) {
-          alert("success "+data)
+          if (act['act']=='inserisci') {
+            msg = 'Ok, il link è stato aggiunto correttamente'
+          }else if (act['act']=='modifica') {
+            msg = 'Ok, il link è stato modificato correttamente'
+          }else {
+            msg = 'Ok, il link è stato definitivamente eliminato'
+          }
+          alert(msg)
           location.reload()
         })
         .fail(function(error){
-          alert('errore '+error)
+          alert('Attenzione, si è verificato un errore inaspettato, riprova\n '+error)
           location.reload()
         });
       }
