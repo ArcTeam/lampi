@@ -1,6 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['id'])) {header("Location: login.php"); exit;}
+if (isset($_GET)) { $res=$_GET['res']; }
 ?>
 
 <!doctype html>
@@ -13,6 +14,7 @@ if (!isset($_SESSION['id'])) {header("Location: login.php"); exit;}
     </style>
   </head>
   <body data-act="<?php echo $_SESSION['act']; ?>">
+    <input type="hidden" name="resAddPost" value="<?php echo $res; ?>">
     <div class="mainHeader bg-white fixed-top">
       <?php require('inc/header.php'); ?>
     </div>
@@ -23,6 +25,8 @@ if (!isset($_SESSION['id'])) {header("Location: login.php"); exit;}
             <p class="h3">Crea post</p>
             <p class="text-secondary border-bottom ">condividi con i tuoi utenti notizie, articoli o altre informazioni. Se vuoi aggiungere un viaggio o un evento utilizza i form dedicati, accessibili dal menù laterale.</p>
             <form name="postForm" class="form mt-3" action="class/eventAdd.php" method="post" enctype="multipart/form-data">
+              <input type="hidden" name="act" value="<?php echo $_GET['act']; ?>">
+              <input type="hidden" name="tab" value="<?php echo $_GET['tab']; ?>">
               <div class="form-group">
                 <div class="input-group">
                   <div class="custom-file">
@@ -52,15 +56,15 @@ if (!isset($_SESSION['id'])) {header("Location: login.php"); exit;}
                 <label for="">Vuoi aggiungere uno o più allegati al post?</label>
                 <div class="input-group">
                   <div class="custom-file">
-                    <input type="file" class="custom-file-input" name="allegati" id="allegatiBtn" lang="it">
-                    <label class="custom-file-label" for="allegatiBtn" data-browse="carica file" lang="it">carica...</label>
+                    <input type="file" class="custom-file-input" name="allegati[]" id="allegati" lang="it" multiple="">
+                    <label class="custom-file-label" for="allegati" data-browse="carica file" lang="it">carica...</label>
                   </div>
                   <div class="input-group-append">
                     <button class="btn btn-secondary tip" data-placement="top" type="button" title="Attenzione: puoi caricare immagini(jpg,jpeg,png) o pdf di dimensioni non superiori ai 5MB."><i class="fas fa-info"></i></button>
                   </div>
                 </div>
                 <div class="d-block">
-                  <small>allegati da caricare: </small>
+                  <small id="allegatiList">allegati da caricare: </small>
                 </div>
               </div>
               <div class="form-row">
@@ -80,19 +84,35 @@ if (!isset($_SESSION['id'])) {header("Location: login.php"); exit;}
     </div>
     <?php require('inc/lib.php'); ?>
     <script type="text/javascript">
+    console.log($("[name=resAddPost]").val());
+      if ($("[name=resAddPost]").val()=='ok') {
+        alert('Ok, il post è stato correttamente inserito')
+      }
+      if ($("[name=resAddPost]").val()=='errore') {
+        alert('Errore durante l\'inserimento del post. Riprova o contatta l\'amministratore.')
+      }
       form = $("form[name=postForm]");
       $(".mainContent").css({"top" : $(".mainHeader").height() + 3})
       $('#summernote').summernote({
         lang: 'it-IT',
         placeholder: 'Inizia a scrivere il tuo post',
         tabsize: 2,
-        height: 300
+        height: 300,
+        dialogsInBody: true
       });
       $("#copertina").on('change', function(event){
         validateFile('copertina',event,'immagine',$(this).val())
       })
-      $("#allegatiBtn").on('change', function(event){
-        validateFile('allegatiBtn',event,'all',$(this).val())
+      $("#allegati").on('change', function(event){
+        check = validateFile('allegati',event,'all',$(this).val())
+        if (check === true) {
+          input = document.getElementById('allegati')
+          list = $('#allegatiList')
+          list.find('span').remove();
+          for (var x = 0; x < input.files.length; x++) {
+            $("<span/>",{class:'font-weight-bold',text:input.files[x].name+" "}).appendTo(list)
+          }
+        }
       })
       $("[name=postSaveBtn]").on('click', function(e){
         error = false
@@ -128,26 +148,6 @@ if (!isset($_SESSION['id'])) {header("Location: login.php"); exit;}
         }
         if (error===false) {
           form.submit()
-          // dati['titolo'] = $("[name=titolo]").val()
-          // dati['testo'] = $("#summernote").summernote('code')
-          // dati['tag']=$("[name=tag]").val().split(',');
-          // dati['bozza'] = $("[name=bozza]:checked").val()
-          // $.ajax({
-          //   url: connector,
-          //   type: 'POST',
-          //   dataType: 'json',
-          //   data: {
-          //     oop:{file:'eventi.class.php',classe:'Eventi',func:'addPost'},
-          //     dati:dati
-          //   }
-          // }).done(function(res){
-          //   if (res===true) {
-          //     alert('Ok, post salvato correttamente')
-          //     window.location.href='post.php'
-          //   }else {
-          //     alert('errore nella query:'+res+'\n riprova o contatta l\'amministratore');
-          //   }
-          // });
         }
       })
 

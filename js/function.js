@@ -47,7 +47,8 @@ function validateFile(id,event,tipo,file){
   }
   if(tipo == 'all'){
     if (ext=="jpg" || ext=="jpeg" || ext=="png" || ext=="pdf"){
-      $('#'+id).next('.custom-file-label').html(file.split(/(\\|\/)/g).pop());
+      $('#'+id).next('.custom-file-label').html(label);
+      return true
     }else {
       alert("Attenzione, puoi caricare solo immagini (jpg, jpeg, png) o pdf!\nStai cercando di caricare un file in formato "+ext);
       event.target.value = '';

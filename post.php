@@ -23,7 +23,7 @@ $lista = $post->postList(null,$bozza, null);
     <div class="mainContent">
       <?php if(isset($_SESSION['id'])){ ?>
       <div class="px-3 py-2 border-bottom">
-        <a href="postAct.php" class="btn btn-primary btn-sm" >crea post</a>
+        <a href="postAct.php?act=add&tab=post" class="btn btn-primary btn-sm" >crea post</a>
       </div>
       <?php } ?>
       <div class="container bg-white p-3">
@@ -34,17 +34,17 @@ $lista = $post->postList(null,$bozza, null);
         </div>
         <div class="row">
           <div class="col">
-            <table class="table">
+            <table class="table postList">
               <thead class="d-none"><tr><th></th></tr></thead>
               <tbody>
                 <?php foreach ($lista as $p) {
                   $usr = explode("@",$p['email']);
                   $tags = preg_replace('/[{|}]/', '',$p['tag']);
                   $tags = explode(',',$tags);
-                  $b = $p['bozza'] == true ? '<span class="float-right badge badge-warning"><small>bozza</small></span>' : '<span class="float-right badge badge-success"><small>pubblicato</small></span>';
+                  $b = $p['bozza'] == true ? '<br/>(articolo in bozza)' : '<br/>(articolo pubblicato)';
                   echo "<tr><td>";
-                  echo "<h3 class='mb-0 postTitle'>".$p['titolo'].$b."</h3>";
-                  echo "<small>creato il <strong>".$p['data']."</strong> da <strong>".$usr[0]."</strong></small>";
+                  echo "<div class='postTitle lozad' data-background-image='upload/copertine/".$p['copertina']."'><div><h1>".$p['titolo']."</h1>";
+                  echo "<small class='text-white'>creato il <strong>".explode('.',$p['data'])[0]."</strong> da <strong>".$usr[0]."</strong> ".$b."</small></div></div>";
                   echo "<div class='mt-3'>".$post->truncate($p['testo'], 2000, array('html' => true, 'ending' => '...'))."</div>";
                   echo "<div class='w-75 d-inline-block'>";
                   foreach ($tags as $tag) {

@@ -107,7 +107,7 @@ class Generica extends Db{
     }else {
       $where = '';
     }
-    $sql ="select p.id, p.titolo, p.data, p.testo,p.bozza, p.tag, u.email from post p, utenti u where p.usr = u.id ".$where." order by data desc ".$limit.";";
+    $sql ="select p.id,p.copertina, p.titolo, p.data, p.testo,p.bozza, p.tag, u.email from post p, utenti u where p.usr = u.id ".$where." order by data desc ".$limit.";";
     return $this->simple($sql);
   }
 

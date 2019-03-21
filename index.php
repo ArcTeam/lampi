@@ -36,41 +36,48 @@ $eventi = $idx->index();
         </div>
       </div>
       <div class="cardWrap mt-5">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-lg-4 mb-2 news">
-              <div class="card">
-                <div class="card-header"> <h5>Articoli</h5> </div>
-                <div class="card-body">
-
-                </div>
+        <div class="container">
+          <div id="eventi" class="mb-3">
+            <div class="row">
+              <div class="col">
+                <h3 class="border-bottom">Eventi</h3>
               </div>
             </div>
-            <div class="col-lg-4 mb-2 incontri">
-              <div class="card">
-                <div class="card-header"> <h5>Incontri</h5> </div>
-                <div class="card-body">
-
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-4 mb-2 incontri">
-              <div class="card">
-                <div class="card-header"> <h5>Viaggi</h5> </div>
-                <div class="card-body">
-
-                </div>
-              </div>
-            </div>
+            <div class="row eventiCardWrap"></div>
           </div>
-          <div class="row">
-            <div class="col-md-6 imgGallery">
-              <h5 class="border-bottom">Foto</h5>
+          <div id="viaggi" class="mb-3">
+            <div class="row">
+              <div class="col">
+                <h3 class="border-bottom">Viaggi</h3>
+              </div>
             </div>
-            <div class="col-md-6 tagCloud">
-              <h5 class="border-bottom text-right">Parole</h5>
-            </div>
+            <div class="row viaggiCardWrap"></div>
           </div>
+          <div id="notizie" class="mb-3">
+            <div class="row">
+              <div class="col">
+                <h3 class="border-bottom">Notizie</h3>
+              </div>
+            </div>
+            <div class="row notizieCardWrap"></div>
+          </div>
+          <div id="foto" class="mb-3">
+            <div class="row">
+              <div class="col">
+                <h3 class="border-bottom">Immagini</h3>
+              </div>
+            </div>
+            <div class="row fotoCardWrap"></div>
+          </div>
+          <div id="tag" class="mb-3">
+            <div class="row">
+              <div class="col">
+                <h3 class="border-bottom">Parole</h3>
+              </div>
+            </div>
+            <div class="row tagCardWrap"></div>
+          </div>
+
         </div>
       </div>
       <?php require('inc/footer.php'); ?>

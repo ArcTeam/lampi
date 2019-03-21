@@ -32,8 +32,8 @@ class Db extends Conn{
       return "errore: ".$e->getMessage();
     }
   }
-  protected function begin(){$this->pdo()->beginTransaction();}
-  protected function commitTransaction(){$this->pdo()->commit();}
-  protected function rollback(){$this->pdo()->rollBack();}
+  public function begin(){$this->pdo()->beginTransaction();}
+  public function commitTransaction(){$this->pdo()->commit();}
+  public function rollback(){$this->pdo()->rollBack();}
 }
 ?>
