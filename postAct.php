@@ -52,7 +52,7 @@ if (!isset($_SESSION['id'])) {header("Location: login.php"); exit;}
                 <label for="">Vuoi aggiungere uno o più allegati al post?</label>
                 <div class="input-group">
                   <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="allegatiBtn" lang="it">
+                    <input type="file" class="custom-file-input" name="allegati" id="allegatiBtn" lang="it">
                     <label class="custom-file-label" for="allegatiBtn" data-browse="carica file" lang="it">carica...</label>
                   </div>
                   <div class="input-group-append">

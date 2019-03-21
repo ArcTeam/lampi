@@ -1,6 +1,7 @@
 <?php
-session_start()
+session_start();
 if (isset($_POST)) {
-  var_dump($_POST);
+  print_r($_POST);
+  print_r($_FILES);
 }
 ?>
