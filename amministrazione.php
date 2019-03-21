@@ -141,10 +141,6 @@ $table = $class->amministrazione();
     <?php require('inc/lib.php'); ?>
     <script type="text/javascript">
       form = $("form[name=docAmmForm]");
-      $('.custom-file-input').on('change',function(e){
-        var fileName = e.target.files[0].name;
-        $('.custom-file-label').html(fileName);
-      })
       form.find("input[type=number]").on({
         focus:function(){$(this).val('')},
         blur:function(){$(this).val(0)},

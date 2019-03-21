@@ -22,9 +22,20 @@ if (!isset($_SESSION['id'])) {header("Location: login.php"); exit;}
           <div class="col">
             <p class="h3">Crea post</p>
             <p class="text-secondary border-bottom ">condividi con i tuoi utenti notizie, articoli o altre informazioni. Se vuoi aggiungere un viaggio o un evento utilizza i form dedicati, accessibili dal menù laterale.</p>
-            <form name="postForm" class="form mt-3">
+            <form name="postForm" class="form mt-3" action="class/eventAdd.php" method="post" enctype="multipart/form-data">
               <div class="form-group">
-                <input type="text" name="titolo" class="form-control" placeholder="titolo post" value="">
+                <div class="input-group">
+                  <div class="custom-file">
+                    <input type="file" class="custom-file-input" name="copertina" id="copertina" lang="it">
+                    <label class="custom-file-label" for="copertina" data-browse="cerca immagine" lang="it">aggiungi una copertina al tuo post</label>
+                  </div>
+                  <div class="input-group-append">
+                    <button class="btn btn-secondary tip" data-placement="top" type="button" title="Attenzione: puoi caricare immagini jpg, jpeg, png non superiori ai 5MB di dimenioni.<br/>La copertina verrà visualizzata sopra il testo del post"><i class="fas fa-info"></i></button>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <input type="text" id="titolo" name="titolo" class="form-control" placeholder="titolo post" value="">
               </div>
               <div class="form-group">
                 <textarea id="summernote" name="testo"></textarea>
@@ -37,10 +48,25 @@ if (!isset($_SESSION['id'])) {header("Location: login.php"); exit;}
                 <label><input type="radio" name="bozza" value="true" checked> <strong>salva come bozza:</strong> il post non sarà visibile finché non deciderai di pubblicarlo</label>
                 <label><input type="radio" name="bozza" value="false"> <strong>pubblica direttamente:</strong> il post sarà subito visibile, potrai comunque modificarlo in un secondo momento</label>
               </div>
+              <div class="form-group">
+                <label for="">Vuoi aggiungere uno o più allegati al post?</label>
+                <div class="input-group">
+                  <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="allegatiBtn" lang="it">
+                    <label class="custom-file-label" for="allegatiBtn" data-browse="carica file" lang="it">carica...</label>
+                  </div>
+                  <div class="input-group-append">
+                    <button class="btn btn-secondary tip" data-placement="top" type="button" title="Attenzione: puoi caricare immagini(jpg,jpeg,png) o pdf di dimensioni non superiori ai 5MB."><i class="fas fa-info"></i></button>
+                  </div>
+                </div>
+                <div class="d-block">
+                  <small>allegati da caricare: </small>
+                </div>
+              </div>
               <div class="form-row">
                 <div class="col-md-4 mb-3">
                   <button type="submit" class="btn btn-primary btn-sm" name="postSaveBtn">salva modifiche</button>
-                  <button type="button" class="btn btn-secondary btn-sm" name="postSaveBtn">annulla inserimento</button>
+                  <a href="post.php" class="btn btn-secondary btn-sm">annulla inserimento</a>
                 </div>
                 <div class="col-md-8">
                   <div id="checkValidation"></div>
@@ -55,7 +81,6 @@ if (!isset($_SESSION['id'])) {header("Location: login.php"); exit;}
     <?php require('inc/lib.php'); ?>
     <script type="text/javascript">
       form = $("form[name=postForm]");
-      checkTxt = $("#checkValidation");
       $(".mainContent").css({"top" : $(".mainHeader").height() + 3})
       $('#summernote').summernote({
         lang: 'it-IT',
@@ -63,49 +88,69 @@ if (!isset($_SESSION['id'])) {header("Location: login.php"); exit;}
         tabsize: 2,
         height: 300
       });
-      $('[name=postForm]').on('submit', function(e) {
-        dati={}
-        tagArr={}
-        ok = true;
-        checkTxt.removeClass().text('')
+      $("#copertina").on('change', function(event){
+        validateFile('copertina',event,'immagine',$(this).val())
+      })
+      $("#allegatiBtn").on('change', function(event){
+        validateFile('allegatiBtn',event,'all',$(this).val())
+      })
+      $("[name=postSaveBtn]").on('click', function(e){
+        error = false
+        $(".errorMsg").remove();
         e.preventDefault();
-        if(!$("[name=titolo]").val()){
-          ok= false;
-          checkTxt.addClass('text-danger').text('Aggiungi un titolo al post!')
-          return false;
+        if(!$("#copertina").val()){
+          $("#copertina").addClass('is-invalid').closest('.form-group').append($("<small/>",{class:'text-danger errorMsg',text:"carica un'immagine"}))
+          error=true
+        }else {
+          $("#copertina").removeClass('is-invalid').closest('.errorMsg').remove()
+          error=false
+        }
+        if(!$("#titolo").val()){
+          $("#titolo").addClass('is-invalid').closest('.form-group').append($("<small/>",{class:'text-danger errorMsg',text:"aggiungi un titolo"}))
+          error=true
+        }else {
+          $("#titolo").removeClass('is-invalid').closest('.errorMsg').remove()
+          error=false
         }
         if($('#summernote').summernote('isEmpty')) {
-          ok= false;
-          checkTxt.addClass('text-danger').text('Devi compilare il testo del post!')
-          return false;
+          $("#summernote").closest('.form-group').append($("<small/>",{class:'text-danger errorMsg',text:"il post non può essere vuoto...scrivi qualcosa"}))
+          error=true
+        }else {
+          $("#summernote").closest('.errorMsg').remove()
+          error=false
         }
         if (!$("[name=tag]").val()) {
-          ok=false
-          checkTxt.addClass('text-danger').text('Devi aggiungere almeno una tag dalla lista! Ricordati di premere "invio" dopo aver selezionato il termine dalla lista.')
-          return false;
+          $("[name=tagLista]").addClass('is-invalid').closest('.form-group').append($("<small/>",{class:'text-danger errorMsg d-block',text:"Aggiungi almeno una tag! Ricordati di premere 'invio' dopo aver selezionato il termine dalla lista.'"}))
+          error=true
+        }else {
+          $("[name=tagLista]").removeClass('is-invalid').closest('.errorMsg').remove()
+          error=false
         }
-        if (ok === true) {
-          dati['titolo'] = $("[name=titolo]").val()
-          dati['testo'] = $("#summernote").summernote('code')
-          dati['tag']=$("[name=tag]").val().split(',');
-          dati['bozza'] = $("[name=bozza]:checked").val()
-          $.ajax({
-            url: connector,
-            type: 'POST',
-            dataType: 'json',
-            data: {
-              oop:{file:'eventi.class.php',classe:'Eventi',func:'addPost'},
-              dati:dati
-            }
-          }).done(function(res){
-            if (res===true) {
-              checkTxt.addClass('text-success').text('Ok, post salvato correttamente')
-            }else {
-              checkTxt.addClass('text-danger').text('errore nella query:'+res);
-            }
-          });
+        if (error===false) {
+          form.submit()
+          // dati['titolo'] = $("[name=titolo]").val()
+          // dati['testo'] = $("#summernote").summernote('code')
+          // dati['tag']=$("[name=tag]").val().split(',');
+          // dati['bozza'] = $("[name=bozza]:checked").val()
+          // $.ajax({
+          //   url: connector,
+          //   type: 'POST',
+          //   dataType: 'json',
+          //   data: {
+          //     oop:{file:'eventi.class.php',classe:'Eventi',func:'addPost'},
+          //     dati:dati
+          //   }
+          // }).done(function(res){
+          //   if (res===true) {
+          //     alert('Ok, post salvato correttamente')
+          //     window.location.href='post.php'
+          //   }else {
+          //     alert('errore nella query:'+res+'\n riprova o contatta l\'amministratore');
+          //   }
+          // });
         }
       })
+
       $(".tm-input").tagsManager({
         prefilled: '',
         AjaxPush: "inc/addTag.php",
@@ -117,24 +162,6 @@ if (!isset($_SESSION['id'])) {header("Location: login.php"); exit;}
         source: "json/tags.php",
         minLength:2
       })
-      // tagList(function(tags){
-      //   $(".tm-input").tagsManager({
-      //     prefilled: '',
-      //     AjaxPush: "inc/addTag.php",
-      //     hiddenTagListName: 'tag',
-      //     deleteTagsOnBackspace: false,
-      //     tagsContainer: '.tagWrap',
-      //     tagCloseIcon: '×',
-      //   }).autocomplete({source:tags})
-      // })
-      // function tagList(callback){
-      //   $.ajax({
-      //     url: connector,
-      //     type: 'POST',
-      //     dataType: 'json',
-      //     data: { oop:{file:'db.class.php',classe:'Db',func:'tagList'} }
-      //   }).done(callback)
-      // }
     </script>
   </body>
 </html>

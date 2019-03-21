@@ -18,6 +18,59 @@ $(document).ready(function () {
   });
 })
 
+function validateFile(id,event,tipo,file){
+  const maxSize = 5242880 //bytes = 5MB
+  size = document.getElementById(id).files[0].size
+  mb = formatBytes(size, 0)
+  ext = file.split('.').pop().toLowerCase()
+  label = tipo == 'all' ? 'carica...' : 'aggiungi una copertina al tuo post';
+
+  if(tipo == 'immagine'){
+    if (ext=="jpg" || ext=="jpeg" || ext=="png"){
+      $('#'+id).next('.custom-file-label').html(file.split(/(\\|\/)/g).pop());
+    }else {
+      alert("Attenzione, puoi caricare solo immagini di tipo jpg, jpeg o png!\nStai cercando di caricare un file in formato "+ext);
+      event.target.value = '';
+      $('#'+id).next('.custom-file-label').html(label);
+      return false
+    }
+  }
+  if(tipo == 'pdf'){
+    if (ext=="pdf"){
+      $('#'+id).next('.custom-file-label').html(file.split(/(\\|\/)/g).pop());
+    }else {
+      alert("Attenzione, puoi caricare solo documenti in formato pdf!\nStai cercando di caricare un file in formato "+ext);
+      event.target.value = '';
+      $('#'+id).next('.custom-file-label').html(label);
+      return false
+    }
+  }
+  if(tipo == 'all'){
+    if (ext=="jpg" || ext=="jpeg" || ext=="png" || ext=="pdf"){
+      $('#'+id).next('.custom-file-label').html(file.split(/(\\|\/)/g).pop());
+    }else {
+      alert("Attenzione, puoi caricare solo immagini (jpg, jpeg, png) o pdf!\nStai cercando di caricare un file in formato "+ext);
+      event.target.value = '';
+      $('#'+id).next('.custom-file-label').html(label);
+      return false
+    }
+  }
+  if (size > maxSize) {
+    alert("Attenzione, il file supera le dimensioni massime consentite!\nLe immagini non devono superare i 5MB\nLe dimensioni del file che stai cercando di caricare sono di "+mb)
+    $('#'+id).next('.custom-file-label').html(label);
+    return false
+  }else {
+    return true
+  }
+}
+function formatBytes(bytes, decimals) {
+    if(bytes== 0){return "0 Byte";}
+    var k = 1024;
+    var sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB"];
+    var i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(decimals)) + " " + sizes[i];
+}
+
 function initTable (disorder) {
   var cols = !disorder ? [] : disorder
   var t = $('.table').DataTable({

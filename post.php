@@ -23,43 +23,10 @@ $lista = $post->postList(null,$bozza, null);
     <div class="mainContent">
       <?php if(isset($_SESSION['id'])){ ?>
       <div class="px-3 py-2 border-bottom">
-        <button type="button" class="btn btn-primary btn-sm toggleForm" ><i class="fas fa-angle-down"></i> crea post</button>
+        <a href="postAct.php" class="btn btn-primary btn-sm" >crea post</a>
       </div>
       <?php } ?>
       <div class="container bg-white p-3">
-        <?php if(isset($_SESSION['id'])){ ?>
-        <div class="row collapse" id="postFormWrap">
-          <div class="col">
-            <p class="h3">Crea post</p>
-            <p class="text-secondary border-bottom ">condividi con i tuoi utenti notizie, articoli o altre informazioni. Se vuoi aggiungere un viaggio o un evento utilizza i form dedicati, accessibili dal menù laterale.</p>
-            <form name="postForm" class="form mt-3">
-              <div class="form-group">
-                <input type="text" name="titolo" class="form-control" placeholder="titolo post" value="">
-              </div>
-              <div class="form-group">
-                <textarea id="summernote" name="testo"></textarea>
-              </div>
-              <div class="form-group">
-                <input type="text" name="tagLista" placeholder="aggiungi tag" class="tm-input form-control form-control-sm w-auto d-inline"/>
-                <div class="d-inline-block tagWrap"></div>
-              </div>
-              <div class="form-group">
-                <label><input type="radio" name="bozza" value="true" checked> <strong>salva come bozza:</strong> il post non sarà visibile finché non deciderai di pubblicarlo</label>
-                <label><input type="radio" name="bozza" value="false"> <strong>pubblica direttamente:</strong> il post sarà subito visibile, potrai comunque modificarlo in un secondo momento</label>
-              </div>
-              <div class="form-row">
-                <div class="col-md-4 mb-3">
-                  <button type="submit" class="btn btn-primary btn-sm" name="postSaveBtn">salva modifiche</button>
-                  <button type="button" class="btn btn-secondary btn-sm" name="postSaveBtn">annulla inserimento</button>
-                </div>
-                <div class="col-md-8">
-                  <div id="checkValidation"></div>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-        <?php } ?>
         <div class="row">
           <div class="col">
             <h3 class='text-muted'>Archivio post <span class="badge badge-light float-right"><small><?php echo count($lista); ?> post presenti</small></span></h3>
