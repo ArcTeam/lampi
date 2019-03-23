@@ -4,7 +4,7 @@ require('class/eventi.class.php');
 $post = new Eventi;
 $bozza = !isset($_SESSION['id']) ? 'f' : null;
 $lista = $post->postList(null,$bozza, null);
-
+$postRow = array_chunk($lista, 3);
 ?>
 
 <!doctype html>
@@ -28,38 +28,36 @@ $lista = $post->postList(null,$bozza, null);
       <?php } ?>
       <div class="container bg-white p-3">
         <div class="row">
-          <div class="col">
-            <h3 class='text-muted'>Archivio post <span class="badge badge-light float-right"><small><?php echo count($lista); ?> post presenti</small></span></h3>
+          <div class="col-12 col-lg-8">
+            <h3 class='text-muted'>Archivio post</h3>
+          </div>
+          <div class="col-12 col-lg-4">
+            <div class="input-group input-group-sm">
+              <input type="search" class="form-control" name="filtraPost" placeholder="filtra post" />
+              <div class="input-group-append">
+                <button type="button" name="filterReset" class="btn btn-secondary"><i class='fas fa-times'></i></button>
+                <span class="input-group-text" id="groupStat">xx/yy</span>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col">
-            <table class="table postList">
-              <thead class="d-none"><tr><th></th></tr></thead>
-              <tbody>
-                <?php foreach ($lista as $p) {
-                  $usr = explode("@",$p['email']);
-                  $tags = preg_replace('/[{|}]/', '',$p['tag']);
-                  $tags = explode(',',$tags);
-                  $b = $p['bozza'] == true ? '<br/>(articolo in bozza)' : '<br/>(articolo pubblicato)';
-                  echo "<tr><td>";
-                  echo "<div class='postTitle lozad' data-background-image='upload/copertine/".$p['copertina']."'><div><h1>".$p['titolo']."</h1>";
-                  echo "<small class='text-white'>creato il <strong>".explode('.',$p['data'])[0]."</strong> da <strong>".$usr[0]."</strong> ".$b."</small></div></div>";
-                  echo "<div class='mt-3'>".$post->truncate($p['testo'], 2000, array('html' => true, 'ending' => '...'))."</div>";
-                  echo "<div class='w-75 d-inline-block'>";
-                  foreach ($tags as $tag) {
-                    echo "<span class='bg-info px-1 mr-1 mb-1 rounded text-white'><small>".$tag."</small></span>";
-                  }
-                  echo "</div>";
-                  echo "<div class='w-25 d-inline-block'>";
-                  echo "<button type='button' class='btn btn-sm btn-primary float-right' data-post='".$p['id']."'>modifica</button>";
-                  echo "</div>";
-                  echo "</td></tr>";
-                } ?>
-              </tbody>
-            </table>
-          </div>
-        </div>
+        <?php
+        foreach ($postRow as $value) {
+          echo "<div class='row post-row'>";
+          foreach ($value as $p) {
+            echo "<div class='col-md-4'>";
+              echo "<article class='card rounded-0 animation'>";
+                echo "<figure class='card-title post-banner lozad mb-0' data-background-image='upload/copertine/".$p['copertina']."'></figure>";
+                echo '<section class="card-body">';
+                  echo "<p class='post-title'>".$p['titolo']."</p>";
+                  echo "<div class='post-body text-muted'>".$post->truncate(strip_tags($p['testo'],'<br><br/><strong><b><ol><ul><li>'), 300, array('ending' => ' [...]', 'exact' => false, 'html' => true))."</div>";
+                echo '</section>';
+              echo "</article>";
+            echo "</div>";
+          }
+          echo "</div>";
+        }
+        ?>
       </div>
       <?php require('inc/footer.php'); ?>
     </div>
@@ -71,82 +69,10 @@ $lista = $post->postList(null,$bozza, null);
 
     <?php require('inc/lib.php'); ?>
     <script type="text/javascript">
-      form = $("form[name=postForm]");
-      $('.toggleForm').on('click', function(e) {
-        toggleForm('#postFormWrap',e)
-        // $(".submitBtn").attr("data-act","inserisci").text('salva record');
-        // form[0].reset();
-        // if (!$(".deleteBtn").hasClass('d-none')) {$(".deleteBtn").addClass('d-none')}
-      });
-      checkTxt = $("#checkValidation");
       $(".mainContent").css({"top" : $(".mainHeader").height() + 3})
-      $('#summernote').summernote({
-        lang: 'it-IT',
-        placeholder: 'Inizia a scrivere il tuo post',
-        tabsize: 2,
-        height: 300
+      $("[name=filtraPost]").on('change',function(){
+        console.log($(this).val());
       });
-      $('[name=postForm]').on('submit', function(e) {
-        dati={}
-        tagArr={}
-        ok = true;
-        checkTxt.removeClass().text('')
-        e.preventDefault();
-        if(!$("[name=titolo]").val()){
-          ok= false;
-          checkTxt.addClass('text-danger').text('Aggiungi un titolo al post!')
-          return false;
-        }
-        if($('#summernote').summernote('isEmpty')) {
-          ok= false;
-          checkTxt.addClass('text-danger').text('Devi compilare il testo del post!')
-          return false;
-        }
-        if (!$("[name=tag]").val()) {
-          ok=false
-          checkTxt.addClass('text-danger').text('Devi aggiungere almeno una tag dalla lista! Ricordati di premere "invio" dopo aver selezionato il termine dalla lista.')
-          return false;
-        }
-        if (ok === true) {
-          dati['titolo'] = $("[name=titolo]").val()
-          dati['testo'] = $("#summernote").summernote('code')
-          dati['tag']=$("[name=tag]").val().split(',');
-          dati['bozza'] = $("[name=bozza]:checked").val()
-          $.ajax({
-            url: connector,
-            type: 'POST',
-            dataType: 'json',
-            data: {
-              oop:{file:'eventi.class.php',classe:'Eventi',func:'addPost'},
-              dati:dati
-            }
-          }).done(function(res){
-            if (res===true) {
-              checkTxt.addClass('text-success').text('Ok, post salvato correttamente')
-            }else {
-              checkTxt.addClass('text-danger').text('errore nella query:'+res);
-            }
-          });
-        }
-      })
-      tagList(function(tags){
-        $(".tm-input").tagsManager({
-          prefilled: '',
-          AjaxPush: "inc/addTag.php",
-          hiddenTagListName: 'tag',
-          deleteTagsOnBackspace: false,
-          tagsContainer: '.tagWrap',
-          tagCloseIcon: '×',
-        }).autocomplete({source:tags})
-      })
-      function tagList(callback){
-        $.ajax({
-          url: connector,
-          type: 'POST',
-          dataType: 'json',
-          data: { oop:{file:'db.class.php',classe:'Db',func:'tagList'} }
-        }).done(callback)
-      }
     </script>
   </body>
 </html>

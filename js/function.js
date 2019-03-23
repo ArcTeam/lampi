@@ -17,6 +17,11 @@ $(document).ready(function () {
     }
   });
 })
+function arrayChunk(size,array){
+  results = []
+  while(array.length > 0){ results.push(array.splice(0, size))}
+  return results
+}
 
 function validateFile(id,event,tipo,file){
   const maxSize = 5242880 //bytes = 5MB
