@@ -84,9 +84,9 @@ if (isset($_GET)) { $res=$_GET['res']; }
     </div>
     <?php require('inc/lib.php'); ?>
     <script type="text/javascript">
-    console.log($("[name=resAddPost]").val());
       if ($("[name=resAddPost]").val()=='ok') {
         alert('Ok, il post è stato correttamente inserito')
+        window.location.href="post.php";
       }
       if ($("[name=resAddPost]").val()=='errore') {
         alert('Errore durante l\'inserimento del post. Riprova o contatta l\'amministratore.')

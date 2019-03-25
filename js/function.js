@@ -32,19 +32,21 @@ function buildPostView(data){
     $.each(tags,function(i,v){
       tagsCode.push("<small class='bg-info rounded text-white p-1 mr-1 mb-1'>"+v.replace(/"/ig,'')+"</small>")
     })
-    txt = truncate(v.testo.replace(/(<([^>]+)>)/ig,""), { 'length': 300, 'separator': ' ','omission': ' [...]'})
+    // /<(?!br\s*\/?)[^>]+>/g, ''
+    // .replace(/<(?!div\s*\/?)[^>]+>/g, '')
+    txt = truncate(v.testo, { 'length': 500, 'separator': ' ','omission': ' [...]'})
     article = $("<article/>",{class:'card rounded-0 animation postDiv'})
     .appendTo('.card-columns')
     .hover(function(){ $(this).toggleClass("shadow"); })
     figure = $("<figure/>",{class:'card-title post-banner mb-0'}).css({"background-image":'url(upload/copertine/'+v.copertina+')'}).appendTo(article)
     section = $("<section/>", {class:'card-body'}).appendTo(article)
-    title = $("<p/>",{class:'post-title cursor', text:v.titolo})
+    title = $("<p/>",{class:'post-title cursor', html:v.titolo})
       .appendTo(section)
       .on('click', function(){
         sessionStorage.setItem('post', v.id);
         window.location.href='index.php'
       })
-    testo = $("<div/>",{class:'post-body text-muted cursor',text:txt})
+    testo = $("<div/>",{class:'post-body text-muted cursor',html:txt})
     .appendTo(section)
     .on('click', function(){
       sessionStorage.setItem('post', v.id);
@@ -64,12 +66,13 @@ function buildPostView(data){
             type: 'POST',
             dataType: 'json',
             data: {
-              oop:{file:'global.class.php',classe:'Generica',func:'query'},
-              act:{act:'elimina',tab:'post'},
+              oop:{file:'eventi.class.php',classe:'Eventi',func:'eventiDel'},
+              act:{tab:'post'},
               dati:{id:v.id}
             }
           }
-          $.ajax( option ).done(function(){
+          $.ajax( option ).done(function(result){
+            alert(result);
             initPost('', function(data){
               $("#searchPostRes").find('span').text(data.length)
               buildPostView(data)

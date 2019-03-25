@@ -3,11 +3,32 @@ session_start();
 require("global.class.php");
 class Eventi extends Generica{
   function __construct(){}
-  public function addPost($dati){
-    $dati['usr']=$_SESSION['id'];
-    $dati['tag']='{'.implode(",",$dati['tag']).'}';
-    $sql = "insert into post(titolo,testo,tag,bozza,usr) values(:titolo,:testo,:tag,:bozza,:usr)";
-    return $this->prepared($sql, $dati);
+
+    public function eventiDel($tabella,$record){
+      try {
+        $this->delFile($record,$tabella);
+        $this->simple("delete from allegati where tabella ='".$tabella."' AND record = ".$record.";");
+        $this->simple("delete from post where id = ".$record.";");
+        return 'post eliminato';
+      } catch (\Exception $e) {
+        return $e->getMessage();
+      }
+
+    }
+
+  protected function delFile($record,$tabella){
+    $allegatiDir="../upload/allegati/";
+    $copertineDir="../upload/copertine/";
+    $allegati = $this->simple("select file from allegati where record = ".$record." and tabella = '".$tabella."';");
+    $copertina = $this->simple("select copertina from ".$tabella." where id = ".$record.";");
+    foreach ($allegati as $file) {
+      if (file_exists($allegatiDir.$file['file'])) {
+        unlink($allegatiDir.$file['file']);
+      }
+    }
+    if (file_exists($copertineDir.$copertina[0]['copertina'])) {
+      unlink($copertineDir.$copertina[0]['copertina']);
+    }
   }
 }
 
