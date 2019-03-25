@@ -6,7 +6,23 @@ class Generica extends Db{
   public function query($act=array(),$dati=array()){
     if ($act['act'] === 'inserisci'){$dati = array_filter($dati);}
     $sql = $this->prepareData($act,$dati);
-    return $this->prepared($sql, $dati);
+    $tab = array("post");
+    try {
+      $this->prepared($sql, $dati);
+      if (in_array($act['tab'],$tab)) {
+        $this->delFile($dati['id'],$act['tab']);
+      }
+
+    } catch (\PDOException $e) {
+      return $e->getMessage;
+    }
+  }
+
+  protected function delFile($record,$tabella){
+    $files = $this->simple("select file from allegati where record = ".$record." and tabella = '".$tabella."';");
+    foreach ($files as $file) { unlink("../upload/allegati/".$file); }
+    $copertina = $this->simple("select copertina from post where id = ".$record);
+    unlink("../upload/copertine/".$copertina['copertina']);
   }
 
   protected function prepareData($act=array(),$dati=array()){

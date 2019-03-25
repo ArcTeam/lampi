@@ -19,37 +19,65 @@ $(document).ready(function () {
 })
 
 function initPost(keywords,doneCallback){
-  option={
-    url: 'json/post.php',
-    type: 'POST',
-    dataType: 'json',
-    data: {term:keywords}
-  }
+  option={ url: 'json/post.php', type: 'POST', dataType: 'json', data: {term:keywords} }
   return $.ajax( option ).done( doneCallback );
 }
 function buildPostView(data){
   $('.card-columns').html('')
   const truncate = _.truncate
   data.forEach(function(v,i){
+    bozza = v.bozza == false ? 'pubblicato' : 'bozza';
     tags = v.tag.slice(1,-1).split(',')
     let tagsCode=[]
     $.each(tags,function(i,v){
       tagsCode.push("<small class='bg-info rounded text-white p-1 mr-1 mb-1'>"+v.replace(/"/ig,'')+"</small>")
     })
     txt = truncate(v.testo.replace(/(<([^>]+)>)/ig,""), { 'length': 300, 'separator': ' ','omission': ' [...]'})
-    article = $("<article/>",{class:'card rounded-0 animation postDiv cursor'})
+    article = $("<article/>",{class:'card rounded-0 animation postDiv'})
     .appendTo('.card-columns')
     .hover(function(){ $(this).toggleClass("shadow"); })
+    figure = $("<figure/>",{class:'card-title post-banner mb-0'}).css({"background-image":'url(upload/copertine/'+v.copertina+')'}).appendTo(article)
+    section = $("<section/>", {class:'card-body'}).appendTo(article)
+    title = $("<p/>",{class:'post-title cursor', text:v.titolo})
+      .appendTo(section)
+      .on('click', function(){
+        sessionStorage.setItem('post', v.id);
+        window.location.href='index.php'
+      })
+    testo = $("<div/>",{class:'post-body text-muted cursor',text:txt})
+    .appendTo(section)
     .on('click', function(){
       sessionStorage.setItem('post', v.id);
       window.location.href='index.php'
     })
-    figure = $("<figure/>",{class:'card-title post-banner mb-0'}).css({"background-image":'url(upload/copertine/'+v.copertina+')'}).appendTo(article)
-    section = $("<section/>", {class:'card-body'}).appendTo(article)
-    title = $("<p/>",{class:'post-title', text:v.titolo}).appendTo(section)
-    testo = $("<div/>",{class:'post-body text-muted',text:txt}).appendTo(section)
     tags = $("<div/>",{class:'d-block my-2'}).html(tagsCode.join('')).appendTo(section)
     meta = $("<div/>",{class:'d-block my-2'}).html('<small style="font-size:12px;">creato il '+v.data.split(' ')[0]+ " da "+v.email.split('@')[0]+'</small>').appendTo(section)
+    if($('body').data('act')){
+      usrBtn = $("<div/>",{class:'d-block my-2 text-right btn-group btn-group-sm', role:'group'}).appendTo(section)
+      $("<button/>",{type:'button', class:'btn btn-outline-secondary disabled', text:bozza}).appendTo(usrBtn)
+      $("<button/>",{type:'button', class:'btn btn-warning', text:'modifica'}).appendTo(usrBtn)
+      $("<button/>",{type:'button', class:'btn btn-danger', text:'elimina'}).appendTo(usrBtn).on('click',function(){
+        delPost = confirm('Attenzione, stai per eliminare un post e tutti i file ad esso collegati.\nSe confermi, i dati non potranno più essere recuperati')
+        if (delPost) {
+          option={
+            url: 'class/connector.php',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+              oop:{file:'global.class.php',classe:'Generica',func:'query'},
+              act:{act:'elimina',tab:'post'},
+              dati:{id:v.id}
+            }
+          }
+          $.ajax( option ).done(function(){
+            initPost('', function(data){
+              $("#searchPostRes").find('span').text(data.length)
+              buildPostView(data)
+            })
+          });
+        }
+      })
+    }
   })
 }
 

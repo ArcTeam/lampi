@@ -5,6 +5,7 @@ require("function.php");
 $prefix = date('YmdHis')."-";
 $pdoFunc = new Db;
 $allegati_dir = "../upload/allegati/";
+$allegati = reArrayFiles($_FILES['allegati']);
 
 $copertina_img = $prefix.str_replace(" ","_",basename($_FILES["copertina"]["name"]));
 $copertine_dir = "../upload/copertine/";
@@ -21,14 +22,12 @@ try {
   uploadfile($_FILES["copertina"]["tmp_name"],$copertina); //sposto la copertina
   exec('mogrify -resize 1028x '.$copertina);
   $pdoFunc->prepared($sql, $dati); //inserisco i dati
-  if($_FILES['allegati']['error']==0){ //sposto gli allegati
-    $record = $pdoFunc->lastInsertId('post_id_seq');
-    $allegati = $_FILES['allegati'];
-    $allegati = reArrayFiles($allegati);
-    foreach($allegati as $val){
-      $allegato_img=$prefix.str_replace(" ","_",basename($val["name"]));
+  $record = $pdoFunc->pdo()->lastInsertId('post_id_seq');
+  foreach($allegati as $files){
+    if($files['error']==0){
+      $allegato_img=$prefix.str_replace(" ","_",basename($files["name"]));
       $allegato = $allegati_dir.$allegato_img;
-      uploadfile($val["tmp_name"],$allegato);
+      uploadfile($files["tmp_name"],$allegato);
       $allSql="insert into allegati(record,tabella,file) values(:record,:tabella,:file)";
       $allArr['record']=$record;
       $allArr['tabella']=$_POST['tab'];
@@ -40,8 +39,9 @@ try {
   header("Location: ../postAct.php?act=".$_POST['act']."&tab=".$_POST['tab']."&res=ok");
 } catch (\PDOException $e) {
   $pdoFunc->rollback();
+  print_r($e->getMessage());
   unlink($copertina);
-  $mask = $prefix.'*.*';
+  $mask = "../upload/allegati/".$prefix.'*.*';
   array_map('unlink', glob($mask));
   header("Location: ../postAct.php?act=".$_POST['act']."&tab=".$_POST['tab']."&res=errore");
 }
