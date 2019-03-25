@@ -17,6 +17,42 @@ $(document).ready(function () {
     }
   });
 })
+
+function initPost(keywords,doneCallback){
+  option={
+    url: 'json/post.php',
+    type: 'POST',
+    dataType: 'json',
+    data: {term:keywords}
+  }
+  return $.ajax( option ).done( doneCallback );
+}
+function buildPostView(data){
+  $('.card-columns').html('')
+  const truncate = _.truncate
+  data.forEach(function(v,i){
+    tags = v.tag.slice(1,-1).split(',')
+    let tagsCode=[]
+    $.each(tags,function(i,v){
+      tagsCode.push("<small class='bg-info rounded text-white p-1 mr-1 mb-1'>"+v.replace(/"/ig,'')+"</small>")
+    })
+    txt = truncate(v.testo.replace(/(<([^>]+)>)/ig,""), { 'length': 300, 'separator': ' ','omission': ' [...]'})
+    article = $("<article/>",{class:'card rounded-0 animation postDiv cursor'})
+    .appendTo('.card-columns')
+    .hover(function(){ $(this).toggleClass("shadow"); })
+    .on('click', function(){
+      sessionStorage.setItem('post', v.id);
+      window.location.href='index.php'
+    })
+    figure = $("<figure/>",{class:'card-title post-banner mb-0'}).css({"background-image":'url(upload/copertine/'+v.copertina+')'}).appendTo(article)
+    section = $("<section/>", {class:'card-body'}).appendTo(article)
+    title = $("<p/>",{class:'post-title', text:v.titolo}).appendTo(section)
+    testo = $("<div/>",{class:'post-body text-muted',text:txt}).appendTo(section)
+    tags = $("<div/>",{class:'d-block my-2'}).html(tagsCode.join('')).appendTo(section)
+    meta = $("<div/>",{class:'d-block my-2'}).html('<small style="font-size:12px;">creato il '+v.data.split(' ')[0]+ " da "+v.email.split('@')[0]+'</small>').appendTo(section)
+  })
+}
+
 function arrayChunk(size,array){
   results = []
   while(array.length > 0){ results.push(array.splice(0, size))}
