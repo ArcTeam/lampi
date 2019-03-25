@@ -8,7 +8,7 @@ session_start();
     <?php require('inc/meta.php'); ?>
     <?php require('inc/css.php'); ?>
     <style media="screen">
-      .mainContent .container-fluid{min-height:600px;}
+      .mainContent .container{min-height:600px;}
     </style>
   </head>
   <body>
@@ -19,10 +19,10 @@ session_start();
       <div class="px-3 py-2 border-bottom">
         <button type="button" class="btn btn-primary btn-sm toggleForm" ><i class="fas fa-angle-down"></i> aggiungi un nuovo utente</button>
       </div>
-      <div class="container-fluid bg-white p-3">
+      <div class="container bg-white p-3">
           <div class="row collapse" id="rubricaFormWrap">
             <div class="col">
-              <form name="rubricaForm" class="formStretto">
+              <form name="rubricaForm">
                 <input type="hidden" class="campo" name="id" value="">
                 <div class="form-row">
                   <div class="col-md-4">

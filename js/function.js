@@ -18,8 +18,8 @@ $(document).ready(function () {
   });
 })
 
-function initPost(keywords,doneCallback){
-  option={ url: 'json/post.php', type: 'POST', dataType: 'json', data: {term:keywords} }
+function initPost(keywords,limit,doneCallback){
+  option={ url: 'json/post.php', type: 'POST', dataType: 'json', data: {term:keywords,limit:limit} }
   return $.ajax( option ).done( doneCallback );
 }
 function buildPostView(data){
@@ -32,8 +32,6 @@ function buildPostView(data){
     $.each(tags,function(i,v){
       tagsCode.push("<small class='bg-info rounded text-white p-1 mr-1 mb-1'>"+v.replace(/"/ig,'')+"</small>")
     })
-    // /<(?!br\s*\/?)[^>]+>/g, ''
-    // .replace(/<(?!div\s*\/?)[^>]+>/g, '')
     txt = truncate(v.testo, { 'length': 500, 'separator': ' ','omission': ' [...]'})
     article = $("<article/>",{class:'card rounded-0 animation postDiv'})
     .appendTo('.card-columns')
@@ -44,7 +42,7 @@ function buildPostView(data){
       .appendTo(section)
       .on('click', function(){
         sessionStorage.setItem('post', v.id);
-        window.location.href='index.php'
+        window.location.href='postView.php'
       })
     testo = $("<div/>",{class:'post-body text-muted cursor',html:txt})
     .appendTo(section)

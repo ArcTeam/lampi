@@ -21,8 +21,8 @@ session_start();
         <a href="postAct.php?act=add&tab=post" class="btn btn-primary btn-sm" >crea post</a>
       </div>
       <?php } ?>
-      <div class="container bg-white p-3">
-        <div class="row">
+      <div class="container-fluid bg-white p-3">
+        <div class="row mb-3">
           <div class="col-12 col-lg-8">
             <h3 class='text-muted'>Archivio post</h3>
           </div>
@@ -40,7 +40,9 @@ session_start();
           </div>
         </div>
         <div class='row post-row'>
-          <div class="card-columns"></div>
+          <div class="col">
+            <div class="card-columns"></div>
+          </div>
         </div>
       </div>
       <?php require('inc/footer.php'); ?>
@@ -61,7 +63,7 @@ session_start();
       });
       $("[name=searchBtn]").on('click', function(){
         let keywords = $("[name=searchPost]").val()
-        initPost(keywords, function(data){
+        initPost(keywords,'', function(data){
           $("#searchPostRes").find('span').eq(0).text(data.length)
           buildPostView(data)
         })
@@ -72,7 +74,7 @@ session_start();
         $("[name=searchBtn]").trigger('click')
         $(this).hide()
       })
-      initPost('', function(data){
+      initPost('','', function(data){
         $("#searchPostRes").find('span').text(data.length)
         buildPostView(data)
       })
