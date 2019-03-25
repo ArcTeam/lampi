@@ -1,10 +1,5 @@
 <?php
 session_start();
-require('class/eventi.class.php');
-$post = new Eventi;
-$bozza = !isset($_SESSION['id']) ? 'f' : null;
-$lista = $post->postList(null,$bozza, null);
-// $postRow = array_chunk($lista, 3);
 ?>
 
 <!doctype html>
@@ -33,34 +28,19 @@ $lista = $post->postList(null,$bozza, null);
           </div>
           <div class="col-12 col-lg-4">
             <div class="input-group input-group-sm">
-              <input type="search" class="form-control" name="filtraPost" placeholder="filtra post" />
+              <input type="search" class="form-control" name="searchPost" placeholder="cerca post" />
               <div class="input-group-append">
-                <button type="button" name="filterReset" class="btn btn-secondary"><i class='fas fa-times'></i></button>
-                <span class="input-group-text" id="filterStat"><span><?php echo count($lista) ?></span> / <span><?php echo count($lista) ?></span></span>
+                <button type="button" name="searchBtn" class="btn btn-info"><i class='fas fa-search'></i></button>
+                <button type="button" name="searchReset" class="btn btn-danger"><i class='fas fa-times'></i></button>
+                <span class="input-group-text" id="searchPostRes">
+                  <span></span> / <span></span>
+                </span>
               </div>
             </div>
           </div>
         </div>
         <div class='row post-row'>
-          <div class="card-columns">
-            <?php
-            foreach ($lista as $p) {
-              $tag = [];
-              $tags = str_replace(array("{","}",'"'),'',$p['tag']);
-              $tags = explode(",",$tags);
-              foreach ($tags as $v) {array_push($tag,"<small class='bg-info rounded text-white p-1 mr-1 mb-1 filtro' data-filter='".$v."'>".$v."</small>");}
-              echo "<article class='card rounded-0 animation postDiv'>";
-              echo "<figure class='card-title post-banner mb-0' style='background-image:url(upload/copertine/".$p['copertina'].")'></figure>";
-              echo "<section class='card-body'>";
-              echo "<p class='post-title filtro' data-filter='".$p['titolo']."'>".$p['titolo']."</p>";
-              echo "<div class='post-body text-muted filtro' data-filter='".strip_tags($p['testo'])."'>".$post->truncate(strip_tags($p['testo'],'<br><br/><strong><b><ol><ul><li>'), 300, array('ending' => ' [...]', 'exact' => false, 'html' => true));
-              echo "<div class='d-block my-2'>".join('',$tag)."</div>";
-              echo "</div>";
-              echo "</section>";
-              echo "</article>";
-            }
-            ?>
-          </div>
+          <div class="card-columns"></div>
         </div>
       </div>
       <?php require('inc/footer.php'); ?>
@@ -71,10 +51,10 @@ $lista = $post->postList(null,$bozza, null);
       <p id="countdowntimer" class="text-center"></p>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.11/lodash.min.js" charset="utf-8"></script>
     <?php require('inc/lib.php'); ?>
     <script type="text/javascript">
       $(".mainContent").css({"top" : $(".mainHeader").height() + 3})
-      $('.postDiv').hover(function(){ $(this).toggleClass("shadow"); });
       // if (!RegExp.escape) { RegExp.escape = function (value) { return value.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, "\\$&") }; }
       // var $div = $('.postDiv')
       // var $filtro = $div.find('.filtro');
@@ -90,6 +70,28 @@ $lista = $post->postList(null,$bozza, null);
       //   $("#filterStat").find('span').eq(0).text($(".postDiv:visible").length)
       //   $("[name=filterReset]").on('click', function(){$("[name=filtraPost]").val('').trigger('keyup');})
       // });
+      $("[name=searchPost]").keyup(function (e) {
+        if (e.which == 13) { //key code del tasto invio
+          $('[name=searchBtn]').trigger('click');
+        }
+      });
+      $("[name=searchBtn]").on('click', function(){
+        let keywords = $("[name=searchPost]").val()
+        initPost(keywords, function(data){
+          $("#searchPostRes").find('span').eq(0).text(data.length)
+          buildPostView(data)
+        })
+        $("[name=searchReset]").show()
+      })
+      $("[name=searchReset]").hide().on('click',function(){
+        $("[name=searchPost]").val('')
+        $("[name=searchBtn]").trigger('click')
+        $(this).hide()
+      })
+      initPost('', function(data){
+        $("#searchPostRes").find('span').text(data.length)
+        buildPostView(data)
+      })
     </script>
   </body>
 </html>
