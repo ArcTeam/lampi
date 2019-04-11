@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['id'])) {header("Location: login.php"); exit;}
-if (isset($_GET)) { $res=$_GET['res']; }
+if (isset($_GET['res'])) { $res=$_GET['res']; }
 ?>
 
 <!doctype html>
@@ -24,9 +24,10 @@ if (isset($_GET)) { $res=$_GET['res']; }
           <div class="col">
             <p class="h3">Crea post</p>
             <p class="text-secondary border-bottom ">condividi con i tuoi utenti notizie, articoli o altre informazioni. Se vuoi aggiungere un viaggio o un evento utilizza i form dedicati, accessibili dal menù laterale.</p>
-            <form name="postForm" class="form mt-3" action="class/eventAdd.php" method="post" enctype="multipart/form-data">
+            <!-- <form name="postForm" class="form mt-3" action="class/eventAdd.php" method="post" enctype="multipart/form-data"> -->
+            <form name="postForm" class="form mt-3" action="postRes.php" method="post" enctype="multipart/form-data">
               <input type="hidden" name="act" value="<?php echo $_GET['act']; ?>">
-              <input type="hidden" name="tab" value="<?php echo $_GET['tab']; ?>">
+              <input type="hidden" name="tipo" value="<?php echo $_GET['tipo']; ?>">
               <div class="form-group">
                 <div class="input-group">
                   <div class="custom-file">
@@ -45,7 +46,7 @@ if (isset($_GET)) { $res=$_GET['res']; }
                 <textarea id="summernote" name="testo"></textarea>
               </div>
               <div class="form-group">
-                <input type="text" name="tagLista" placeholder="aggiungi tag" class="tm-input form-control form-control-sm w-auto d-inline"/>
+                <input type="text" id="tagLista" placeholder="aggiungi tag" class="tm-input form-control form-control-sm w-auto d-inline"/>
                 <div class="d-inline-block tagWrap"></div>
               </div>
               <div class="form-group">
@@ -140,10 +141,10 @@ if (isset($_GET)) { $res=$_GET['res']; }
           error=false
         }
         if (!$("[name=tag]").val()) {
-          $("[name=tagLista]").addClass('is-invalid').closest('.form-group').append($("<small/>",{class:'text-danger errorMsg d-block',text:"Aggiungi almeno una tag! Ricordati di premere 'invio' dopo aver selezionato il termine dalla lista.'"}))
+          $("#tagLista").addClass('is-invalid').closest('.form-group').append($("<small/>",{class:'text-danger errorMsg d-block',text:"Aggiungi almeno una tag! Ricordati di premere 'invio' dopo aver selezionato il termine dalla lista.'"}))
           error=true
         }else {
-          $("[name=tagLista]").removeClass('is-invalid').closest('.errorMsg').remove()
+          $("#tagLista").removeClass('is-invalid').closest('.errorMsg').remove()
           error=false
         }
         if (error===false) {

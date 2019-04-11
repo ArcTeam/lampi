@@ -77,7 +77,7 @@ class Generica extends Db{
     return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor];
   }
 
-  ##NOTE: liste
+  ##liste
   public function tipo_doc(){ return $this->simple("select * from liste.tipo_doc order by tipo asc;"); }
   public function amministrazione(){
     $out = $this->simple("select a.id, a.anno, c.tipo, a.file from amministrazione a, liste.tipo_doc c where a.categoria = c.id order by a.anno desc;");

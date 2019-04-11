@@ -16,12 +16,12 @@ $dati['usr']=$_SESSION['id'];
 $dati['tag']='{'.$_POST['tag'].'}';
 $dati['bozza']=$_POST['bozza'];
 $dati['copertina']=trim($copertina_img);
-$sql= "insert into post(titolo,testo,usr,tag,bozza,copertina) values(:titolo,:testo,:usr,:tag,:bozza,:copertina);"; //imposto la query
+$sql= "insert into post(titolo,testo,usr,tag,bozza,copertina) values(:titolo,:testo,:usr,:tag,:bozza,:copertina);";
 try {
-  $pdoFunc->begin(); //apro la transazione
-  uploadfile($_FILES["copertina"]["tmp_name"],$copertina); //sposto la copertina
+  $pdoFunc->begin();
+  uploadfile($_FILES["copertina"]["tmp_name"],$copertina);
   exec('mogrify -resize 1028x '.$copertina);
-  $pdoFunc->prepared($sql, $dati); //inserisco i dati
+  $pdoFunc->prepared($sql, $dati);
   $record = $pdoFunc->pdo()->lastInsertId('post_id_seq');
   foreach($allegati as $files){
     if($files['error']==0){
@@ -35,7 +35,7 @@ try {
       $pdoFunc->prepared($allSql, $allArr);
     }
   }
-  $pdoFunc->commitTransaction(); //chiudo la transazione
+  $pdoFunc->commitTransaction();
   header("Location: ../postAct.php?act=".$_POST['act']."&tab=".$_POST['tab']."&res=ok");
 } catch (\PDOException $e) {
   $pdoFunc->rollback();
@@ -43,7 +43,7 @@ try {
   unlink($copertina);
   $mask = "../upload/allegati/".$prefix.'*.*';
   array_map('unlink', glob($mask));
-  header("Location: ../postAct.php?act=".$_POST['act']."&tab=".$_POST['tab']."&res=errore");
+  header("Location: ../postAct.php?act=".$_POST['act']."&tipo=".$_POST['tipo']."&res=errore");
 }
 
 ?>

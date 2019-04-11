@@ -58,17 +58,20 @@
         <a href="#" class="text-dark animation tip" data-placement="left" title="modifica la tua password [ricordati di farlo regolarmente!]"><span class='animation'>></span> modifica password</a>
       </li>
     </ul>
-    <p class="m-0 p-3 bg-light text-muted border-top"><i class="fas fa-sitemap"></i> sezioni del sito</p>
+    <p class="m-0 p-3 bg-light text-muted border-top"><i class="fas fa-pencil-alt"></i> crea</p>
     <ul>
       <li>
-        <a href="post.php" class="text-dark animation tip" data-placement="left" title="gestisci post"><span class='animation'>></span> post</a>
+        <a href="postAct.php?act=add&tipo=p" class="text-dark animation tip" data-placement="left" title="crea post"><span class='animation'>></span> post</a>
       </li>
       <li>
-        <a href="#" class="text-dark animation tip" data-placement="left" title="gestisci eventi"><span class='animation'>></span> eventi</a>
+        <a href="postAct.php?act=add&tipo=e" class="text-dark animation tip" data-placement="left" title="crea eventi"><span class='animation'>></span> eventi</a>
       </li>
       <li>
-        <a href="#" class="text-dark animation tip" data-placement="left" title="gestisci viaggi"><span class='animation'>></span> viaggi</a>
+        <a href="postAct.php?act=add&tipo=v" class="text-dark animation tip" data-placement="left" title="crea viaggi"><span class='animation'>></span> viaggi</a>
       </li>
+    </ul>
+    <p class="m-0 p-3 bg-light text-muted border-top"><i class="fas fa-sitemap"></i> sezioni del sito</p>
+    <ul>
       <li>
         <a href="#" class="text-dark animation tip" data-placement="left" title="gestisci pubblicazioni"><span class='animation'>></span> bibliografia</a>
       </li>
