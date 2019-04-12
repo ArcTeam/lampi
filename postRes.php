@@ -3,7 +3,8 @@ session_start();
 if (!isset($_SESSION['id'])) {header("Location: login.php"); exit;}
 require('class/eventi.class.php');
 $obj = new Eventi;
-$res = $obj->handlePost($_POST,$_FILES);
+// $res = $obj->handlePost($_POST,$_FILES);
+$res = $obj->nuovo($_POST,$_FILES);
 ?>
 
 <!doctype html>
@@ -13,25 +14,8 @@ $res = $obj->handlePost($_POST,$_FILES);
     <?php require('inc/css.php'); ?>
     <style media="screen">
       .container{min-height:600px;}
-      #root{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 80vh;
-        width: 100%;
-        margin: 0 auto;
-        padding: 20px;
-        overflow: auto;
-      }
-      #child{
-        border: 1px solid #ddd;
-        border-radius: .25rem;
-        height:50vh;
-        overflow: auto;
-        padding: 20px;
-        width: 80%;
-        text-align: center;
-      }
+      #root{display: flex; align-items: center;justify-content: center; height: 80vh; width: 100%; margin: 0 auto; padding: 20px; overflow: auto;}
+      #child{border: 1px solid #ddd; border-radius: .25rem; height:50vh; overflow: auto; padding: 20px; width: 80%; text-align: center;}
     </style>
   </head>
   <body data-act="<?php echo $_SESSION['act']; ?>">
@@ -41,19 +25,17 @@ $res = $obj->handlePost($_POST,$_FILES);
     <div>
       <div id="root" class="bg-light">
         <div id="child" class="bg-white">
-          <?php
-          print_r($_FILES);
-          echo "<hr>";
-          foreach ($res as $key => $value) {
-            echo $key." = ";
-            if (is_array($value)) {
-              foreach ($value as $v) { echo $v."<br>"; }
-            }else {
-              echo $value;
-            }
-            echo "<br>";
-          }
-          ?>
+          <!-- <?php if($res===true){?>
+            <h5>Ok, il record è stato salvato correttamente!</h5>
+            <div class="">
+              <a href="postAct.php?act=<?php echo $_POST['act']; ?>&tipo=<?php echo $_POST['tipo']; ?>" class="btn btn-outline-success">crea nuovo</a>
+              <a href="index.php" class="btn btn-outline-success">torna alla home</a>
+
+            </div>
+          <?php }else{
+            print_r($res);
+          };?> -->
+          <?php print_r($res); ?>
         </div>
       </div>
       <?php require('inc/footer.php'); ?>

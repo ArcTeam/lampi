@@ -28,7 +28,6 @@ switch (true) {
     </style>
   </head>
   <body data-act="<?php echo $_SESSION['act']; ?>">
-    <input type="hidden" name="resAddPost" value="<?php echo $res; ?>">
     <div class="mainHeader bg-white fixed-top">
       <?php require('inc/header.php'); ?>
     </div>
