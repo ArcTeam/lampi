@@ -18,7 +18,7 @@ session_start();
     <div class="mainContent">
       <?php if(isset($_SESSION['id'])){ ?>
       <div class="px-3 py-2 border-bottom">
-        <a href="postAct.php?act=add&tab=post" class="btn btn-primary btn-sm" >crea post</a>
+        <a href="postAct.php?act=add&tipo=p" class="btn btn-primary btn-sm" >crea post</a>
       </div>
       <?php } ?>
       <div class="container-fluid bg-white p-3">

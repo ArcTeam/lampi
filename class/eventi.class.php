@@ -3,16 +3,14 @@ session_start();
 require("global.class.php");
 class Eventi extends Generica{
   private $prefix = '';
-  private $copertina = '';
-  private $tipo = '';
   private $allegati_dir = "upload/allegati/";
   private $copertine_dir = "upload/copertine/";
 
   private $dataset=[];
   private $metapost=[];
 
-  private $sqlAddPost = "insert into post(titolo,testo,usr,tag,bozza,copertina) values(:titolo,:testo,:usr,:tag,:bozza,:copertina);";
-  private $sqlModPost = "update post set titolo=:titolo, testo=:testo, usr=:usr, tag=:tag, bozza=:bozza, copertina=:copertina where id = :id;";
+  private $sqlAddPost = "insert into post(titolo,testo,usr,tag,bozza,copertina,tipo) values(:titolo,:testo,:usr,:tag,:bozza,:copertina,:tipo);";
+  private $sqlModPost = "update post set titolo=:titolo, testo=:testo, usr=:usr, tag=:tag, bozza=:bozza, copertina=:copertina, tipo=:tipo where id = :id;";
   private $sqlDelPost = "delete from post where id = :id;";
 
   private $sqlAddMetaPostEvento = "insert into metapost(post, dove, da, a, costo) values (:post, :dove, :da, :a, :costo);";
@@ -29,57 +27,41 @@ class Eventi extends Generica{
 
   public function nuovo($dati,$file){
     try {
-      $fileArr=[];
-      $allegati = $this->reArrayFiles($file['allegati']);
-      foreach($allegati as $files){
-        $file=$this->prefix.str_replace(" ","_",basename($files["name"]));
-        $allegato = $this->allegati_dir.$file;
-        $this->uploadfile($files["tmp_name"],$allegato);
-        $fileArr[]=$file;
+      $this->begin();
+      $copertinaImg = $this->prefix.str_replace(" ","_",basename($file['copertina']["name"]));
+      $copertina = $this->copertine_dir.$copertinaImg;
+      $this->uploadfile($file['copertina']['tmp_name'],$copertina);
+      $dati['copertina']=$copertinaImg;
+      $this->buildDataset($dati,$file);
+      $this->prepared($this->sqlAddPost,$this->dataset);
+      $id = $this->pdo()->lastInsertId('post_id_seq');
+      $allegati = $this->handleAllegati($file['allegati']);
+      if ($allegati !== 'null') {
+        $this->prepared($this->sqlAddAllegati,array("post"=>$id,"file"=>$allegati));
       }
-      return $fileArr;
+      if ($dati['tipo'] !== 'p') {
+        $sqlMeta = $dati['tipo'] === 'e' ? $this->sqlAddMetaPostEvento : $this->sqlAddMetaPostViaggio;
+        $this->buildMetaPost($dati,$id);
+        $this->prepared($sqlMeta,$this->metapost);
+      }
+      $this->commitTransaction();
+      return array(true,$id);
     } catch (\Exception $e) {
-      $mask = $this->allegati_dir.$prefix.'*.*';
+      $this->rollback();
+      $mask = $this->allegati_dir.$this->prefix.'*.*';
       array_map('unlink', glob($mask));
       return $e->getMessage();
     }
-
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  public function handlePost($dati=array(), $file=array()){
-    switch (true) {
-      case $dati['tipo']=='p': $this->tipo = 'post'; break;
-      case $dati['tipo']=='e': $this->tipo = 'evento'; break;
-      case $dati['tipo']=='v': $this->tipo = 'viaggio'; break;
-    }
+  public function eliminaPost($id){
     try {
       $this->begin();
-      switch (true) {
-        case $dati['act']==='add': $this->addEvent($dati,$file); break;
-        case $dati['act']==='mod': $this->modEvent($dati,$file); break;
-        case $dati['act']==='del': $this->delEvent($dati['id']); break;
-      }
+      $this->prepared($this->sqlDelAllegati,array("post"=>$id));
+      $this->prepared($this->sqlDelPost,array("id"=>$id));
+      $this->delFile($id);
       $this->commitTransaction();
-      return true;
+      return 'post eliminato';
     } catch (\Exception $e) {
       $this->rollback();
       return $e->getMessage();
@@ -87,14 +69,13 @@ class Eventi extends Generica{
   }
 
   private function buildDataset($dati,$file){
-    $img = $this->prefix.str_replace(" ","_",basename($file["copertina"]["name"]));
-    $this->copertina = $this->copertine_dir.$img;
     $this->dataset['titolo']=trim($dati['titolo']);
     $this->dataset['testo']=$dati['testo'];
     $this->dataset['usr']=$_SESSION['id'];
     $this->dataset['tag']='{'.$dati['tag'].'}';
     $this->dataset['bozza']=$dati['bozza'];
-    $this->dataset['copertina']=trim($img);
+    $this->dataset['copertina']=trim($dati['copertina']);
+    $this->dataset['tipo']=trim($dati['tipo']);
   }
   private function buildMetaPost($dati,$post){
     $this->metapost['post'] = $post;
@@ -106,81 +87,23 @@ class Eventi extends Generica{
       $this->metapost['tappe'] = '{'.$dati['tappe'].'}';
     }
   }
-  private function handleAllegati($file,$post,$act){
-    switch ($act) {
-      case 'add': $sql = $this->sqlAddAllegati; break;
-      case 'mod': $sql = $this->sqlModAllegati; break;
-      case 'del': $sql = $this->sqlDelAllegati; break;
-    }
-    $dati=[];
+  private function handleAllegati($file){
     $fileArr=[];
     $allegati = $this->reArrayFiles($file);
     foreach($allegati as $files){
-      $file=$this->prefix.str_replace(" ","_",basename($files["name"]));
-      $allegato = $this->allegati_dir.$file;
-      $this->uploadfile($files["tmp_name"],$allegato);
-      $fileArr[]=$file;
-    }
-    $dati['post']=$post;
-    $dati['file']='{'.implode(",",$fileArr).'}';
-    try {
-      $this->begin();
-      $this->prepared($sql,$dati);
-      $this->commitTransaction();
-      return true;
-    } catch (\Exception $e) {
-      $this->rollback();
-      $mask = $this->allegati_dir.$prefix.'*.*';
-      array_map('unlink', glob($mask));
-      return 1;
-    }
-  }
-
-  private function addEvent($dati,$file){
-    try {
-      $this->buildDataset($dati,$file);
-      $add = $this->prepared($this->sqlAddPost,$this->dataset);
-      $id = $this->pdo()->lastInsertId('post_id_seq');
-      if ($add) {
-        if($file['allegati']['error'] === 0){
-          $allegati = $this->handleAllegati($file['allegati'],$id,'add');
-          if ($allegati === 1) {
-            throw new \Exception("Attenzione, errore durante il salvataggio degli allegati, riprova o contatta l'amministratore.", 1);
-          }
-        }
-        if ($dati['tipo'] !== 'p') {
-          $this->buildMetaPost($dati,$id);
-          $addMeta = $this->addMetaPost();
-          if ($addMeta === 1) {
-            throw new \Exception("Attenzione, errore durante il salvataggio dei metadati, riprova o contatta l'amministratore.", 1);
-          }
-        }
-      }else {
-        throw new \Exception("Attenzione, errore durante il salvataggio del record, riprova o contatta l'amministratore.", 1);
+      if($files['error'] === 0){
+        $file=$this->prefix.str_replace(" ","_",basename($files["name"]));
+        $allegato = $this->allegati_dir.$file;
+        $up = $this->uploadfile($files["tmp_name"],$allegato);
+        if ($up) { $fileArr[]=$file; }else { return $up; }
       }
-    } catch (\Exception $e) {
-      return $e->getMessage();
     }
-
-  }
-  private function modEvent(){
-    $add = $this->prepared($this->sqlModPost,$this->post);
-    if ($add) {
-      return true;
+    if (count($fileArr)>0) {
+      return '{'.implode(',',$fileArr).'}';;
     }else {
-      throw new \Exception("Attenzione, errore durante il salvataggio del record, riprova o contatta l'amministratore.", 1);
+      return 'null';
     }
-
   }
-  private function delEvent(){}
-
-  private function addMetaPost(){
-    $sql = $this->tipo == 'evento' ? $this->sqlAddMetaPostEvento : $this->sqlAddMetaPostViaggio;
-    $add = $this->prepared($sql,$this->metapost);
-    if ($add) {return 0;}else { return 1; }
-  }
-  private function modMetaPost(){}
-  private function delMetaPost(){}
 
   private function reArrayFiles($file){
     $file_ary = array();
@@ -203,29 +126,17 @@ class Eventi extends Generica{
     }
   }
 
-  public function eventiDel($tabella,$record){
-    try {
-      $this->delFile($record,$tabella);
-      $this->simple("delete from allegati where tabella ='".$tabella."' AND record = ".$record.";");
-      $this->simple("delete from post where id = ".$record.";");
-      return 'post eliminato';
-    } catch (\Exception $e) {
-      return $e->getMessage();
-    }
-  }
 
-  private function delFile($record,$tabella){
-    $allegatiDir="../upload/allegati/";
-    $copertineDir="../upload/copertine/";
-    $allegati = $this->simple("select file from allegati where record = ".$record." and tabella = '".$tabella."';");
-    $copertina = $this->simple("select copertina from ".$tabella." where id = ".$record.";");
+  private function delFile($id){
+    $allegati = $this->simple("select unnest(file) from allegati where post = ".$id.";");
+    $copertina = $this->simple("select copertina from post where id = ".$id.";");
     foreach ($allegati as $file) {
-      if (file_exists($allegatiDir.$file['file'])) {
-        unlink($allegatiDir.$file['file']);
+      if (file_exists($this->allegati_dir.$file['file'])) {
+        unlink($this->allegati_dir.$file['file']);
       }
     }
-    if (file_exists($copertineDir.$copertina[0]['copertina'])) {
-      unlink($copertineDir.$copertina[0]['copertina']);
+    if (file_exists($this->copertine_dir.$copertina['copertina'])) {
+      unlink($this->copertine_dir.$copertina['copertina']);
     }
   }
 }

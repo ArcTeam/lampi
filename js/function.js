@@ -71,7 +71,7 @@ function buildPostView(data){
           }
           $.ajax( option ).done(function(result){
             alert(result);
-            initPost('', function(data){
+            initPost('','', function(data){
               $("#searchPostRes").find('span').text(data.length)
               buildPostView(data)
             })

@@ -14,14 +14,22 @@ class Db extends Conn{
     }
   }
   public function prepared($sql, $dati=array()){
-    try {
+    // try {
+    //   $pdo = $this->pdo();
+    //   $exec = $pdo->prepare($sql);
+    //   $res = $exec->execute($dati);
+    //   return true;
+    // } catch (PDOException $e) {
+    //   return $e;
+    // }
       $pdo = $this->pdo();
       $exec = $pdo->prepare($sql);
-      $exec->execute($dati);
-      return true;
-    } catch (Exception $e) {
-      return $e->getMessage();
-    }
+      $res = $exec->execute($dati);
+      if ($res) {
+        return true;
+      }else {
+        throw new \Exception($res, 1);
+      }
   }
   public function countRow($sql){
     try {
