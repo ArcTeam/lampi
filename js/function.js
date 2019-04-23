@@ -55,7 +55,7 @@ function buildPostView(data){
     if($('body').data('act')){
       usrBtn = $("<div/>",{class:'d-block my-2 text-right btn-group btn-group-sm', role:'group'}).appendTo(section)
       $("<button/>",{type:'button', class:'btn btn-outline-secondary disabled', text:bozza}).appendTo(usrBtn)
-      $("<button/>",{type:'button', class:'btn btn-warning', text:'modifica'}).appendTo(usrBtn)
+      $("<a/>",{href:'postMod.php?r='+v.id, class:'btn btn-warning', text:'modifica'}).appendTo(usrBtn)
       $("<button/>",{type:'button', class:'btn btn-danger', text:'elimina'}).appendTo(usrBtn).on('click',function(){
         delPost = confirm('Attenzione, stai per eliminare un post e tutti i file ad esso collegati.\nSe confermi, i dati non potranno più essere recuperati')
         if (delPost) {

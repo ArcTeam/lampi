@@ -14,14 +14,6 @@ class Db extends Conn{
     }
   }
   public function prepared($sql, $dati=array()){
-    // try {
-    //   $pdo = $this->pdo();
-    //   $exec = $pdo->prepare($sql);
-    //   $res = $exec->execute($dati);
-    //   return true;
-    // } catch (PDOException $e) {
-    //   return $e;
-    // }
       $pdo = $this->pdo();
       $exec = $pdo->prepare($sql);
       $res = $exec->execute($dati);

@@ -25,6 +25,19 @@ class Eventi extends Generica{
 
   function __construct(){ $this->prefix = date('YmdHis')."-"; }
 
+  public function item(int $id){
+    $out = [];
+    $sql = "select * from post where id = ".$id.";";
+    $allegati = "select unnest(file) file from allegati where post = ".$id.";";
+    $out['info'] = $this->simple($sql);
+    $out['allegati'] = $this->simple($allegati);
+    if ($out['info'][0]['tipo'] !== 'p') {
+      $meta = "select * from metapost where post = ".$id.";";
+      $out['meta'] = $this->simple($meta);
+    }
+    return $out;
+  }
+
   public function nuovo($dati,$file){
     try {
       $this->begin();
@@ -62,6 +75,33 @@ class Eventi extends Generica{
       $this->delFile($id);
       $this->commitTransaction();
       return 'post eliminato';
+    } catch (\Exception $e) {
+      $this->rollback();
+      return $e->getMessage();
+    }
+  }
+
+  public function delAllegato($dati = array()){
+    try {
+      $allegato = $dati['file'];
+      $file = end(explode("/",$dati['file']));
+      unset($dati['file']);
+      $this->begin();
+      $count = $this->simple("select array_length(file,1) tot from allegati where post = ".$dati['post'].";");
+      $count = intval($count[0]['tot']);
+      if ($count === 1) {
+        $this->prepared($this->sqlDelAllegati,$dati);
+      }else {
+        $sql = "update allegati set file = array_remove(file,:file) where post = :post;";
+        $dati['file']=$file;
+        $this->prepared($sql,$dati);
+      }
+      if (file_exists("../".$allegato)) {
+        unlink("../".$allegato);
+      }
+      $this->commitTransaction();
+      return 'ok, allegato correttamente eliminato';
+      // return $dati;
     } catch (\Exception $e) {
       $this->rollback();
       return $e->getMessage();

@@ -17,4 +17,5 @@ function delRubrica($class){return json_encode($class->prepared("delete from rub
 function tagList($class){return json_encode($class->simple("select tag as value from tag order by tag asc;"));}
 function delAmministrazione($class){ return json_encode($class->delAmministrazione($_POST['dati']));}
 function eventiDel($class){return json_encode($class->eliminaPost($_POST['dati']['id']));}
+function delAllegato($class){return json_encode($class->delAllegato($_POST['dati']));}
 ?>

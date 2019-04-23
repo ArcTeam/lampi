@@ -3,8 +3,11 @@ session_start();
 if (!isset($_SESSION['id'])) {header("Location: login.php"); exit;}
 require('class/eventi.class.php');
 $obj = new Eventi;
-// $res = $obj->handlePost($_POST,$_FILES);
-$res = $obj->nuovo($_POST,$_FILES);
+if (isset($_POST['act']) && $_POST['act']=='mod') {
+  $res = $_POST;
+}else {
+  $res = $obj->nuovo($_POST,$_FILES);
+}
 ?>
 
 <!doctype html>
@@ -25,7 +28,12 @@ $res = $obj->nuovo($_POST,$_FILES);
     <div>
       <div id="root" class="bg-light">
         <div id="child" class="bg-white">
-          <?php if($res[0]===true){?>
+          <?php print_r($res); ?>
+          <?php print_r($_FILES); ?>
+
+
+
+          <!-- <?php if($res[0]===true){?>
             <h5 class="p-5">Ok, il record è stato salvato correttamente!</h5>
             <div class="mt-5">
               <a href="postView.php?post=<?php echo $res[1]; ?>" class="btn btn-outline-success">visualizza record</a>
@@ -35,7 +43,7 @@ $res = $obj->nuovo($_POST,$_FILES);
             </div>
           <?php }else{
             print_r($res);
-          };?>
+          };?> -->
         </div>
       </div>
       <?php require('inc/footer.php'); ?>

@@ -1,19 +1,26 @@
 <?php
 session_start();
+require("class/eventi.class.php");
+$class = new Eventi;
+$itemArr = $class->item($_GET['r']);
+$item = $itemArr['info'][0];
+$allegati = $itemArr['allegati'];
+
 if (!isset($_SESSION['id'])) {header("Location: login.php"); exit;}
+
 switch (true) {
-  case $_GET['tipo']=='p':
+  case $item['tipo']=='p':
     $title = 'post';
   break;
-  case $_GET['tipo']=='e':
+  case $item['tipo']=='e':
     $title = 'evento';
-    $doveInfo = "Inserisci il luogo preciso dell'evento.";
+    $doveInfo = "Modifica il luogo preciso dell'evento.";
     $tip = '';
   break;
-  case $_GET['tipo']=='v':
+  case $item['tipo']=='v':
     $title = 'viaggio';
-    $doveInfo = "Inserisci la meta del viaggio.";
-    $tip="<i class='far fa-question-circle tip' title='Inserisci la meta del viaggio.<br>Se vuoi creare un percorso, puoi aggiungere le tappe del viaggio' data-placement='top'></i>";
+    $doveInfo = "Modifica la meta del viaggio.";
+    $tip="<i class='far fa-question-circle tip' title='Modifica la meta del viaggio.<br>Se vuoi creare un percorso, puoi aggiungere le tappe del viaggio' data-placement='top'></i>";
   break;
 }
 ?>
@@ -25,7 +32,6 @@ switch (true) {
     <?php require('inc/css.php'); ?>
     <style media="screen">
       .mainContent .container{min-height:600px;}
-      .note-editable p{margin:0 !important;padding: 0 !important;}
     </style>
   </head>
   <body data-act="<?php echo $_SESSION['act']; ?>">
@@ -36,17 +42,16 @@ switch (true) {
       <div class="container bg-white p-3">
         <div class="row" id="postFormWrap">
           <div class="col">
-            <p class="h3">Crea <?php echo $title; ?></p>
+            <p class="h3">Modifica <?php echo $title; ?></p>
             <p class="text-secondary border-bottom ">condividi con i tuoi utenti notizie, articoli o altre informazioni.</p>
-            <!-- <form name="postForm" class="form mt-3" action="class/eventAdd.php" method="post" enctype="multipart/form-data"> -->
             <form name="postForm" class="form mt-3" action="postRes.php" method="post" enctype="multipart/form-data">
-              <input type="hidden" name="act" value="<?php echo $_GET['act']; ?>">
-              <input type="hidden" name="tipo" value="<?php echo $_GET['tipo']; ?>">
+              <input type="hidden" name="act" value="mod">
+              <input type="hidden" name="tipo" value="<?php echo $item['tipo']; ?>">
               <div class="form-group">
                 <div class="input-group">
                   <div class="custom-file">
                     <input type="file" class="custom-file-input" name="copertina" id="copertina" lang="it">
-                    <label class="custom-file-label" for="copertina" data-browse="cerca immagine" lang="it">aggiungi una copertina al tuo <?php echo $title; ?></label>
+                    <label class="custom-file-label" for="copertina" data-browse="cerca immagine" lang="it">sostituisci la copertina del tuo <?php echo $title; ?></label>
                   </div>
                   <div class="input-group-append">
                     <button class="btn btn-secondary tip" data-placement="top" type="button" title="Attenzione: puoi caricare immagini jpg, jpeg, png non superiori ai 5MB di dimenioni.<br/>La copertina verrà visualizzata sopra il testo del <?php echo $title; ?>"><i class="fas fa-info"></i></button>
@@ -54,36 +59,36 @@ switch (true) {
                 </div>
               </div>
               <div class="form-group">
-                <input type="text" id="titolo" name="titolo" class="form-control" placeholder="titolo <?php echo $title; ?>" value="">
+                <input type="text" id="titolo" name="titolo" class="form-control" placeholder="titolo <?php echo $title; ?>" value="<?php echo $item['titolo']; ?>">
               </div>
-              <?php if ($_GET['tipo'] !== 'p') {?>
+              <?php if ($item['tipo'] !== 'p') {?>
                 <div class="form-row">
                   <div class="col-md-3">
                     <div class="form-group">
                       <label for="dove"><?php echo $tip; ?> dove:</label>
-                      <input type="text" class="form-control" id="dove" name="dove" value="" placeholder="<?php echo $doveInfo; ?>">
+                      <input type="text" class="form-control" id="dove" name="dove" placeholder="<?php echo $doveInfo; ?>" value="<?php echo $itemArr['meta'][0]['dove']; ?>">
                     </div>
                   </div>
                   <div class="col-md-3">
                     <div class="form-group">
                       <label for="da">data inizio:</label>
-                      <input type="date" class="form-control" id="da" name="da" value="">
+                      <input type="date" class="form-control" id="da" name="da" value="<?php echo $itemArr['meta'][0]['da']; ?>">
                     </div>
                   </div>
                   <div class="col-md-3">
                     <div class="form-group">
                       <label for="a">data fine:</label>
-                      <input type="date" class="form-control" id="a" name="a" min='' value="" disabled>
+                      <input type="date" class="form-control" id="a" name="a" min='' value="<?php echo $itemArr['meta'][0]['a']; ?>">
                     </div>
                   </div>
                   <div class="col-md-3">
                     <div class="form-group">
                       <label for="costo">costo (&euro;):</label>
-                      <input type="number" class="form-control" id="costo" name="costo" value="0" min="0" step="0.05">
+                      <input type="number" class="form-control" id="costo" name="costo" value="<?php echo $itemArr['meta'][0]['costo']; ?>" min="0" step="0.05">
                     </div>
                   </div>
                 </div>
-                <?php if ($_GET['tipo'] === 'v') {?>
+                <?php if ($item['tipo'] === 'v') {?>
                   <div class="form-group">
                     <small>Vuoi aggiungere delle tappe al viaggio? Indica la città, il luogo specifico o l'indirizzo e clicca sul pulsante per aggiungere la tappa.</small>
                     <div class="input-group mb-3">
@@ -99,16 +104,29 @@ switch (true) {
                 <?php } ?>
               <?php } ?>
               <div class="form-group">
-                <textarea id="summernote" name="testo"></textarea>
+                <textarea id="summernote" name="testo"><?php echo $item['testo']; ?></textarea>
               </div>
               <div class="form-group">
                 <input type="text" id="tagLista" placeholder="aggiungi tag" class="tm-input form-control form-control-sm w-auto d-inline"/>
                 <div class="d-inline-block tagWrap"></div>
               </div>
               <div class="form-group">
-                <label><input type="radio" name="bozza" value="true" checked> <strong>salva come bozza:</strong> il <?php echo $title; ?> non sarà visibile finché non deciderai di pubblicarlo</label>
-                <label><input type="radio" name="bozza" value="false"> <strong>pubblica direttamente:</strong> il <?php echo $title; ?> sarà subito visibile, potrai comunque modificarlo in un secondo momento</label>
+                <label><input type="radio" name="bozza" value="true" <?php if(!empty($item['bozza'])){echo 'checked';} ?>> <strong>salva come bozza:</strong> il <?php echo $title; ?> non sarà visibile finché non deciderai di pubblicarlo</label>
+                <label><input type="radio" name="bozza" value="false" <?php if(empty($item['bozza'])){echo 'checked';} ?>> <strong>pubblica direttamente:</strong> il <?php echo $title; ?> sarà subito visibile, potrai comunque modificarlo in un secondo momento</label>
               </div>
+              <?php if (count($allegati) > 0) { ?>
+                <div class="form-group">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Allegati</li>
+                    <?php foreach ($allegati as $k=>$allegato): ?>
+                      <li class="list-group-item">
+                        <button type="button" class="btn btn-outline-danger btn-sm tip delAllegato" id="allegato<?php echo $k; ?>" title="elimina allegato" data-placement="top" data-post="<?php echo $item['id']; ?>"><i class="fas fa-times"></i></button>
+                        <a href="upload/allegati/<?php echo $allegato['file']; ?>" target="_blank" class="tip" data-placement="top" title="visualizza allegato in una nuova scheda"><?php echo substr($allegato['file'],15); ?></a>
+                      </li>
+                    <?php endforeach; ?>
+                  </ul>
+                </div>
+              <?php } ?>
               <div class="form-group">
                 <label for="">Vuoi aggiungere uno o più allegati?</label>
                 <div class="input-group">
@@ -205,11 +223,7 @@ switch (true) {
       $("[name=postSaveBtn]").on('click', function(e){
         $(".errorMsg").remove();
         e.preventDefault();
-        if(!$("#copertina").val()){
-          $("#copertina").addClass('is-invalid').closest('.form-group').append($("<small/>",{class:'text-danger errorMsg',text:"carica un'immagine"}))
-        }else {
-          $("#copertina").removeClass('is-invalid').closest('.errorMsg').remove()
-        }
+        
         if(!$("#titolo").val()){
           $("#titolo").addClass('is-invalid').closest('.form-group').append($("<small/>",{class:'text-danger errorMsg',text:"aggiungi un titolo"}))
         }else {
@@ -250,8 +264,30 @@ switch (true) {
         if ($('.errorMsg').length === 0) { form.submit() }
       })
 
+      $(".delAllegato").on('click', function() {
+        btn = $(this);
+        msg = 'Stai per eliminare un allegato!\nSe confermi il file non potrà più essere recuperato'
+        if (confirm(msg)) {
+          post = $(this).data('post')
+          file = $(this).next('a').attr('href');
+          option={
+            url: 'class/connector.php',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+              oop:{file:'eventi.class.php',classe:'Eventi',func:'delAllegato'},
+              dati:{post:post,file:file}
+            }
+          }
+          $.ajax( option ).done(function(result){
+            console.log(result)
+            btn.closest('li').remove();
+          });
+        }
+      });
+
       $(".tm-input").tagsManager({
-        prefilled: '',
+        prefilled: '<?php echo str_replace(array("{","}"),'',$item["tag"]); ?>',
         AjaxPush: "inc/addTag.php",
         hiddenTagListName: 'tag',
         deleteTagsOnBackspace: false,
