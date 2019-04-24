@@ -5,6 +5,8 @@ $class = new Eventi;
 $itemArr = $class->item($_GET['r']);
 $item = $itemArr['info'][0];
 $allegati = $itemArr['allegati'];
+$tappe = substr($itemArr['meta'][0]['tappe'],1,-1);
+$tappe = explode(',',$tappe);
 
 if (!isset($_SESSION['id'])) {header("Location: login.php"); exit;}
 
@@ -99,7 +101,19 @@ switch (true) {
                       </div>
                     </div>
                     <div class="tappeWrap">
-
+                      <?php
+                        if(count(array_filter($tappe)) > 0){
+                          foreach ($tappe as $key => $tappa) {
+                      ?>
+                      <div class="input-group mb-3 tappaItem">
+                        <input type="text" class="form-control" readonly="" value="<?php echo $tappa; ?>">
+                        <div class="input-group-append">
+                          <button type="button" class="btn btn-outline-danger tappaRemove" data-tappa="<?php echo $tappa; ?>">
+                            <i class="fas fa-minus"></i>
+                          </button>
+                        </div>
+                      </div>
+                      <?php }} ?>
                     </div>
                   </div>
                 <?php } ?>
@@ -160,6 +174,7 @@ switch (true) {
     </div>
     <?php require('inc/lib.php'); ?>
     <script type="text/javascript">
+      post = $("[name=id]").val()
       form = $("form[name=postForm]");
       tipo = $("[name=tipo]").val();
       if (tipo!=='p') {
@@ -269,7 +284,6 @@ switch (true) {
         btn = $(this);
         msg = 'Stai per eliminare un allegato!\nSe confermi il file non potrà più essere recuperato'
         if (confirm(msg)) {
-          post = $(this).data('post')
           file = $(this).next('a').attr('href');
           option={
             url: 'class/connector.php',
@@ -286,6 +300,29 @@ switch (true) {
           });
         }
       });
+
+      $(".tappaRemove").on('click',function(){
+        btn = $(this);
+        msg = 'Stai per elilminare una tappa dal viaggio!\nConfermi?'
+        if(confirm(msg)){
+          tappa = $(this).data('tappa');
+          option={
+            url: 'class/connector.php',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+              oop:{file:'eventi.class.php',classe:'Eventi',func:'delTappa'},
+              dati:{post:post,tappa:tappa}
+            }
+          }
+          $.ajax( option )
+          .done(function(result){
+            btn.closest('.tappaItem').remove();
+          }).fail(function(result) {
+            alert('Errore, non è stato possibile elimiare la tappa!')
+          });
+        }
+      })
 
       $(".tm-input").tagsManager({
         prefilled: '<?php echo str_replace(array("{","}"),'',$item["tag"]); ?>',

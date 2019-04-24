@@ -15,11 +15,11 @@
         </div>
       </li>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">attività</a>
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">archivio</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item tip" href="post.php" data-placement="left" title="leggi i post scritti dai nostri soci">post</a>
-          <a class="dropdown-item tip" href="#" data-placement="left" title="mostre, seminari, conferenze, presentazioni e altro ancora"><del>eventi</del></a>
-          <a class="dropdown-item tip" href="#" data-placement="left" title="parti con noi"><del>viaggi</del></a>
+          <a class="dropdown-item tip archivioLink" data-tipo="p" href="post.php" data-placement="left" title="leggi i post scritti dai nostri soci">post</a>
+          <a class="dropdown-item tip archivioLink" data-tipo="e" href="post.php" data-placement="left" title="mostre, seminari, conferenze, presentazioni e altro ancora"><del>eventi</del></a>
+          <a class="dropdown-item tip archivioLink" data-tipo="v" href="post.php" data-placement="left" title="parti con noi"><del>viaggi</del></a>
         </div>
       </li>
       <li class="nav-item">

@@ -18,4 +18,5 @@ function tagList($class){return json_encode($class->simple("select tag as value 
 function delAmministrazione($class){ return json_encode($class->delAmministrazione($_POST['dati']));}
 function eventiDel($class){return json_encode($class->eliminaPost($_POST['dati']['id']));}
 function delAllegato($class){return json_encode($class->delAllegato($_POST['dati']));}
+function delTappa($class){return json_encode($class->delTappa($_POST['dati']));}
 ?>

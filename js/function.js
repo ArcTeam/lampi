@@ -16,10 +16,11 @@ $(document).ready(function () {
       return $(div).html()
     }
   });
+  $('.archivioLink').on('click',function(e){localStorage.setItem('t',$(this).data('tipo'));})
 })
 
-function initPost(keywords,limit,doneCallback){
-  option={ url: 'json/post.php', type: 'POST', dataType: 'json', data: {term:keywords,limit:limit} }
+function initPost(keywords,limit,tipo,doneCallback){
+  option={ url: 'json/post.php', type: 'POST', dataType: 'json', data: {term:keywords,limit:limit,tipo:tipo} }
   return $.ajax( option ).done( doneCallback );
 }
 function buildPostView(data){

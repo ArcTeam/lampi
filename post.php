@@ -56,6 +56,7 @@ session_start();
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.11/lodash.min.js" charset="utf-8"></script>
     <?php require('inc/lib.php'); ?>
     <script type="text/javascript">
+      let tipo = localStorage.getItem('t')
       $(".mainContent").css({"top" : $(".mainHeader").height() + 3})
       $("[name=searchPost]").keyup(function (e) {
         //key code del tasto invio
@@ -63,7 +64,7 @@ session_start();
       });
       $("[name=searchBtn]").on('click', function(){
         let keywords = $("[name=searchPost]").val()
-        initPost(keywords,'', function(data){
+        initPost(keywords,'',tipo, function(data){
           $("#searchPostRes").find('span').eq(0).text(data.length)
           buildPostView(data)
         })
@@ -74,7 +75,7 @@ session_start();
         $("[name=searchBtn]").trigger('click')
         $(this).hide()
       })
-      initPost('','', function(data){
+      initPost('','',tipo, function(data){
         $("#searchPostRes").find('span').text(data.length)
         buildPostView(data)
       })

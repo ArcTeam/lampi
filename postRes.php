@@ -30,15 +30,13 @@ if (isset($_POST['act']) && $_POST['act']=='mod') {
     <div>
       <div id="root" class="bg-light">
         <div id="child" class="bg-white">
-          <!-- <?php print_r($res); ?>
-          <?php print_r($_FILES); ?> -->
-
           <?php if($res[0]===true){?>
             <h5 class="p-5">Ok, il record è stato salvato correttamente!</h5>
             <div class="mt-5">
-              <a href="postView.php?post=<?php echo $res[1]; ?>" class="btn btn-outline-success">visualizza record</a>
-              <a href="postAct.php?act=<?php echo $_POST['act']; ?>&tipo=<?php echo $_POST['tipo']; ?>" class="btn btn-outline-success">crea nuovo</a>
-              <a href="index.php" class="btn btn-outline-success">torna alla home</a>
+              <a href="postView.php?post=<?php echo $res[1]; ?>" class="btn btn-success">visualizza record</a>
+              <a href="postMod.php?r=<?php echo $res[1]; ?>" class="btn btn-success">modifica record</a>
+              <a href="postAct.php?act=<?php echo $_POST['act']; ?>&tipo=<?php echo $_POST['tipo']; ?>" class="btn btn-success">crea nuovo</a>
+              <a href="index.php" class="btn btn-success">torna alla home</a>
             </div>
           <?php }else{
             print_r($res);
@@ -48,8 +46,5 @@ if (isset($_POST['act']) && $_POST['act']=='mod') {
       <?php require('inc/footer.php'); ?>
     </div>
     <?php require('inc/lib.php'); ?>
-    <script type="text/javascript">
-
-    </script>
   </body>
 </html>

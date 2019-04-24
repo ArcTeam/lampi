@@ -118,6 +118,17 @@ class Eventi extends Generica{
     }
   }
 
+  public function delTappa($dati = array()){
+    try {
+      $sql = "update metapost set tappe = array_remove(tappe,:tappa) where post = :post;";
+      $this->prepared($sql,$dati);
+      return 'ok';
+    } catch (\Exception $e) {
+      return $e->getMessage();
+    }
+
+  }
+
   public function delAllegato($dati = array()){
     try {
       $allegato = $dati['file'];
@@ -138,7 +149,6 @@ class Eventi extends Generica{
       }
       $this->commitTransaction();
       return 'ok, allegato correttamente eliminato';
-      // return $dati;
     } catch (\Exception $e) {
       $this->rollback();
       return $e->getMessage();
