@@ -4,7 +4,9 @@ if (!isset($_SESSION['id'])) {header("Location: login.php"); exit;}
 require('class/eventi.class.php');
 $obj = new Eventi;
 if (isset($_POST['act']) && $_POST['act']=='mod') {
-  $res = $_POST;
+  // $res = $_POST;
+  unset($_POST['act']);
+  $res = $obj->modifica($_POST,$_FILES);
 }else {
   $res = $obj->nuovo($_POST,$_FILES);
 }
@@ -28,22 +30,19 @@ if (isset($_POST['act']) && $_POST['act']=='mod') {
     <div>
       <div id="root" class="bg-light">
         <div id="child" class="bg-white">
-          <?php print_r($res); ?>
-          <?php print_r($_FILES); ?>
+          <!-- <?php print_r($res); ?>
+          <?php print_r($_FILES); ?> -->
 
-
-
-          <!-- <?php if($res[0]===true){?>
+          <?php if($res[0]===true){?>
             <h5 class="p-5">Ok, il record è stato salvato correttamente!</h5>
             <div class="mt-5">
               <a href="postView.php?post=<?php echo $res[1]; ?>" class="btn btn-outline-success">visualizza record</a>
               <a href="postAct.php?act=<?php echo $_POST['act']; ?>&tipo=<?php echo $_POST['tipo']; ?>" class="btn btn-outline-success">crea nuovo</a>
               <a href="index.php" class="btn btn-outline-success">torna alla home</a>
-
             </div>
           <?php }else{
             print_r($res);
-          };?> -->
+          };?>
         </div>
       </div>
       <?php require('inc/footer.php'); ?>

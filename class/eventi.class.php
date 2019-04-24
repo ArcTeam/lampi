@@ -10,13 +10,12 @@ class Eventi extends Generica{
   private $metapost=[];
 
   private $sqlAddPost = "insert into post(titolo,testo,usr,tag,bozza,copertina,tipo) values(:titolo,:testo,:usr,:tag,:bozza,:copertina,:tipo);";
-  private $sqlModPost = "update post set titolo=:titolo, testo=:testo, usr=:usr, tag=:tag, bozza=:bozza, copertina=:copertina, tipo=:tipo where id = :id;";
   private $sqlDelPost = "delete from post where id = :id;";
 
   private $sqlAddMetaPostEvento = "insert into metapost(post, dove, da, a, costo) values (:post, :dove, :da, :a, :costo);";
   private $sqlAddMetaPostViaggio = "insert into metapost(post, dove, da, a, costo, tappe) values (:post, :dove, :da, :a, :costo, :tappe);";
   private $sqlModMetaPostEvento = "update metapost set dove=:dove, da=:da, a=:a, costo=:costo where post=:post;";
-  private $sqlModMetaPostViaggio = "update metapost set dove=:dove, da=:da, a=:a, costo=:costo, tappe = :tappe where post=:post;";
+  private $sqlModMetaPostViaggio = "update metapost set dove=:dove, da=:da, a=:a, costo=:costo, tappe = array_cat(tappe, :tappe) where post=:post;";
   private $sqlDelMetaPost = "delete from metapost where post = :post;";
 
   private $sqlAddAllegati = "insert into allegati(post,file) values(:post,:file);";
@@ -45,7 +44,7 @@ class Eventi extends Generica{
       $copertina = $this->copertine_dir.$copertinaImg;
       $this->uploadfile($file['copertina']['tmp_name'],$copertina);
       $dati['copertina']=$copertinaImg;
-      $this->buildDataset($dati,$file);
+      $this->buildDataset($dati);
       $this->prepared($this->sqlAddPost,$this->dataset);
       $id = $this->pdo()->lastInsertId('post_id_seq');
       $allegati = $this->handleAllegati($file['allegati']);
@@ -65,6 +64,44 @@ class Eventi extends Generica{
       array_map('unlink', glob($mask));
       return $e->getMessage();
     }
+  }
+
+  public function modifica($dati,$file){
+    try {
+      $this->begin();
+      $sqlPost = "update post set titolo=:titolo, testo=:testo, usr=:usr, tag=:tag, bozza=:bozza, ";
+      if ($file['copertina']['error']===0) {
+        $copertinaImg = $this->prefix.str_replace(" ","_",basename($file['copertina']["name"]));
+        $copertina = $this->copertine_dir.$copertinaImg;
+        $this->uploadfile($file['copertina']['tmp_name'],$copertina);
+        $dati['copertina']=$copertinaImg;
+        $sqlPost .= "copertina=:copertina, ";
+      }
+      $sqlPost .= "tipo=:tipo where id = :id;";
+      $this->buildDataset($dati);
+      $this->prepared($sqlPost,$this->dataset);
+
+      $allegati = $this->handleAllegati($file['allegati']);
+      if ($allegati !== 'null') {
+        $count = $this->simple("select array_length(file,1) tot from allegati where post = ".$dati['id'].";");
+        $count = intval($count[0]['tot']);
+        $sqlAllegati = $count > 0 ? "UPDATE allegati SET file = array_cat(file, :file) where post = :post;" : $this->sqlAddAllegati;
+        $this->prepared($sqlAllegati,array("post"=>$dati['id'],"file"=>$allegati));
+      }
+      if ($dati['tipo'] !== 'p') {
+        $sqlMeta = $dati['tipo'] === 'e' ? $this->sqlModMetaPostEvento : $this->sqlModMetaPostViaggio;
+        $this->buildMetaPost($dati,$dati['id']);
+        $this->prepared($sqlMeta,$this->metapost);
+      }
+      $this->commitTransaction();
+      return array(true,$dati['id']);
+    } catch (\Exception $e) {
+      $this->rollback();
+      $mask = $this->allegati_dir.$this->prefix.'*.*';
+      array_map('unlink', glob($mask));
+      return $e->getMessage();
+    }
+
   }
 
   public function eliminaPost($id){
@@ -108,13 +145,14 @@ class Eventi extends Generica{
     }
   }
 
-  private function buildDataset($dati,$file){
+  private function buildDataset($dati){
+    if(isset($dati['id'])){$this->dataset['id']=$dati['id'];}
     $this->dataset['titolo']=trim($dati['titolo']);
     $this->dataset['testo']=$dati['testo'];
     $this->dataset['usr']=$_SESSION['id'];
     $this->dataset['tag']='{'.$dati['tag'].'}';
     $this->dataset['bozza']=$dati['bozza'];
-    $this->dataset['copertina']=trim($dati['copertina']);
+    if(isset($dati['copertina'])){$this->dataset['copertina']=trim($dati['copertina']);}
     $this->dataset['tipo']=trim($dati['tipo']);
   }
   private function buildMetaPost($dati,$post){
@@ -139,7 +177,7 @@ class Eventi extends Generica{
       }
     }
     if (count($fileArr)>0) {
-      return '{'.implode(',',$fileArr).'}';;
+      return '{'.implode(',',$fileArr).'}';
     }else {
       return 'null';
     }

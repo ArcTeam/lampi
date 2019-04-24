@@ -47,6 +47,7 @@ switch (true) {
             <form name="postForm" class="form mt-3" action="postRes.php" method="post" enctype="multipart/form-data">
               <input type="hidden" name="act" value="mod">
               <input type="hidden" name="tipo" value="<?php echo $item['tipo']; ?>">
+              <input type="hidden" name="id" value="<?php echo $_GET['r']; ?>">
               <div class="form-group">
                 <div class="input-group">
                   <div class="custom-file">
@@ -223,7 +224,7 @@ switch (true) {
       $("[name=postSaveBtn]").on('click', function(e){
         $(".errorMsg").remove();
         e.preventDefault();
-        
+
         if(!$("#titolo").val()){
           $("#titolo").addClass('is-invalid').closest('.form-group').append($("<small/>",{class:'text-danger errorMsg',text:"aggiungi un titolo"}))
         }else {
