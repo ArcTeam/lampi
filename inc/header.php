@@ -9,7 +9,7 @@
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item tip" href="storia.php" title="Un interessante racconto su come è nata la nostra associazione" data-placement="left">la storia</a>
           <a class="dropdown-item tip" href="nome.php" title="Scopri chi era Giovan Battista Lampi" data-placement="left">il nome</a>
-          <a class="dropdown-item tip" href="#" title="Leggi lo statuto dell'associazione" data-placement="left"><del>lo statuto</del></a>
+          <!-- <a class="dropdown-item tip" href="#" title="Leggi lo statuto dell'associazione" data-placement="left">lo statuto</a> -->
           <a class="dropdown-item tip" href="organigramma.php" title="Il consiglio direttivo nel corso degli anni" data-placement="left">organigramma</a>
           <a class="dropdown-item tip" href="amministrazione.php" title="amministrazione trasparente" data-placement="left">amministrazione trasparente</a>
         </div>
@@ -18,21 +18,21 @@
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">archivio</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item tip archivioLink" data-tipo="p" href="post.php" data-placement="left" title="leggi i post scritti dai nostri soci">post</a>
-          <a class="dropdown-item tip archivioLink" data-tipo="e" href="post.php" data-placement="left" title="mostre, seminari, conferenze, presentazioni e altro ancora"><del>eventi</del></a>
-          <a class="dropdown-item tip archivioLink" data-tipo="v" href="post.php" data-placement="left" title="parti con noi"><del>viaggi</del></a>
+          <a class="dropdown-item tip archivioLink" data-tipo="e" href="post.php" data-placement="left" title="mostre, seminari, conferenze, presentazioni e altro ancora">eventi</a>
+          <a class="dropdown-item tip archivioLink" data-tipo="v" href="post.php" data-placement="left" title="parti con noi">viaggi</a>
         </div>
       </li>
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link tip" href="#" data-placement="bottom" title="scopri, leggi o scarica le nostre pubblicazioni"><del>pubblicazioni</del></a>
-      </li>
-      <li class="nav-item dropdown">
+      </li> -->
+      <!-- <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">centro studi</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href="#"><del>Casa de Gentili</del></a>
           <a class="dropdown-item" href="#"><del>progetti</del></a>
           <a class="dropdown-item" href="#"><del>scopi della casa</del></a>
         </div>
-      </li>
+      </li> -->
       <?php if(!isset($_SESSION['id'])){ ?>
       <li class="nav-item">
         <a class="nav-link p-2" href="login.php"><i class="fas fa-sign-in-alt"></i> <span class="d-inline-block d-lg-none">login</span></a>

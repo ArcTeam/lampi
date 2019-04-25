@@ -16,7 +16,7 @@ $(document).ready(function () {
       return $(div).html()
     }
   });
-  $('.archivioLink').on('click',function(e){localStorage.setItem('t',$(this).data('tipo'));})
+  $('.archivioLink').on('click',function(e){sessionStorage.setItem('t',$(this).data('tipo'));})
 })
 
 function initPost(keywords,limit,tipo,doneCallback){

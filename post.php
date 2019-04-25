@@ -16,25 +16,27 @@ session_start();
       <?php require('inc/header.php'); ?>
     </div>
     <div class="mainContent">
-      <?php if(isset($_SESSION['id'])){ ?>
-      <div class="px-3 py-2 border-bottom">
-        <a href="postAct.php?act=add&tipo=p" class="btn btn-primary btn-sm" >crea post</a>
-      </div>
-      <?php } ?>
       <div class="container-fluid bg-white p-3">
-        <div class="row mb-3">
+        <div class="row border-bottom mb-3">
           <div class="col-12 col-lg-8">
-            <h3 class='text-muted'>Archivio post</h3>
+            <h3 class='text-muted titolo'></h3>
           </div>
           <div class="col-12 col-lg-4">
-            <div class="input-group input-group-sm">
-              <input type="search" class="form-control" name="searchPost" placeholder="cerca post" />
-              <div class="input-group-append">
-                <button type="button" name="searchBtn" class="btn btn-info"><i class='fas fa-search'></i></button>
-                <button type="button" name="searchReset" class="btn btn-danger"><i class='fas fa-times'></i></button>
-                <span class="input-group-text" id="searchPostRes">
-                  <span></span> / <span></span>
-                </span>
+            <div class="btn-toolbar mb-3 float-right" role="toolbar" aria-label="Toolbar with button groups">
+              <?php if(isset($_SESSION['id'])){ ?>
+              <div class="btn-group btn-group-sm mr-3">
+                <a href="" class="btn btn-primary btn-sm crea"></a>
+              </div>
+              <?php } ?>
+              <div class="input-group input-group-sm">
+                <input type="search" class="form-control" name="searchPost" placeholder="cerca..." />
+                <div class="input-group-append">
+                  <button type="button" name="searchBtn" class="btn btn-info"><i class='fas fa-search'></i></button>
+                  <button type="button" name="searchReset" class="btn btn-danger"><i class='fas fa-times'></i></button>
+                  <span class="input-group-text" id="searchPostRes">
+                    <span></span> / <span></span>
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -57,6 +59,20 @@ session_start();
     <?php require('inc/lib.php'); ?>
     <script type="text/javascript">
       let tipo = localStorage.getItem('t')
+      switch (tipo) {
+        case 'p':
+        $(".crea").attr('href','postAct.php?act=add&tipo=p').text('crea post')
+        $(".titolo").text('Archivio post')
+        break;
+        case 'e':
+        $(".crea").attr('href','postAct.php?act=add&tipo=e').text('crea evento')
+        $(".titolo").text('Archivio eventi')
+        break;
+        case 'v':
+        $(".crea").attr('href','postAct.php?act=add&tipo=p').text('crea viaggio')
+        $(".titolo").text('Archivio viaggi')
+        break;
+      }
       $(".mainContent").css({"top" : $(".mainHeader").height() + 3})
       $("[name=searchPost]").keyup(function (e) {
         //key code del tasto invio
