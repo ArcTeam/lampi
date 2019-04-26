@@ -58,7 +58,7 @@ session_start();
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.11/lodash.min.js" charset="utf-8"></script>
     <?php require('inc/lib.php'); ?>
     <script type="text/javascript">
-      let tipo = localStorage.getItem('t')
+      let tipo = sessionStorage.getItem('t')
       switch (tipo) {
         case 'p':
         $(".crea").attr('href','postAct.php?act=add&tipo=p').text('crea post')
@@ -93,7 +93,7 @@ session_start();
       })
       initPost('','',tipo, function(data){
         $("#searchPostRes").find('span').text(data.length)
-        buildPostView(data)
+        buildPostView(data,'.card-columns')
       })
     </script>
   </body>

@@ -23,8 +23,21 @@ function initPost(keywords,limit,tipo,doneCallback){
   option={ url: 'json/post.php', type: 'POST', dataType: 'json', data: {term:keywords,limit:limit,tipo:tipo} }
   return $.ajax( option ).done( doneCallback );
 }
-function buildPostView(data){
-  $('.card-columns').html('')
+function post(post){
+  $.ajax({url: connector,type: 'POST', dataType: 'json', data:  {oop: {file:'eventi.class.php',classe:'Eventi',func:'post'}, dati:{post:post}}})
+  .done(function(data) {
+    console.log(data)
+    let info = data['info'][0]
+    $(".post-banner").css({"height":"500px","background-image":"url('upload/copertine/"+info.copertina+"')"})
+    $(".post-titolo").text(info.titolo)
+  })
+  .fail(function(xhr, status, error) {
+    console.log(error);
+  })
+
+}
+function buildPostView(data,div){
+  $(div).html('')
   const truncate = _.truncate
   data.forEach(function(v,i){
     bozza = v.bozza == false ? 'pubblicato' : 'bozza';
@@ -35,22 +48,19 @@ function buildPostView(data){
     })
     txt = truncate(v.testo, { 'length': 500, 'separator': ' ','omission': ' [...]'})
     article = $("<article/>",{class:'card rounded-0 animation postDiv'})
-    .appendTo('.card-columns')
+    .appendTo(div)
     .hover(function(){ $(this).toggleClass("shadow"); })
-    figure = $("<figure/>",{class:'card-title post-banner mb-0'}).css({"background-image":'url(upload/copertine/'+v.copertina+')'}).appendTo(article)
+    figure = $("<figure/>",{class:'card-title post-banner mb-0 cursor'}).css({"background-image":'url(upload/copertine/'+v.copertina+')'})
+      .appendTo(article)
+      .on('click',function(){goPost(v.id)})
     section = $("<section/>", {class:'card-body'}).appendTo(article)
     title = $("<p/>",{class:'post-title cursor', html:v.titolo})
       .appendTo(section)
-      .on('click', function(){
-        sessionStorage.setItem('post', v.id);
-        window.location.href='postView.php'
-      })
+      .on('click',function(){goPost(v.id)})
     testo = $("<div/>",{class:'post-body text-muted cursor',html:txt})
-    .appendTo(section)
-    .on('click', function(){
-      sessionStorage.setItem('post', v.id);
-      window.location.href='index.php'
-    })
+      .appendTo(section)
+      .on('click',function(){goPost(v.id)})
+
     tags = $("<div/>",{class:'d-block my-2'}).html(tagsCode.join('')).appendTo(section)
     meta = $("<div/>",{class:'d-block my-2'}).html('<small style="font-size:12px;">creato il '+v.data.split(' ')[0]+ " da "+v.email.split('@')[0]+'</small>').appendTo(section)
     if($('body').data('act')){
@@ -81,6 +91,11 @@ function buildPostView(data){
       })
     }
   })
+}
+
+function goPost(id){
+  sessionStorage.setItem('post', id);
+  window.location.href='postView.php'
 }
 
 function arrayChunk(size,array){

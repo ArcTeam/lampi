@@ -4,7 +4,6 @@ if (!isset($_SESSION['id'])) {header("Location: login.php"); exit;}
 require('class/eventi.class.php');
 $obj = new Eventi;
 if (isset($_POST['act']) && $_POST['act']=='mod') {
-  // $res = $_POST;
   unset($_POST['act']);
   $res = $obj->modifica($_POST,$_FILES);
 }else {
@@ -33,7 +32,7 @@ if (isset($_POST['act']) && $_POST['act']=='mod') {
           <?php if($res[0]===true){?>
             <h5 class="p-5">Ok, il record è stato salvato correttamente!</h5>
             <div class="mt-5">
-              <a href="postView.php?post=<?php echo $res[1]; ?>" class="btn btn-success">visualizza record</a>
+              <a href="postView.php" data-id="<?php echo $res[1]; ?>" class="btn btn-success viewPost">visualizza record</a>
               <a href="postMod.php?r=<?php echo $res[1]; ?>" class="btn btn-success">modifica record</a>
               <a href="postAct.php?act=<?php echo $_POST['act']; ?>&tipo=<?php echo $_POST['tipo']; ?>" class="btn btn-success">crea nuovo</a>
               <a href="index.php" class="btn btn-success">torna alla home</a>
@@ -47,4 +46,7 @@ if (isset($_POST['act']) && $_POST['act']=='mod') {
     </div>
     <?php require('inc/lib.php'); ?>
   </body>
+  <script type="text/javascript">
+    $(".viewPost").on('click', function() {sessionStorage.setItem('post',$(this).data('id'))});
+  </script>
 </html>

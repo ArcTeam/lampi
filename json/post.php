@@ -2,7 +2,7 @@
 session_start();
 require('../class/db.class.php');
 $db = new DB;
-$sql = "select p.id, p.data, p.titolo, p.testo, p.tag, p.bozza, p.copertina, u.email from post p, utenti u where p.usr = u.id ";
+$sql = "select p.id, p.tipo, p.data, p.titolo, p.testo, p.tag, p.bozza, p.copertina, u.email from post p, utenti u where p.usr = u.id ";
 if (!isset($_SESSION['id'])) { $sql .= " AND p.bozza = 'f'"; }
 if (isset($_POST)){
   if (!empty($_POST['tipo'])) { $sql .= " AND tipo = '".$_POST['tipo']."' ";}

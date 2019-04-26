@@ -37,47 +37,12 @@ $eventi = $idx->index();
       </div>
       <div class="cardWrap mt-5">
         <div class="container-fluid">
-          <!-- <div id="eventi" class="mb-3">
-            <div class="row">
-              <div class="col">
-                <h3 class="border-bottom">Eventi</h3>
-              </div>
-            </div>
-            <div class="row eventiCardWrap"></div>
-          </div>
-          <div id="viaggi" class="mb-3">
-            <div class="row">
-              <div class="col">
-                <h3 class="border-bottom">Viaggi</h3>
-              </div>
-            </div>
-            <div class="row viaggiCardWrap"></div>
-          </div>
-          <div id="notizie" class="mb-3">
-            <div class="row">
-              <div class="col">
-                <h3 class="border-bottom">Notizie</h3>
-              </div>
-            </div>
-            <div class="row notizieCardWrap"></div>
-          </div>
-          <div id="foto" class="mb-3">
-            <div class="row">
-              <div class="col">
-                <h3 class="border-bottom">Immagini</h3>
-              </div>
-            </div>
-            <div class="row fotoCardWrap"></div>
-          </div>
-          <div id="tag" class="mb-3">
-            <div class="row">
-              <div class="col">
-                <h3 class="border-bottom">Parole</h3>
-              </div>
-            </div>
-            <div class="row tagCardWrap"></div>
-          </div> -->
-
+          <div class="row"><div class="col"><h1 class="border-bottom">Post</h1></div></div>
+          <div class="row mb-3"><div class="col"><div class="card-columns postCardWrap"></div></div></div>
+          <div class="row"><div class="col"><h1 class="border-bottom">Eventi</h1></div></div>
+          <div class="row mb-3"><div class="col"><div class="card-columns eventiCardWrap"></div></div></div>
+          <div class="row"><div class="col"><h1 class="border-bottom">Viaggi</h1></div></div>
+          <div class="row mb-3"><div class="col"><div class="card-columns viaggiCardWrap"></div></div></div>
         </div>
       </div>
       <?php require('inc/footer.php'); ?>
@@ -85,44 +50,13 @@ $eventi = $idx->index();
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.11/lodash.min.js" charset="utf-8"></script>
     <?php require('inc/lib.php'); ?>
     <script type="text/javascript">
-      root = $(".cardWrap>div");
-      initPost('',4,function(data){
+      if(sessionStorage.length > 0){sessionStorage.clear()}
+      initPost('',4,'',function(data){
         if(data.length>0){
-          const truncate = _.truncate
-          rowTitle = $("<div/>",{class:'row mb-3'}).appendTo(root)
-          colTitle = $("<div/>",{class:'col'}).appendTo(rowTitle)
-          $("<h3/>",{class:'border-bottom',text:'Notizie'}).appendTo(colTitle)
-          rowCard = $("<div/>",{class:'row mb-3'}).appendTo(root)
-          data.forEach(function(v){
-            bozza = v.bozza == false ? 'pubblicato' : 'bozza';
-            tags = v.tag.slice(1,-1).split(',')
-            let tagsCode=[]
-            $.each(tags,function(i,v){
-              tagsCode.push("<small class='bg-info rounded text-white p-1 mr-1 mb-1'>"+v.replace(/"/ig,'')+"</small>")
-            })
-            txt = truncate(v.testo, { 'length': 500, 'separator': ' ','omission': ' [...]'})
-
-            wrap = $("<div/>",{class:'col-lg-3'}).appendTo(rowCard)
-            article = $("<article/>",{class:'card rounded-0 animation postDiv'})
-            .appendTo(wrap)
-            .hover(function(){ $(this).toggleClass("shadow") })
-            figure = $("<figure/>",{class:'card-title post-banner mb-0'}).css({"background-image":'url(upload/copertine/'+v.copertina+')'}).appendTo(article)
-            section = $("<section/>", {class:'card-body'}).appendTo(article)
-            title = $("<p/>",{class:'post-title cursor', html:v.titolo})
-              .appendTo(section)
-              .on('click', function(){
-                sessionStorage.setItem('post', v.id);
-                window.location.href='postView.php'
-              })
-            testo = $("<div/>",{class:'post-body text-muted cursor',html:txt})
-            .appendTo(section)
-            .on('click', function(){
-              sessionStorage.setItem('post', v.id);
-              window.location.href='index.php'
-            })
-            tags = $("<div/>",{class:'d-block my-2'}).html(tagsCode.join('')).appendTo(section)
-            meta = $("<div/>",{class:'d-block my-2'}).html('<small style="font-size:12px;">creato il '+v.data.split(' ')[0]+ " da "+v.email.split('@')[0]+'</small>').appendTo(section)
-          })
+          let arr = _.groupBy(data, function(arr) { return arr.tipo})
+          buildPostView(arr['p'],'.postCardWrap')
+          buildPostView(arr['e'],'.eventiCardWrap')
+          buildPostView(arr['v'],'.viaggiCardWrap')
         }
       })
     </script>

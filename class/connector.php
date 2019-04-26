@@ -19,4 +19,5 @@ function delAmministrazione($class){ return json_encode($class->delAmministrazio
 function eventiDel($class){return json_encode($class->eliminaPost($_POST['dati']['id']));}
 function delAllegato($class){return json_encode($class->delAllegato($_POST['dati']));}
 function delTappa($class){return json_encode($class->delTappa($_POST['dati']));}
+function post($class){return json_encode($class->item($_POST['dati']['post']));}
 ?>
