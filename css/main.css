@@ -13,6 +13,7 @@ summary{outline: none;}
 .hide{display: none;}
 .bg-lampi{background: #336791;}
 .text-lampi{color: #fff;}
+.text-shadow{text-shadow: black 0.1em 0.1em 0.2em;}
 .tooltip{z-index:2050;}
 .mainHeader{color:#336791; border-bottom:1px solid rgba(0,0,0,.15); padding:0 15px; z-index: 1001;}
 .navbar{padding:0 15px; margin:0 -15px;}
@@ -52,7 +53,7 @@ summary{outline: none;}
 .wikiUrl{position: absolute;bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,.5); color: rgba(255,255,255,.5); padding: 0 5px; font-size: 12px;text-align: right}
 .wikiUrl:hover{color: #fff;background: rgba(0,0,0,.8);}
 .table:not(.postList){font-size:12px;}
-.post-banner{background-repeat: no-repeat; background-position: center center; background-size: cover; text-align: center;height:180px;width:100%;}
+.post-banner{background-repeat: no-repeat; background-position: center center; background-size: cover; text-align: center;width:100%;}
 .post-title{font-size:20px; color:#336791;}
 .post-body{font-size: 14px;}
 .post-body>p{margin:0;}
@@ -90,12 +91,14 @@ table.dataTable.dtr-inline.collapsed>tbody>tr.parent>td:first-child:before, tabl
 @media (max-width: 575px) {
   .usrMenu{top:34px;}
   .outPutMsgAlert{width:90%;left:5%; }
+  .post-banner{height:180px;}
 }
 
 /* // Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) and (max-width: 767px) {
   .usrMenu{top:34px;}
   .outPutMsgAlert{width:70%; left:15%;}
+  .post-banner{height:180px;}
 }
 
 /* // Medium devices (tablets, 768px and up) */
@@ -106,6 +109,7 @@ table.dataTable.dtr-inline.collapsed>tbody>tr.parent>td:first-child:before, tabl
   .bannerWrap{top:40px;}
   .submenu a{font-size: 12px;}
   .outPutMsgAlert{width:70%; left:15%;}
+  .post-banner{height:250px;}
 }
 
 /* // Large devices (desktops, 992px and up) */
@@ -119,6 +123,7 @@ table.dataTable.dtr-inline.collapsed>tbody>tr.parent>td:first-child:before, tabl
   .submenu a{font-size: 14px;}
   .outPutMsgAlert{width:50%; left:25%;}
   .card-columns {column-count: 4;}
+  .post-banner{height:350px;}
 }
 /* // Extra large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
@@ -132,4 +137,5 @@ table.dataTable.dtr-inline.collapsed>tbody>tr.parent>td:first-child:before, tabl
   .formStretto{postion:relative; width:70%;margin: 0 auto;}
   .submenu a{font-size: 14px;}
   .outPutMsgAlert{width:50%; left:25%;}
+  .post-banner{height:500px;}
 }

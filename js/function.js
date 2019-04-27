@@ -27,9 +27,46 @@ function post(post){
   $.ajax({url: connector,type: 'POST', dataType: 'json', data:  {oop: {file:'eventi.class.php',classe:'Eventi',func:'post'}, dati:{post:post}}})
   .done(function(data) {
     console.log(data)
-    let info = data['info'][0]
-    $(".post-banner").css({"height":"500px","background-image":"url('upload/copertine/"+info.copertina+"')"})
+    info = data['info'][0]
+    allegati = data['allegati']
+    // meta = data['meta'][0]
+    switch (info.tipo) {
+      case 'p': tipo = 'post'; break;
+      case 'e': tipo = 'evento'; break;
+      case 'v': tipo = 'viaggio'; break;
+    }
+    $(".post-banner").css({"background-image":"url('upload/copertine/"+info.copertina+"')"})
     $(".post-titolo").text(info.titolo)
+    $("#testo").html(info.testo)
+    $(".altre-info>span").text(tipo)
+    if (data['meta'][0] !== 'undefined') {
+      $("#info-div").html("")
+      ulMeta = $("<ul/>",{class:'list-group list-group-flush', id:'lista-meta'}).appendTo('#info-div')
+      $("<li/>",{class:'list-group-item'})
+        .html("<i class='fas fa-map-marker-alt fa-fw'></i><span>Destinazione:</span><span>"+data['meta'][0].dove+"</span>")
+        .appendTo(ulMeta)
+      $("<li/>",{class:'list-group-item'})
+        .html("<i class='fas fa-plane-departure fa-fw'></i><span>Partenza:</span><span>"+data['meta'][0].da+"</span>")
+        .appendTo(ulMeta)
+      $("<li/>",{class:'list-group-item'})
+        .html("<i class='fas fa-plane-arrival fa-fw'></i><span>Rientro:</span><span>"+data['meta'][0].a+"</span>")
+        .appendTo(ulMeta)
+      $("<li/>",{class:'list-group-item'})
+        .html("<i class='fas fa-euro-sign fa-fw'></i><span>Costo:</span><span>&euro; "+data['meta'][0].costo+"</span>")
+        .appendTo(ulMeta)
+      $("<li/>",{class:'list-group-item'})
+        .html("<i class='fas fa-map-pin fa-fw'></i><span>Tappe:</span><span>"+data['meta'][0].tappe.substr(1, data['meta'][0].tappe.length - 2).replace(',',', ')+"</span>")
+        .appendTo(ulMeta)
+    }
+    if (allegati.length > 0) {
+      $("#allegati-div").html("")
+      ulAllegati = $("<ul/>",{class:'list-group list-group-flush', id:'lista-allegati'}).appendTo('#allegati-div')
+      $.each(allegati, function(i,v){
+        $("<li/>",{class:'list-group-item'})
+          .html("<a href='upload/allegati/"+v.file+"' target='_blank' title='visualizza o scarica allegato'>"+v.file.substr(15)+"</a>")
+          .appendTo(ulAllegati)
+      })
+    }
   })
   .fail(function(xhr, status, error) {
     console.log(error);
@@ -50,7 +87,7 @@ function buildPostView(data,div){
     article = $("<article/>",{class:'card rounded-0 animation postDiv'})
     .appendTo(div)
     .hover(function(){ $(this).toggleClass("shadow"); })
-    figure = $("<figure/>",{class:'card-title post-banner mb-0 cursor'}).css({"background-image":'url(upload/copertine/'+v.copertina+')'})
+    figure = $("<figure/>",{class:'card-title post-banner mb-0 cursor'}).css({"height":"150px", "background-image":'url(upload/copertine/'+v.copertina+')'})
       .appendTo(article)
       .on('click',function(){goPost(v.id)})
     section = $("<section/>", {class:'card-body'}).appendTo(article)
