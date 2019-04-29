@@ -25,7 +25,7 @@ class Utente extends Db{
     $sql = "update utenti set password=crypt(:password,gen_salt('bf',8)) where email=:email;";
     $username = $this->getUsername($dati['email']);
     try {
-      $this->checkEmail($dati['email']);
+      $checkEmail = $this->checkEmail($dati['email']);
       $dati['password'] = $this->createPwd();
       $this->begin();
       $this->prepared($sql,$dati);
@@ -33,7 +33,6 @@ class Utente extends Db{
       $this->commitTransaction();
       return "Ok! Una nuova password è stata inviata all'indirizzo email inserito.";
     } catch (\Exception $e) {
-      $this->rollback();
       return $e->getMessage();
     }
   }

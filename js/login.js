@@ -54,7 +54,7 @@ $(document).ready(function () {
           $(".outMsg").html(data);
           $(".output").addClass(classe).toggleClass('d-none d-block').fadeIn('fast');
           $("#countdowntimer").text('3');
-          //countdown(3,page);
+          countdown(3,page);
         }
       });
     }

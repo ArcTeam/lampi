@@ -35,6 +35,5 @@ class Db extends Conn{
   public function begin(){$this->pdo()->beginTransaction();}
   public function commitTransaction(){$this->pdo()->commit();}
   public function rollback(){$this->pdo()->rollBack();}
-  // public function lastId($sequence){$this->pdo()->lastInsertId($sequence);}
-}
+  }
 ?>
