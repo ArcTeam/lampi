@@ -29,34 +29,55 @@ function post(post){
     console.log(data)
     info = data['info'][0]
     allegati = data['allegati']
-    // meta = data['meta'][0]
     switch (info.tipo) {
       case 'p': tipo = 'post'; break;
-      case 'e': tipo = 'evento'; break;
-      case 'v': tipo = 'viaggio'; break;
+      case 'e':
+        tipo = 'evento'
+        doveTxt = 'Luogo'
+        daTxt = 'Inizio'
+        daIco = 'fas fa-calendar-alt fa-fw'
+        aTxt = 'Fine'
+        aIco = 'fas fa-calendar-alt fa-fw'
+        orario = data['meta'][0].orario ? data['meta'][0].orario : 'nessun orario specificato'
+      break;
+      case 'v':
+        tipo = 'viaggio'
+        doveTxt = 'Destinazione'
+        daTxt = 'Partenza'
+        daIco = 'fas fa-plane-departure fa-fw'
+        aTxt = 'Rientro'
+        aIco = 'fas fa-plane-arrival fa-fw'
+      break;
     }
     $(".post-banner").css({"background-image":"url('upload/copertine/"+info.copertina+"')"})
     $(".post-titolo").text(info.titolo)
     $("#testo").html(info.testo)
     $(".altre-info>span").text(tipo)
-    if (data['meta'][0] !== 'undefined') {
+    if (data['meta']) {
       $("#info-div").html("")
       ulMeta = $("<ul/>",{class:'list-group list-group-flush', id:'lista-meta'}).appendTo('#info-div')
       $("<li/>",{class:'list-group-item'})
-        .html("<i class='fas fa-map-marker-alt fa-fw'></i><span>Destinazione:</span><span>"+data['meta'][0].dove+"</span>")
+        .html("<i class='fas fa-map-marker-alt fa-fw'></i><span>"+doveTxt+":</span><span>"+data['meta'][0].dove+"</span>")
         .appendTo(ulMeta)
       $("<li/>",{class:'list-group-item'})
-        .html("<i class='fas fa-plane-departure fa-fw'></i><span>Partenza:</span><span>"+data['meta'][0].da+"</span>")
+        .html("<i class='"+daIco+"'></i><span>"+daTxt+":</span><span>"+data['meta'][0].da+"</span>")
         .appendTo(ulMeta)
       $("<li/>",{class:'list-group-item'})
-        .html("<i class='fas fa-plane-arrival fa-fw'></i><span>Rientro:</span><span>"+data['meta'][0].a+"</span>")
+        .html("<i class='"+aIco+"'></i><span>"+aTxt+":</span><span>"+data['meta'][0].a+"</span>")
         .appendTo(ulMeta)
+        if (info.tipo === 'e') {
+          $("<li/>",{class:'list-group-item'})
+          .html("<i class='fas fa-clock fa-fw'></i><span>Orario:</span><span>"+orario+"</span>")
+          .appendTo(ulMeta)
+        }
       $("<li/>",{class:'list-group-item'})
         .html("<i class='fas fa-euro-sign fa-fw'></i><span>Costo:</span><span>&euro; "+data['meta'][0].costo+"</span>")
         .appendTo(ulMeta)
-      $("<li/>",{class:'list-group-item'})
+      if (info.tipo === 'v') {
+        $("<li/>",{class:'list-group-item'})
         .html("<i class='fas fa-map-pin fa-fw'></i><span>Tappe:</span><span>"+data['meta'][0].tappe.substr(1, data['meta'][0].tappe.length - 2).replace(',',', ')+"</span>")
         .appendTo(ulMeta)
+      }
     }
     if (allegati.length > 0) {
       $("#allegati-div").html("")
@@ -118,11 +139,11 @@ function buildPostView(data,div){
             }
           }
           $.ajax( option ).done(function(result){
-            alert(result);
-            initPost('','', function(data){
+            initPost('','',sessionStorage.getItem('t'), function(data){
               $("#searchPostRes").find('span').text(data.length)
-              buildPostView(data)
+              buildPostView(data,div)
             })
+            alert(result);
           });
         }
       })

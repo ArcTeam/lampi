@@ -66,25 +66,31 @@ switch (true) {
               </div>
               <?php if ($item['tipo'] !== 'p') {?>
                 <div class="form-row">
-                  <div class="col-md-3">
+                  <div class="col-md-4">
                     <div class="form-group">
                       <label for="dove"><?php echo $tip; ?> dove:</label>
                       <input type="text" class="form-control" id="dove" name="dove" placeholder="<?php echo $doveInfo; ?>" value="<?php echo $itemArr['meta'][0]['dove']; ?>">
                     </div>
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-2">
                     <div class="form-group">
                       <label for="da">data inizio:</label>
                       <input type="date" class="form-control" id="da" name="da" value="<?php echo $itemArr['meta'][0]['da']; ?>">
                     </div>
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-2">
                     <div class="form-group">
                       <label for="a">data fine:</label>
                       <input type="date" class="form-control" id="a" name="a" min='' value="<?php echo $itemArr['meta'][0]['a']; ?>">
                     </div>
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <label for="orario">orario:</label>
+                      <input type="time" class="form-control" id="orario" name="orario" value="<?php echo $itemArr['meta'][0]['orario']; ?>">
+                    </div>
+                  </div>
+                  <div class="col-md-2">
                     <div class="form-group">
                       <label for="costo">costo (&euro;):</label>
                       <input type="number" class="form-control" id="costo" name="costo" value="<?php echo $itemArr['meta'][0]['costo']; ?>" min="0" step="0.05">
@@ -160,7 +166,7 @@ switch (true) {
               <div class="form-row">
                 <div class="col-md-4 mb-3">
                   <button type="submit" class="btn btn-primary btn-sm" name="postSaveBtn">salva modifiche</button>
-                  <a href="post.php" class="btn btn-secondary btn-sm">annulla inserimento</a>
+                  <a href="index.php" class="btn btn-secondary btn-sm">annulla inserimento</a>
                 </div>
                 <div class="col-md-8">
                   <div id="checkValidation"></div>

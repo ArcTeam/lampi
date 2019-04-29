@@ -40,6 +40,13 @@ session_start();
             <div id="info-div"><p class='text-center my-2'>Nessuna informazione aggiuntiva presente</p></div>
             <p class="mt-3 h5 border-bottom font-weight-bold altre-info">Allegati</p>
             <div id="allegati-div"><p class='text-center my-2'>Nessun allegato presente</p></div>
+            <?php if(isset($_SESSION['id'])){?>
+            <p class="mt-3 h5 border-bottom font-weight-bold altre-info">Azioni</p>
+            <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+              <a href="" class="btn btn-warning modPostLink">modifica</a>
+              <button type="button" class="btn btn-danger delPostBtn">elimina</button>
+            </div>
+            <?php } ?>
           </div>
         </div>
       </div>
@@ -52,6 +59,29 @@ session_start();
       let id = sessionStorage.getItem('post')
       $(".mainContent").css({"top" : $(".mainHeader").height() + 3})
       post(id)
+      if ($("body").data('act')=='logged') {
+        $(".modPostLink").attr('href','postMod.php?r='+id)
+        $(".delPostBtn").on('click',function(){
+          delPost = confirm('Attenzione, stai per eliminare un post e tutti i file ad esso collegati.\nSe confermi, i dati non potranno più essere recuperati')
+          if (delPost) {
+            option={
+              url: 'class/connector.php',
+              type: 'POST',
+              dataType: 'json',
+              data: {
+                oop:{file:'eventi.class.php',classe:'Eventi',func:'eventiDel'},
+                act:{tab:'post'},
+                dati:{id:id}
+              }
+            }
+            $.ajax(option)
+            .done(function() {window.location.href='index.php'})
+            .fail(function(xhr, status, error) {
+              alert("errore durante l'eliminazione del record: "+error);
+            })
+          }
+        })
+      }
     </script>
   </body>
 </html>

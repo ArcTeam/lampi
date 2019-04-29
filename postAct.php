@@ -58,25 +58,33 @@ switch (true) {
               </div>
               <?php if ($_GET['tipo'] !== 'p') {?>
                 <div class="form-row">
-                  <div class="col-md-3">
+                  <div class="col-md-4">
                     <div class="form-group">
                       <label for="dove"><?php echo $tip; ?> dove:</label>
                       <input type="text" class="form-control" id="dove" name="dove" value="" placeholder="<?php echo $doveInfo; ?>">
                     </div>
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-2">
                     <div class="form-group">
                       <label for="da">data inizio:</label>
                       <input type="date" class="form-control" id="da" name="da" value="">
                     </div>
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-2">
                     <div class="form-group">
                       <label for="a">data fine:</label>
                       <input type="date" class="form-control" id="a" name="a" min='' value="" disabled>
                     </div>
                   </div>
-                  <div class="col-md-3">
+                  <?php if ($_GET['tipo'] === 'e') {?>
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <label for="a">orario:</label>
+                      <input type="time" class="form-control" id="orario" name="orario">
+                    </div>
+                  </div>
+                <?php } ?>
+                  <div class="col-md-2">
                     <div class="form-group">
                       <label for="costo">costo (&euro;):</label>
                       <input type="number" class="form-control" id="costo" name="costo" value="0" min="0" step="0.05">
@@ -84,18 +92,22 @@ switch (true) {
                   </div>
                 </div>
                 <?php if ($_GET['tipo'] === 'v') {?>
-                  <div class="form-group">
-                    <small>Vuoi aggiungere delle tappe al viaggio? Indica la città, il luogo specifico o l'indirizzo e clicca sul pulsante per aggiungere la tappa.</small>
-                    <div class="input-group mb-3">
-                      <input type="text" class="form-control" id="tappa" placeholder="inserisci tappa" aria-label="inserisci tappa">
-                      <div class="input-group-append">
-                        <button class="btn btn-secondary" type="button" id="addTappa"><i class="fas fa-plus"></i></button>
+                <div class="form-row">
+                  <div class="col">
+                    <div class="form-group">
+                      <small>Vuoi aggiungere delle tappe al viaggio? Indica la città, il luogo specifico o l'indirizzo e clicca sul pulsante per aggiungere la tappa.</small>
+                      <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="tappa" placeholder="inserisci tappa" aria-label="inserisci tappa">
+                        <div class="input-group-append">
+                          <button class="btn btn-secondary" type="button" id="addTappa"><i class="fas fa-plus"></i></button>
+                        </div>
+                      </div>
+                      <div class="tappeWrap">
+
                       </div>
                     </div>
-                    <div class="tappeWrap">
-
-                    </div>
                   </div>
+                </div>
                 <?php } ?>
               <?php } ?>
               <div class="form-group">

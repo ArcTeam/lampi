@@ -12,9 +12,9 @@ class Eventi extends Generica{
   private $sqlAddPost = "insert into post(titolo,testo,usr,tag,bozza,copertina,tipo) values(:titolo,:testo,:usr,:tag,:bozza,:copertina,:tipo);";
   private $sqlDelPost = "delete from post where id = :id;";
 
-  private $sqlAddMetaPostEvento = "insert into metapost(post, dove, da, a, costo) values (:post, :dove, :da, :a, :costo);";
+  private $sqlAddMetaPostEvento = "insert into metapost(post, dove, da, a, orario, costo) values (:post, :dove, :da, :a, :orario, :costo);";
   private $sqlAddMetaPostViaggio = "insert into metapost(post, dove, da, a, costo, tappe) values (:post, :dove, :da, :a, :costo, :tappe);";
-  private $sqlModMetaPostEvento = "update metapost set dove=:dove, da=:da, a=:a, costo=:costo where post=:post;";
+  private $sqlModMetaPostEvento = "update metapost set dove=:dove, da=:da, a=:a, orario=:orario, costo=:costo where post=:post;";
   private $sqlModMetaPostViaggio = "update metapost set dove=:dove, da=:da, a=:a, costo=:costo, tappe = array_cat(tappe, :tappe) where post=:post;";
   private $sqlDelMetaPost = "delete from metapost where post = :post;";
 
@@ -171,9 +171,8 @@ class Eventi extends Generica{
     $this->metapost['da'] = trim($dati['da']);
     $this->metapost['a'] = trim($dati['a']);
     $this->metapost['costo'] = trim($dati['costo']);
-    if($dati['tipo']==='v'){
-      $this->metapost['tappe'] = '{'.$dati['tappe'].'}';
-    }
+    if($dati['tipo']==='e'){ $this->metapost['orario'] = $dati['orario']; }
+    if($dati['tipo']==='v'){ $this->metapost['tappe'] = '{'.$dati['tappe'].'}'; }
   }
   private function handleAllegati($file){
     $fileArr=[];
