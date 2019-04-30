@@ -30,9 +30,9 @@ summary{outline: none;}
 .manifest{position:relative;background-color: #D0C9B7;}
 .manifest p{line-height: 2rem;}
 .manifestLogo{background-image: url('../img/busto_lampi.png'); background-repeat: no-repeat; background-position: center center; background-size: contain;}
-.usrMenu{position:fixed;width:200px;bottom:0;box-shadow: 5px 20px 20px rgb(0,0,0);z-index:1999;}
+.usrMenu{position:fixed;width:250px;bottom:0;box-shadow: 5px 20px 20px rgb(0,0,0);z-index:1999;}
 .usrMenu.opened{right:-1px;overflow: auto;}
-.usrMenu.closed{right:-200px; box-shadow: none;}
+.usrMenu.closed{right:-250px; box-shadow: none;}
 .menuList a{display:block;padding:.3rem 1rem;font-size: 14px;border-top:1px solid #dee2e6;}
 .menuList a>span{opacity: 0;margin-left:0;}
 .menuList a:hover{background: #f8f9fa;}

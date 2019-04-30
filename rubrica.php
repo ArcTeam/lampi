@@ -75,7 +75,7 @@ session_start();
                 <div class="form-row">
                   <div class="col">
                     <button type="submit" class="btn btn-primary submitBtn"></button>
-                    <button type="button" class="btn btn-danger deleteBtn d-none" data-toggle="modal" data-target="#delRubrica">elimina record</button>
+                    <button type="button" class="btn btn-danger deleteBtn d-none">elimina record</button>
                   </div>
                 </div>
                 <div class="form-row my-3">
@@ -116,31 +116,6 @@ session_start();
       </div>
       <?php require('inc/footer.php'); ?>
     </div>
-
-    <div class="alert outPutMsgAlert" role="alert">
-      <p id="outPutMsg" class="text-center"></p>
-      <p id="countdowntimer" class="text-center"></p>
-    </div>
-
-    <div class="modal fade" id="delRubrica" tabindex="-1" role="dialog" aria-labelledby="delRubricaLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="delRubricaLabel">Elimina record dalla rubrica</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          </div>
-          <div class="modal-body">
-            <p>Stai per eliminare <span id="utenteRubrica"></span> dai tuoi contatti</p>
-            <p>Se confermi l'eliminazione i dati del contatto non potranno più essere recuperati</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">annulla</button>
-            <button type="button" class="btn btn-danger delConfirm">conferma eliminazione</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <?php require('inc/lib.php'); ?>
     <script type="text/javascript">
       form = $("form[name=rubricaForm]");
@@ -156,7 +131,7 @@ session_start();
                 $('.toggleForm').find('i').toggleClass('fa-angle-down fa-angle-up')
                 $("#rubricaFormWrap").collapse('show');
               }
-              $(".submitBtn").attr("data-act","aggiorna").text('aggiorna record');
+              $(".submitBtn").attr("data-act","modifica").text('aggiorna record');
               $.each(v,function(idx,val){ $('.campo[name='+idx+']').val(val) })
               if(!v.socio && !v.utente){$(".deleteBtn").removeClass('d-none')}
               else {$(".deleteBtn").addClass('d-none')}
@@ -202,6 +177,9 @@ session_start();
           dati = {};
           $(".campo").each(function(index, el) { dati[$(el).attr('name')]=$(el).val(); });
           act = $(this).data('act')
+          okMsg = act == 'inserisci' ? 'inserito!' : 'modificato!';
+          errorMsg = 'Ops, qualcosa è andato storto!\nControlla i dati immessi e riprova, se l\'errore si ripresenta contatta l\'amministratore di sistema\nbeppenapo@arc-team.com'
+          console.log(dati);
           $.ajax({
             url: connector,
             type: 'POST',
@@ -213,28 +191,21 @@ session_start();
             }
           })
           .done(function(res) {
-            if(res === true){
-              $('#outPutMsg').html('Ok, il record è sato correttamente modificato!')
-              $("#countdowntimer").text('3')
-              $(".outPutMsgAlert").addClass('alert-success').fadeIn(500);
-              countdown(3,window.location.pathname.split('/').pop());
-            }else{
-              $('#outPutMsg').html('Ops, qualcosa è andato storto!<br>Controlla i dati immessi e riprova,<br>se l\'errore si ripresenta contatta l\'amministratore di sistema<br><a href="mailto:beppenapo@arc-team.com?subject=lampi%bug">beppenapo@arc-team.com</a>')
-              $("#countdowntimer").text('5')
-              $(".outPutMsgAlert").addClass('alert-danger').fadeIn(500);
-              countdown(5,window.location.pathname.split('/').pop());
-            }
+            alert('Ok, il record è stato correttamente '+okMsg)
+            location.reload()
           })
-          .fail(function() { console.log("error"); })
-          .always(function() { console.log("complete"); });
+          .fail(function(xhr, status, error) {
+            alert(errorMsg+'\n'+error)
+            location.reload()
+          })
         }
       });
-      $('#delRubrica').on('show.bs.modal', function (event) {
+      $(".deleteBtn").on('click',function(){
         id = $("[name=id]").val();
         nome = $("[name=nome]").val();
         cognome = $("[name=cognome]").val();
-        $("#utenteRubrica").text(nome+" "+cognome)
-        $(".delConfirm").on('click',function(){
+        msg = "Stai per eliminare "+nome+" "+cognome+" dai tuoi contatti\nSe confermi l'eliminazione i dati del contatto non potranno più essere recuperati"
+        if (confirm(msg)) {
           $.ajax({
             url: connector,
             type: 'POST',
@@ -245,22 +216,16 @@ session_start();
             }
           })
           .done(function(res) {
-            if(res === true){
-              $('#outPutMsg').html('Ok, il record è stato definitivamente eliminato!')
-              $("#countdowntimer").text('3')
-              $(".outPutMsgAlert").addClass('alert-success').fadeIn(500);
-              countdown(3,window.location.pathname.split('/').pop());
-            }else{
-              $('#outPutMsg').html('Ops, qualcosa è andato storto!<br>Controlla i dati immessi e riprova,<br>se l\'errore si ripresenta contatta l\'amministratore di sistema<br><a href="mailto:beppenapo@arc-team.com?subject=lampi%bug">beppenapo@arc-team.com</a>')
-              $("#countdowntimer").text('5')
-              $(".outPutMsgAlert").addClass('alert-danger').fadeIn(500);
-              countdown(5,window.location.pathname.split('/').pop());
-            }
+            alert('Ok, il record è stato definitivamente eliminato!')
+            location.reload()
           })
-          .fail(function() { console.log("error"); })
-          .always(function() { console.log("complete"); });
-        })
+          .fail(function(xhr, status, error) {
+            alert('Ops, qualcosa è andato storto!\n'+error)
+            location.reload()
+          })
+        }
       })
+
       $(".mainContent").css({"top" : $(".mainHeader").height() + 3})
       window.addEventListener("orientationchange", function() {
         window.setTimeout(function() { $(".mainContent").css({"top" : $(".mainHeader").height() + 3}) }, 200);

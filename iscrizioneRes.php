@@ -1,8 +1,8 @@
 <?php
 session_start();
-if (!isset($_SESSION['id'])) {header("Location: login.php"); exit;}
 require('class/utente.class.php');
 $obj = new Utente;
+$res = $obj->iscrizione($_POST,$_FILES['versamento']);
 ?>
 
 <!doctype html>
@@ -23,21 +23,14 @@ $obj = new Utente;
     <div>
       <div id="root" class="bg-light">
         <div id="child" class="bg-white">
-          <?php
-          foreach ($_POST as $key => $value) { echo $key.": ".$value."<br>"; }
-          foreach ($_FILES['versamento'] as $key => $value) { echo $key.": ".$value."<br>"; }
-          ?>
-          <!-- <?php if($res[0]===true){?>
-            <h5 class="p-5">Ok, il record è stato salvato correttamente!</h5>
-            <div class="mt-5">
-              <a href="postView.php" data-id="<?php echo $res[1]; ?>" class="btn btn-success viewPost">visualizza record</a>
-              <a href="postMod.php?r=<?php echo $res[1]; ?>" class="btn btn-success">modifica record</a>
-              <a href="postAct.php?act=<?php echo $_POST['act']; ?>&tipo=<?php echo $_POST['tipo']; ?>" class="btn btn-success">crea nuovo</a>
-              <a href="index.php" class="btn btn-success">torna alla home</a>
-            </div>
+          <?php if($res[0]===true){?>
+            <h5 class="p-5">Ok, la tua richiesta è stata correttamente registrata!</h5>
           <?php }else{
             print_r($res);
-          };?> -->
+          };?>
+          <div class="mt-5">
+            <a href="index.php" class="btn btn-success">torna alla home</a>
+          </div>
         </div>
       </div>
       <?php require('inc/footer.php'); ?>

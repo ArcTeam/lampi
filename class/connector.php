@@ -20,4 +20,7 @@ function eventiDel($class){return json_encode($class->eliminaPost($_POST['dati']
 function delAllegato($class){return json_encode($class->delAllegato($_POST['dati']));}
 function delTappa($class){return json_encode($class->delTappa($_POST['dati']));}
 function post($class){return json_encode($class->item($_POST['dati']['post']));}
+function nuovoSocio($class){return json_encode($class->nuovoSocio($_POST['dati']['id']));}
+function listaSoci($class){return json_encode($class->listaSoci($_POST['dati']['filtro']));}
+
 ?>

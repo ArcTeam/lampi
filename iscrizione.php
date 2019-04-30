@@ -71,7 +71,7 @@ session_start();
                   <input type="email" id="email" class="form-control" name="email" value="" placeholder="Email" required>
                 </div>
                 <div class="form-group px-2 px-md-5">
-                  <label for="versamento">Allega copia versamento:</label>
+                  <label>Allega copia versamento:</label>
                   <div class="input-group">
                     <div class="custom-file">
                       <input type="file" class="custom-file-input" name="versamento" id="versamento" lang="it">
@@ -109,6 +109,11 @@ session_start();
     <?php require('inc/lib.php'); ?>
     <script type="text/javascript">
       $(".mainContent").css({"top" : $(".mainHeader").height() + 20})
+      $("#versamento").on('change', function(event){
+        validateFile('versamento',event,'all',$(this).val())
+        file = $(this).val();
+        $(this).next('.custom-file-label').html(file.split(/(\\|\/)/g).pop());
+      })
     </script>
   </body>
 </html>

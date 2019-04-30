@@ -6,7 +6,7 @@ class Generica extends Db{
   public function query($act=array(),$dati=array()){
     if ($act['act'] === 'inserisci'){$dati = array_filter($dati);}
     $sql = $this->prepareData($act,$dati);
-    $this->prepared($sql, $dati);
+    return $this->prepared($sql, $dati);
   }
 
   protected function prepareData($act=array(),$dati=array()){

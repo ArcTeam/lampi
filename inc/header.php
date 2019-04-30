@@ -81,14 +81,17 @@
       </li>
       <?php } ?>
     </ul>
-    <p class="m-0 p-3 bg-light text-muted border-top"><i class="fas fa-tools fa-fw"></i> funzioni di sistema</p>
+    <p class="m-0 p-3 bg-light text-muted border-top"><i class="fas fa-tools fa-fw"></i> amministrazione</p>
     <ul>
       <?php if ($_SESSION['classe']===2) {?>
       <li>
-        <a href="#" class="text-dark animation tip" data-placement="left" title="visualizza e gestisci gli utenti presenti nel database"><span class='animation'>></span> utenti</a>
+        <a href="soci.php" class="text-dark animation tip" data-placement="left" title="gestione soci e quote associative"><span class='animation'>></span> gestione soci </a>
       </li>
       <li>
-        <a href="#" class="text-dark animation tip" data-placement="left" title="modifica o elimina una tag esistente"><span class='animation'>></span> tag</a>
+        <a href="iscrizioni.php" class="text-dark animation iscrizioniLink tip" data-placement="left" title="controlla le richieste di iscrizione"><span class='animation'>></span> richieste iscrizione </a>
+      </li>
+      <li>
+        <a href="amministrazione.php" class="text-dark animation tip" data-placement="left" title="gestsisci documenti della sezione 'amministrazione trasparente'"><span class='animation'>></span> documenti amministrativi </a>
       </li>
       <li>
         <a href="link.php" class="text-dark animation tip" data-placement="left" title="gestisci i link consigliati"><span class='animation'>></span> link consigliati</a>

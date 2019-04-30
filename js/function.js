@@ -4,6 +4,7 @@ const connector = "class/connector.php";
 observer.observe();
 footerMenu();
 footerLink();
+iscrizioni();
 $(document).ready(function () {
   $(".toggleMenu").on('click',function(e){ e.preventDefault(); e.stopPropagation(); $(".usrMenu").toggleClass('opened closed'); })
   $(document).on("click", function () { if ($('.usrMenu').hasClass('opened')) {  $('.usrMenu').toggleClass('closed opened'); } })
@@ -18,6 +19,12 @@ $(document).ready(function () {
   });
   $('.archivioLink').on('click',function(e){sessionStorage.setItem('t',$(this).data('tipo'));})
 })
+
+function iscrizioni(){
+  $.getJSON('json/iscrizioni.php', function(json, textStatus) {
+      $(".iscrizioniLink").append(" ("+json[0]['richieste']+")");
+  });
+}
 
 function initPost(keywords,limit,tipo,doneCallback){
   option={ url: 'json/post.php', type: 'POST', dataType: 'json', data: {term:keywords,limit:limit,tipo:tipo} }

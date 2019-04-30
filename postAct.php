@@ -38,7 +38,6 @@ switch (true) {
           <div class="col">
             <p class="h3">Crea <?php echo $title; ?></p>
             <p class="text-secondary border-bottom ">condividi con i tuoi utenti notizie, articoli o altre informazioni.</p>
-            <!-- <form name="postForm" class="form mt-3" action="class/eventAdd.php" method="post" enctype="multipart/form-data"> -->
             <form name="postForm" class="form mt-3" action="postRes.php" method="post" enctype="multipart/form-data">
               <input type="hidden" name="act" value="<?php echo $_GET['act']; ?>">
               <input type="hidden" name="tipo" value="<?php echo $_GET['tipo']; ?>">
