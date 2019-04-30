@@ -1,8 +1,9 @@
 <?php
 session_start();
 if (!isset($_SESSION['id'])) {header("Location: login.php"); exit;}
-// require('class/amministratore.class.php');
-// $obj = new Amministratore;
+require('class/amministratore.class.php');
+$obj = new Amministratore;
+$anniQuote = $obj->anniQuote();
 ?>
 
 <!doctype html>
@@ -12,7 +13,7 @@ if (!isset($_SESSION['id'])) {header("Location: login.php"); exit;}
     <?php require('inc/css.php'); ?>
     <style media="screen">
       .mainContent .container-fluid{min-height:600px;}
-      #listaSoci{min-height:200px;height:auto;max-height: 350px;overflow: auto;}
+      #listaSoci{min-height:200px;height:auto;max-height: 350px;overflow: auto;font-size:.9rem;}
     </style>
   </head>
   <body>
@@ -39,12 +40,51 @@ if (!isset($_SESSION['id'])) {header("Location: login.php"); exit;}
           <div class="col-md-4">
             <div class="card">
               <div class="card-header"><h5 id="listaSociHeader"></h5></div>
-              <div class="card-body">
-                <select class="form-control" name="filtro">
-                  <option value="">filtro</option>
-                </select>
+              <div class="card-body p-2">
+                <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+                  <div class="btn-group btn-group-sm btn-group-toggle mb-3" data-toggle="buttons">
+                    <label class="btn btn-outline-secondary active">
+                      <input type="radio" name="filtro" id="filtroAct" value="t" autocomplete="off" checked> attivi
+                    </label>
+                    <label class="btn btn-outline-secondary">
+                      <input type="radio" name="filtro" id="filtroNoAct" value="f" autocomplete="off"> non attivi
+                    </label>
+                    <label class="btn btn-outline-secondary">
+                      <input type="radio" name="filtro" id="filtroNull" value="" autocomplete="off"> lista completa
+                    </label>
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <input type="search" name="cercaSocio" class="form-control" style="width:100px;" placeholder="cerca socio..." value="">
+                    <div class="input-group-append">
+                      <button type="button" class="btn btn-secondary" name="clearFilter">
+                        <i class='fas fa-times'></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
               <ul class="list-group list-group-flush" id="listaSoci"></ul>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card">
+              <div class="card-header"><h5 id="quoteHeader">Controllo quote <span id="annoQuota"><?php echo date('Y'); ?></span></h5></div>
+              <div class="card-body p-2">
+                <div class="btn-toolbar justify-content-right" role="toolbar" aria-label="Toolbar with button groups">
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class='input-group-text'>anno</span>
+                    </div>
+                    <select class="form-control w-auto" name="annoQuota">
+                      <?php
+                      for ($i=date('Y'); $i >= $anniQuote[0]['anno']; $i--) {
+                        echo "<option value='".$i."'>".$i."</option>";
+                      }
+                      ?>
+                    </select>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -55,7 +95,40 @@ if (!isset($_SESSION['id'])) {header("Location: login.php"); exit;}
     <script type="text/javascript">
     $(".mainTitle").css({"margin-top" : $(".mainHeader").height()})
     $(".mainContent").css({"top" : $(".mainHeader").height() + $(".mainTitle").height() + 50})
+    $("[name=filtro]").on('change', function(){listaSoci($(this).val())})
+    $("[name=clearFilter]").on('click', function(){ $("[name=cercaSocio]").val('').trigger('click') })
+
+    $("[name=cercaSocio]").on("keyup click input", function () {
+      if (this.value.length > 0) {
+        $("#listaSoci li").removeClass("match").hide().filter(function () {
+          return $(this).text().toLowerCase().indexOf($("[name=cercaSocio]").val().toLowerCase()) != -1;
+        }).addClass("match").show();
+        highlight(this.value);
+        $("#listaSoci").show();
+      } else {
+        //$("#dino-list, #dino-list li").removeClass("match").hide();
+        $("#listaSoci, #listaSoci li").removeClass("match");
+        $("#listaSoci, #listaSoci li").show();
+        $("#listaSoci li").removeClass("match").hide().filter(function () {
+          return $(this).text().toLowerCase().indexOf($("[name=cercaSocio]").val().toLowerCase()) != -1;
+        }).addClass("match").show();
+        highlight(this.value);
+      }
+    });
+
     listaSoci('t')
+
+    function highlight (string) {
+      $("#listaSoci li.match").each(function () {
+        var matchStart = $(this).text().toLowerCase().indexOf("" + string.toLowerCase() + "");
+        var matchEnd = matchStart + string.length - 1;
+        var beforeMatch = $(this).text().slice(0, matchStart);
+        var matchText = $(this).text().slice(matchStart, matchEnd + 1);
+        var afterMatch = $(this).text().slice(matchEnd + 1);
+        $(this).html(beforeMatch + "<strong>" + matchText + "</strong>" + afterMatch);
+      });
+    };
+
     function listaSoci(filtro){
       list=[];
       option = {
@@ -72,7 +145,7 @@ if (!isset($_SESSION['id'])) {header("Location: login.php"); exit;}
           if (filtro == 't') {$("#listaSociHeader").text('soci attivi ('+data.length+')')}
           else if (filtro == 'f') {$("#listaSociHeader").text('soci non attivi ('+data.length+')')}
           else { $("#listaSociHeader").text('archivio soci completo ('+data.length+')') }
-          $.each(data,function(i,v){ list.push("<li class='list-group-item'>"+v.socio+"</li>") })
+          $.each(data,function(i,v){ list.push("<li class='list-group-item'>"+v.socio+" <a href='schedaSocio.php' class='btn btn-sm btn-outline-info float-right' title='apri scheda socio'><i class='fas fa-link'></i></a></li>") })
           $("#listaSoci").html(list.join(''))
         })
         .fail(function(xhr, status, error) { $("#listaSoci").html(error); })
