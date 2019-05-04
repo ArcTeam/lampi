@@ -51,11 +51,11 @@
   <div class="menuList">
     <p class="m-0 p-3 bg-light text-muted border-top"><i class='fas fa-user fa-fw'></i> profilo utente</p>
     <ul>
+      <!-- <li>
+        <a href="usrDataMod.php" class="text-dark animation tip" data-placement="left" title="aggiorna i tuoi dati personali"><span class='animation'>></span> modifica dati</a>
+      </li> -->
       <li>
-        <a href="#" class="text-dark animation tip" data-placement="left" title="aggiorna i tuoi dati personali"><span class='animation'>></span> modifica dati</a>
-      </li>
-      <li>
-        <a href="#" class="text-dark animation tip" data-placement="left" title="modifica la tua password [ricordati di farlo regolarmente!]"><span class='animation'>></span> modifica password</a>
+        <a href="usrPwdMod.php" class="text-dark animation tip" data-placement="left" title="modifica la tua password [ricordati di farlo regolarmente!]"><span class='animation'>></span> modifica password</a>
       </li>
     </ul>
     <p class="m-0 p-3 bg-light text-muted border-top"><i class="fas fa-pencil-alt"></i> crea</p>
@@ -72,14 +72,12 @@
     </ul>
     <p class="m-0 p-3 bg-light text-muted border-top"><i class="fas fa-sitemap"></i> sezioni del sito</p>
     <ul>
-      <li>
+      <!-- <li>
         <a href="#" class="text-dark animation tip" data-placement="left" title="gestisci pubblicazioni"><span class='animation'>></span> bibliografia</a>
-      </li>
-      <?php if ($_SESSION['classe']===2) {?>
+      </li> -->
       <li>
         <a href="rubrica.php" class="text-dark animation border-bottom tip" data-placement="left" title="gestisci rubrica"><span class='animation'>></span> rubrica</a>
       </li>
-      <?php } ?>
     </ul>
     <p class="m-0 p-3 bg-light text-muted border-top"><i class="fas fa-tools fa-fw"></i> amministrazione</p>
     <ul>

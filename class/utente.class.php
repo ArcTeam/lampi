@@ -23,6 +23,10 @@ class Utente extends Db{
     }
   }
 
+  public function utente(){
+    return $this->simple("select * from rubrica where id = ".$_SESSION['id'].";");
+  }
+
   public function iscrizioniList(){
     return $this->simple("select * from iscrizioni order by data asc;");
   }
