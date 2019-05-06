@@ -126,6 +126,7 @@ $hide = $_SESSION['classe']===2 ? '': 'd-none';
       classe = '<?php echo $hide; ?>'
       form = $("form[name=rubricaForm]");
       buildTable('buildTable','rubrica_view',function( data ) {
+        console.log(data);
         if (data.length==0) {
           $(".tableWrap>p").removeClass('d-none');
         }else {

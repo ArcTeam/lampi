@@ -1,4 +1,20 @@
-begin;
-alter table utenti add column rubrica integer references rubrica(id) on delete cascade;
-update utenti set rubrica = rubrica.id from rubrica where utenti.email = rubrica.email;
-commit;
+-- begin;
+--
+-- commit;
+select
+  p.id,
+  p.copertina,
+  p.titolo,
+  p.data,
+  p.testo,
+  p.bozza,
+  p.tag,
+  r.email
+from
+  post p,
+  utenti u,
+  rubrica r
+where
+  p.usr = u.id and
+  u.rubrica = r.id
+order by data desc;

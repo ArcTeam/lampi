@@ -51,9 +51,9 @@
   <div class="menuList">
     <p class="m-0 p-3 bg-light text-muted border-top"><i class='fas fa-user fa-fw'></i> profilo utente</p>
     <ul>
-      <!-- <li>
+      <li>
         <a href="usrDataMod.php" class="text-dark animation tip" data-placement="left" title="aggiorna i tuoi dati personali"><span class='animation'>></span> modifica dati</a>
-      </li> -->
+      </li>
       <li>
         <a href="usrPwdMod.php" class="text-dark animation tip" data-placement="left" title="modifica la tua password [ricordati di farlo regolarmente!]"><span class='animation'>></span> modifica password</a>
       </li>

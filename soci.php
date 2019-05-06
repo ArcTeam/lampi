@@ -122,6 +122,19 @@ $anniQuote = $obj->anniQuote();
       checkQuote($(this).val())
     })
 
+    $('body').on('click', '[name=quotaOk]', function(e) {
+      let socioid = $(this).data('socioid')
+      let socio = $(this).data('socio')
+      let quota = $(this).data('anno')
+      let msg = "Stai registrando la quota per l'anno "+quota+" di "+socio+" come regolarmente pagata"
+      if (confirm(msg)) {
+        option = {url: connector,type: 'POST', dataType: 'json', data: { oop:{file:'amministratore.class.php',classe:'Amministratore',func:'registraQuota'}, dati:{socio:socioid,tipo:2,anno:quota}}}
+        $.ajax(option)
+          .done(function(data){ checkQuote(anno)})
+          .fail(function(xhr, status, error) { alert(error); })
+      }
+    });
+
     function highlight (string) {
       $("#listaSoci li.match").each(function () {
         var matchStart = $(this).text().toLowerCase().indexOf("" + string.toLowerCase() + "");
@@ -153,7 +166,9 @@ $anniQuote = $obj->anniQuote();
       $.ajax(option)
         .done(function(data){
           if (data.length > 0) {
-            $.each(data,function(i,v){ list.push("<li class='list-group-item'>"+v.socio+"</li>") })
+            $.each(data,function(i,v){
+              list.push("<li class='list-group-item'>"+v.socio+" <button type='button' class='btn btn-sm btn-outline-success float-right' data-anno='"+anno+"' data-socioid='"+v.idsocio+"' data-socio='"+v.socio+"' name='quotaOk' title='registra quota'><i class='fas fa-check'></i></button></li>")
+            })
             $("#checkQuote").html(list.join(''))
           }else {
             $("#checkQuote").html("<li class='list-group-item'>ottimo, tutte le quote del "+anno+" risultano pagate!</li>")

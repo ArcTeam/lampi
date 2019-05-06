@@ -26,7 +26,7 @@ class Eventi extends Generica{
 
   public function item(int $id){
     $out = [];
-    $sql = "select post.*, utenti.email compilatore from post, utenti where post.usr = utenti.id and post.id = ".$id.";";
+    $sql = "select post.*, rubrica.email compilatore from post, rubrica, utenti where utenti.rubrica=rubrica.id and post.usr = utenti.id and post.id = ".$id.";";
     $allegati = "select unnest(file) file from allegati where post = ".$id.";";
     $out['info'] = $this->simple($sql);
     $out['allegati'] = $this->simple($allegati);

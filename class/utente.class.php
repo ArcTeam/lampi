@@ -23,7 +23,7 @@ class Utente extends Db{
     }
   }
 
-  public function utente(){ return $this->simple("select * from rubrica where id = ".$_SESSION['id'].";"); }
+  public function utente(){ return $this->simple("select rubrica.* from rubrica, utenti where utenti.rubrica = rubrica.id and utenti.id = ".$_SESSION['id'].";"); }
 
   public function changePwd($dati=array()){
     $check = $this->simple("select password from utenti where id = ".$_SESSION['id']." and password = crypt('".$dati['oldpwd']."',password);");
@@ -39,6 +39,18 @@ class Utente extends Db{
     }else{
       return array('danger','attenzione, la password corrente non è corretta o è stata digitata male, riprova');
     }
+  }
+
+  public function changeUsrData($dati=array()){
+    $rubrica = $this->simple("select rubrica from utenti where id = ".$_SESSION['id'].";");
+    $dati['id']=$rubrica[0]['rubrica'];
+    foreach ($dati as $key => $value) {
+      if ($value=="") {$value=null;}
+      $campi[]=$key."=:".$key;
+      $val[$key]=$value;
+    }
+    $sql = "update rubrica set ".implode(",",$campi)." where id=:id;";
+    return $this->prepared($sql, $dati);
   }
 
   public function iscrizioniList(){ return $this->simple("select * from iscrizioni order by data asc;"); }
@@ -148,7 +160,7 @@ class Utente extends Db{
   }
 
   private function checkEmail($email){
-    $check = $this->simple("select * from utenti,rubrica where utenti.rubrica = rubrica.id and rubrica.email = '".$email."' and utenti.attivo = 't';");
+    $check = $this->simple("select utenti.id, utenti.classe, rubrica.email from utenti,rubrica where utenti.rubrica = rubrica.id and rubrica.email = '".$email."' and utenti.attivo = 't';");
     if (count($check)==0) {
       throw new \Exception("Errore! Email: ".$email." non valida o utente disabilitato", 1);
     }
