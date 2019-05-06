@@ -23,13 +23,8 @@ class Utente extends Db{
     }
   }
 
-  public function utente(){
-    return $this->simple("select * from rubrica where id = ".$_SESSION['id'].";");
-  }
-
-  public function iscrizioniList(){
-    return $this->simple("select * from iscrizioni order by data asc;");
-  }
+  public function utente(){ return $this->simple("select * from rubrica where id = ".$_SESSION['id'].";"); }
+  public function iscrizioniList(){ return $this->simple("select * from iscrizioni order by data asc;"); }
 
   public function nuovoSocio($id){
     try {
@@ -116,14 +111,18 @@ class Utente extends Db{
   }
 
   public function rescuePwd($dati=array()){
-    $sql = "update utenti set password=crypt(:password,gen_salt('bf',8)) where email=:email;";
-    $username = $this->getUsername($dati['email']);
+    $email = $dati['email'];
+    unset($dati['email']);
+      $id = $this->simple("select id from rubrica where email = '".$email."';");
+    $dati['rubrica'] = $id[0]['id'];
+    $sql = "update utenti set password=crypt(:password,gen_salt('bf',8)) where rubrica=:rubrica;";
+    $username = $this->getUsername($email);
     try {
-      $checkEmail = $this->checkEmail($dati['email']);
+      $checkEmail = $this->checkEmail($email);
       $dati['password'] = $this->createPwd();
       $this->begin();
       $this->prepared($sql,$dati);
-      $this->sendMail(array($dati['email'],$username,$dati['password'],"password"));
+      $this->sendMail(array($email,$username,$dati['password'],"password"));
       $this->commitTransaction();
       return "Ok! Una nuova password è stata inviata all'indirizzo email inserito.";
     } catch (\Exception $e) {
@@ -132,7 +131,7 @@ class Utente extends Db{
   }
 
   private function checkEmail($email){
-    $check = $this->simple("select * from utenti where email = '".$email."' and attivo = 't';");
+    $check = $this->simple("select * from utenti,rubrica where utenti.rubrica = rubrica.id and rubrica.email = '".$email."' and utenti.attivo = 't';");
     if (count($check)==0) {
       throw new \Exception("Errore! Email: ".$email." non valida o utente disabilitato", 1);
     }

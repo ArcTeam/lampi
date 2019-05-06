@@ -94,8 +94,6 @@ class Generica extends Db{
 
   public function index(){
     $out['post']= $this->postList(5,'f',null);
-    // $out['eventi']= $this->eventiList(5);
-    // $out['viaggi']= $this->eventiList(5);
     return $out;
   }
   public function postList($l=null,$b=null, $filtri=null){
@@ -107,7 +105,7 @@ class Generica extends Db{
     }else {
       $where = '';
     }
-    $sql ="select p.id,p.copertina, p.titolo, p.data, p.testo,p.bozza, p.tag, u.email from post p, utenti u where p.usr = u.id ".$where." order by data desc ".$limit.";";
+    $sql ="select p.id,p.copertina, p.titolo, p.data, p.testo,p.bozza, p.tag, r.email from post p, utenti u, rubrica r where p.usr = u.id and u.rubrica = r.id ".$where." order by data desc ".$limit.";";
     return $this->simple($sql);
   }
 
