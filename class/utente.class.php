@@ -24,6 +24,23 @@ class Utente extends Db{
   }
 
   public function utente(){ return $this->simple("select * from rubrica where id = ".$_SESSION['id'].";"); }
+
+  public function changePwd($dati=array()){
+    $check = $this->simple("select password from utenti where id = ".$_SESSION['id']." and password = crypt('".$dati['oldpwd']."',password);");
+    if (!empty($check)){
+      $val = array('newpwd'=>$dati['newpwd'],'id'=>$_SESSION['id']);
+      $sql = "update utenti set password=crypt(:newpwd,gen_salt('bf',8)) where id=:id;";
+      try {
+        $this->prepared($sql,$val);
+        return array('success','ok, la password è stata correttamente modificata, potrai usarla dal prossimo login');
+      } catch (Exception $e) {
+        return array('danger',$e->getMessage());
+      }
+    }else{
+      return array('danger','attenzione, la password corrente non è corretta o è stata digitata male, riprova');
+    }
+  }
+
   public function iscrizioniList(){ return $this->simple("select * from iscrizioni order by data asc;"); }
 
   public function nuovoSocio($id){
@@ -39,7 +56,7 @@ class Utente extends Db{
       $sql2 = "insert into soci(rubrica) values(".$rubrica.")";
       $exec = $pdo->prepare($sql2);
       $exec->execute();
-      $sql3 = "insert into quote(socio, data, tipo, versamento) select ".$rubrica.", data, 1, versamento from iscrizioni where id = ".$id.";";
+      $sql3 = "insert into quote(socio, anno, tipo, versamento) select ".$rubrica.", date_part('year',data), 1, versamento from iscrizioni where id = ".$id.";";
       $exec = $pdo->prepare($sql3);
       $exec->execute();
       $sql4 = "delete from iscrizioni where id = ".$id.";";
@@ -113,7 +130,7 @@ class Utente extends Db{
   public function rescuePwd($dati=array()){
     $email = $dati['email'];
     unset($dati['email']);
-      $id = $this->simple("select id from rubrica where email = '".$email."';");
+    $id = $this->simple("select id from rubrica where email = '".$email."';");
     $dati['rubrica'] = $id[0]['id'];
     $sql = "update utenti set password=crypt(:password,gen_salt('bf',8)) where rubrica=:rubrica;";
     $username = $this->getUsername($email);

@@ -11,8 +11,17 @@ class Amministratore extends Db{
     return $this->simple($sql);
   }
 
-  public function anniQuote(){
-    return $this->simple("select date_part('year',data) anno from quote order by data asc limit 1;");
+  public function anniQuote(){return $this->simple("select anno from quote order by anno asc limit 1;");}
+  public function checkQuote($anno){
+    $sql = "with filtro as (select socio,anno,tipo from quote where anno <= ".$anno.")
+    select r.id, r.cognome||' '||r.nome socio
+    from rubrica r, soci s, filtro
+    where
+      s.rubrica = r.id
+      and filtro.socio = s.rubrica
+      and r.id not in ( select socio from filtro where anno = ".$anno.")
+    order by socio asc;";
+    return $this->simple($sql);
   }
 }
 ?>
