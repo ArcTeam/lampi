@@ -64,6 +64,9 @@ $anniQuote = $obj->anniQuote();
                 </div>
                 <ul class="list-group list-group-flush listeWrap" id="listaSoci"></ul>
               </div>
+              <div class="card-footer text-muted">
+                <small>La scheda mostra l'elenco dei soci. Usa i pulsanti per filtrare la lista.</small>
+              </div>
             </div>
           </div>
           <div class="col-md-4">
@@ -83,6 +86,9 @@ $anniQuote = $obj->anniQuote();
                   </div>
                 </div>
                 <ul class="list-group list-group-flush listeWrap" id="checkQuote"></ul>
+              </div>
+              <div class="card-footer text-muted">
+                <small>Per visualizzare la situazione del singolo socio apri la scheda utilizzando il pulsante presente accanto al nome della lista precedente</small>
               </div>
             </div>
           </div>
@@ -127,10 +133,12 @@ $anniQuote = $obj->anniQuote();
       let socio = $(this).data('socio')
       let quota = $(this).data('anno')
       let msg = "Stai registrando la quota per l'anno "+quota+" di "+socio+" come regolarmente pagata"
+      let oop = {file:'amministratore.class.php',classe:'Amministratore',func:'registraQuota'}
+      let dati = {socio:socioid,tipo:2,anno:quota}
       if (confirm(msg)) {
-        option = {url: connector,type: 'POST', dataType: 'json', data: { oop:{file:'amministratore.class.php',classe:'Amministratore',func:'registraQuota'}, dati:{socio:socioid,tipo:2,anno:quota}}}
+        option = {url: connector,type: 'POST', dataType: 'json', data: { oop:oop, dati:dati}}
         $.ajax(option)
-          .done(function(data){ checkQuote(anno)})
+          .done(function(data){ checkQuote(quota)})
           .fail(function(xhr, status, error) { alert(error); })
       }
     });
@@ -167,7 +175,7 @@ $anniQuote = $obj->anniQuote();
         .done(function(data){
           if (data.length > 0) {
             $.each(data,function(i,v){
-              list.push("<li class='list-group-item'>"+v.socio+" <button type='button' class='btn btn-sm btn-outline-success float-right' data-anno='"+anno+"' data-socioid='"+v.idsocio+"' data-socio='"+v.socio+"' name='quotaOk' title='registra quota'><i class='fas fa-check'></i></button></li>")
+              list.push("<li class='list-group-item'>"+v.socio+" <button type='button' class='btn btn-sm btn-outline-success float-right' data-anno='"+anno+"' data-socioid='"+v.id+"' data-socio='"+v.socio+"' name='quotaOk' title='registra quota'><i class='fas fa-check'></i></button></li>")
             })
             $("#checkQuote").html(list.join(''))
           }else {

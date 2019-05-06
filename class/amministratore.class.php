@@ -11,10 +11,18 @@ class Amministratore extends Db{
     return $this->simple($sql);
   }
 
+  public function addUserList(){
+    return $this->simple("select id, cognome||' '||nome as utente from rubrica where id not in(select rubrica from utenti);");
+  }
+
+  public function utenti(){
+    return $this->simple("select rubrica.*,utenti.classe,utenti.attivo from rubrica,utenti where utenti.rubrica = rubrica.id order by rubrica.cognome, rubrica.nome;");
+  }
+
   public function anniQuote(){return $this->simple("select anno from quote order by anno asc limit 1;");}
   public function checkQuote($anno){
     $sql = "with filtro as (select socio,anno,tipo from quote where anno <= ".$anno.")
-    select r.id, r.cognome||' '||r.nome socio, filtro.socio as idsocio
+    select distinct r.id, r.cognome||' '||r.nome socio
     from rubrica r, soci s, filtro
     where
       s.rubrica = r.id

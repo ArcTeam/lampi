@@ -126,7 +126,6 @@ $hide = $_SESSION['classe']===2 ? '': 'd-none';
       classe = '<?php echo $hide; ?>'
       form = $("form[name=rubricaForm]");
       buildTable('buildTable','rubrica_view',function( data ) {
-        console.log(data);
         if (data.length==0) {
           $(".tableWrap>p").removeClass('d-none');
         }else {
@@ -186,7 +185,6 @@ $hide = $_SESSION['classe']===2 ? '': 'd-none';
           act = $(this).data('act')
           okMsg = act == 'inserisci' ? 'inserito!' : 'modificato!';
           errorMsg = 'Ops, qualcosa è andato storto!\nControlla i dati immessi e riprova, se l\'errore si ripresenta contatta l\'amministratore di sistema\nbeppenapo@arc-team.com'
-          console.log(dati);
           $.ajax({
             url: connector,
             type: 'POST',
