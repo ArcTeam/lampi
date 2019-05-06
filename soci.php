@@ -13,7 +13,7 @@ $anniQuote = $obj->anniQuote();
     <?php require('inc/css.php'); ?>
     <style media="screen">
       .mainContent .container-fluid{min-height:600px;}
-      #listaSoci{min-height:200px;height:auto;max-height: 350px;overflow: auto;font-size:.9rem;}
+      .listeWrap{min-height:200px;height:auto;max-height: 350px;overflow: auto;font-size:.9rem;}
     </style>
   </head>
   <body>
@@ -28,7 +28,7 @@ $anniQuote = $obj->anniQuote();
           </div>
           <div class="col-md-6">
             <div class="float-right">
-              <p>navbar</p>
+              <p></p>
             </div>
           </div>
         </div>
@@ -62,28 +62,27 @@ $anniQuote = $obj->anniQuote();
                     </div>
                   </div>
                 </div>
+                <ul class="list-group list-group-flush listeWrap" id="listaSoci"></ul>
               </div>
-              <ul class="list-group list-group-flush" id="listaSoci"></ul>
             </div>
           </div>
           <div class="col-md-4">
             <div class="card">
-              <div class="card-header"><h5 id="quoteHeader">Controllo quote <span id="annoQuota"><?php echo date('Y'); ?></span></h5></div>
+              <div class="card-header"><h5 id="quoteHeader">Quote mancanti, anno <span id="annoQuota"><?php echo date('Y'); ?></span></h5></div>
               <div class="card-body p-2">
-                <div class="btn-toolbar justify-content-right" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-toolbar justify-content-end" role="toolbar" aria-label="Toolbar with button groups">
                   <div class="input-group input-group-sm">
                     <div class="input-group-prepend">
-                      <span class='input-group-text'>anno</span>
+                      <span class='input-group-text'>controlla anno</span>
                     </div>
-                    <select class="form-control w-auto" name="annoQuota">
+                    <select class="form-control w-auto mb-3" name="annoQuota">
                       <?php
-                      for ($i=date('Y'); $i >= $anniQuote[0]['anno']; $i--) {
-                        echo "<option value='".$i."'>".$i."</option>";
-                      }
+                      for ($i=date('Y'); $i >= $anniQuote[0]['anno']; $i--) { echo "<option value='".$i."'>".$i."</option>"; }
                       ?>
                     </select>
                   </div>
                 </div>
+                <ul class="list-group list-group-flush listeWrap" id="checkQuote"></ul>
               </div>
             </div>
           </div>
@@ -93,6 +92,9 @@ $anniQuote = $obj->anniQuote();
     </div>
     <?php require('inc/lib.php'); ?>
     <script type="text/javascript">
+    anno = new Date().getFullYear();
+    listaSoci('t')
+    checkQuote(anno)
     $(".mainTitle").css({"margin-top" : $(".mainHeader").height()})
     $(".mainContent").css({"top" : $(".mainHeader").height() + $(".mainTitle").height() + 50})
     $("[name=filtro]").on('change', function(){listaSoci($(this).val())})
@@ -106,7 +108,6 @@ $anniQuote = $obj->anniQuote();
         highlight(this.value);
         $("#listaSoci").show();
       } else {
-        //$("#dino-list, #dino-list li").removeClass("match").hide();
         $("#listaSoci, #listaSoci li").removeClass("match");
         $("#listaSoci, #listaSoci li").show();
         $("#listaSoci li").removeClass("match").hide().filter(function () {
@@ -116,7 +117,10 @@ $anniQuote = $obj->anniQuote();
       }
     });
 
-    listaSoci('t')
+    $("[name=annoQuota]").on('change',function(){
+      $("#annoQuota").text($(this).val())
+      checkQuote($(this).val())
+    })
 
     function highlight (string) {
       $("#listaSoci li.match").each(function () {
@@ -130,16 +134,8 @@ $anniQuote = $obj->anniQuote();
     };
 
     function listaSoci(filtro){
-      list=[];
-      option = {
-        url: connector,
-        type: 'POST',
-        dataType: 'json',
-        data: {
-          oop:{file:'amministratore.class.php',classe:'Amministratore',func:'listaSoci'},
-          dati:{filtro:filtro}
-        }
-      }
+      let list=[];
+      option = { url: connector, type: 'POST', dataType: 'json', data: { oop:{file:'amministratore.class.php',classe:'Amministratore',func:'listaSoci'}, dati:{filtro:filtro}}}
       $.ajax(option)
         .done(function(data){
           if (filtro == 't') {$("#listaSociHeader").text('soci attivi ('+data.length+')')}
@@ -149,6 +145,22 @@ $anniQuote = $obj->anniQuote();
           $("#listaSoci").html(list.join(''))
         })
         .fail(function(xhr, status, error) { $("#listaSoci").html(error); })
+    }
+
+    function checkQuote(anno){
+      let list=[];
+      option = {url: connector,type: 'POST', dataType: 'json', data: { oop:{file:'amministratore.class.php',classe:'Amministratore',func:'checkQuote'}, dati:{anno:anno}}}
+      $.ajax(option)
+        .done(function(data){
+          if (data.length > 0) {
+            $.each(data,function(i,v){ list.push("<li class='list-group-item'>"+v.socio+"</li>") })
+            $("#checkQuote").html(list.join(''))
+          }else {
+            $("#checkQuote").html("<li class='list-group-item'>ottimo, tutte le quote del "+anno+" risultano pagate!</li>")
+          }
+
+        })
+        .fail(function(xhr, status, error) { $("#checkQuote").html(error); })
     }
     </script>
   </body>
