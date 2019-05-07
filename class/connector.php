@@ -6,8 +6,10 @@ if(isset($funzione) && function_exists($funzione)) {
   $trigger = $funzione($class);
   echo $trigger;
 }
+function addNewUser($class){return json_encode($class->addNewUser($_POST['dati']));}
 function buildTable($class){return json_encode($class->simple("select * from ".$_POST['dati']['tab'].";"));}
 function changePwd($class){return json_encode($class->changePwd($_POST['dati']));}
+function changeState($class){return json_encode($class->changeState($_POST['dati']));}
 function changeUsrData($class){return json_encode($class->changeUsrData($_POST['dati']));}
 function checkQuote($class){return json_encode($class->checkQuote($_POST['dati']['anno']));}
 function delAllegato($class){return json_encode($class->delAllegato($_POST['dati']));}
@@ -20,6 +22,7 @@ function login($class){return json_encode($class->login($_POST['dati']));}
 function nuovoSocio($class){return json_encode($class->nuovoSocio($_POST['dati']['id']));}
 function organigramma($class){return json_encode($class->organigramma($_POST['act'],$_POST['dati']));}
 function post($class){return json_encode($class->item($_POST['dati']['post']));}
+function promuovi($class){return json_encode($class->promuovi($_POST['dati']));}
 function query($class){return json_encode($class->query($_POST['act'],$_POST['dati']));}
 function registraQuota($class){return json_encode($class->registraQuota($_POST['dati']));}
 function rescuePwd($class){return json_encode($class->rescuePwd($_POST['dati']));}

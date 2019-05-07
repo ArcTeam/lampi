@@ -63,6 +63,7 @@ $addUserList = $obj->addUserList();
                       <button type="submit" class="w-100 btn btn-sm btn-primary" id="addUserBtn">aggiungi utente</button>
                     </div>
                   </form>
+                  <div class="msg"></div>
                 </div>
               </div>
               <?php foreach ($utenti as $utente) { ?>
@@ -92,27 +93,27 @@ $addUserList = $obj->addUserList();
                     <i class="fas fa-sticky-note fa-fw"></i>
                     <span><?php echo $utente['note'] ? nl2br($utente['note']) : 'nessuna nota inserita'; ?></span>
                   </li>
-                  <li class="list-group-item font-weight-bold">Info account</li>
+                  <li class="list-group-item font-weight-bold bg-light">Info account</li>
                   <li class="list-group-item">
                     <?php
                     if ($utente['classe']===1) {
-                      echo "<span class='d-inline-block mb-3'>Classe: <span class='font-weight-bold'>utente semplice</span></span><button type='button' class='btn btn-sm btn-info float-right' name='promuovi'>promuovi ad ammnistratore</button>";
+                      echo "<span class='d-inline-block mb-3'><span class='font-weight-bold'>utente semplice</span></span><button type='button' class='btn btn-sm btn-info float-right tip' name='promuovi' value='".$utente['id']."' title='cambia la classe dell&apos;utente in <strong>amministratore</strong>' data-placement='top'>promuovi</button>";
                     }else {
-                      echo "<span class='d-inline-block mb-3'>Classe: <span class='font-weight-bold'>amministratore</span></span>";
+                      echo "<span class='d-inline-block mb-3'><span class='font-weight-bold'>amministratore</span></span>";
                     }
                     ?>
                   </li>
                   <li class="list-group-item">
                     <?php
-                    if ($utente['attivo']==='t') {
-                      echo "<span class='d-inline-block mb-3'>Stato: <span class='font-weight-bold'>utente attivo</span></span>";
+                    if ($utente['attivo']===true) {
+                      echo "<span class='d-inline-block mb-3'><span class='font-weight-bold'>utente attivo</span></span>";
                       if ($utente['classe']===1) {
-                        echo "<button type='button' class='btn btn-sm btn-info float-right' name='stato' value='f'>disattiva login</button>";
+                        echo "<button type='button' class='btn btn-sm btn-info float-right tip' name='stato' title='disattiva il login per l&apos;utente selezionato' data-placement='top' data-stato = 'false' value='".$utente['id']."'>disattiva</button>";
                       }
                     }else {
-                      echo "<span class='d-inline-block mb-3'>Stato: <span class='font-weight-bold'>login disabilitato</span></span>";
+                      echo "<span class='d-inline-block mb-3'><span class='font-weight-bold'>login disabilitato</span></span>";
                       if ($utente['classe']===1) {
-                        echo "<button type='button' class='btn btn-sm btn-info float-right' name='stato' value='t'>riattiva login</button>";
+                        echo "<button type='button' class='btn btn-sm btn-info float-right tip' name='stato' data-stato='true' title='riattiva il login per l&apos;utente selezionato' data-placement='top' value='".$utente['id']."'>riattiva</button>";
                       }
                     }
                     ?>
@@ -135,11 +136,38 @@ $addUserList = $obj->addUserList();
       isvalidate = form[0].checkValidity();
       if (isvalidate) {
         e.preventDefault();
+        oop = {file:'amministratore.class.php',classe:'Amministratore',func:'addNewUser'}
         dati={}
         dati['utente'] = $("[name=utente]").val();
         dati['classe'] = $("[name=classe]").val();
+        ajaxFunction('addNewUser',dati)
       }
     })
+    $("[name=promuovi]").on('click',function(){
+      dati = {"utente":$(this).val()}
+      ajaxFunction('promuovi',dati)
+    })
+    $("[name=stato]").on('click',function(){
+      dati = {"utente":$(this).val(),"stato":$(this).data('stato')}
+      ajaxFunction('changeState',dati)
+    })
+    function ajaxFunction(func,dati){
+      oop = {file:'amministratore.class.php',classe:'Amministratore',func:func}
+      $.ajax({
+        url: connector,
+        type: 'POST',
+        dataType: 'json',
+        data: {oop:oop,dati:dati}
+      })
+      .done(function(data) {
+        msg = data === true ? 'ok, record modificato' : data
+        alert(msg)
+        location.reload()
+      })
+      .fail(function(xhr, status, error) {
+        alert("errore:\n"+error);
+      })
+    }
     </script>
   </body>
 </html>

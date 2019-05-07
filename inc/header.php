@@ -86,6 +86,9 @@
         <a href="soci.php" class="text-dark animation tip" data-placement="left" title="gestione soci e quote associative"><span class='animation'>></span> gestione soci </a>
       </li>
       <li>
+        <a href="utenti.php" class="text-dark animation tip" data-placement="left" title="gestione utenti di sistema"><span class='animation'>></span> utenti di sistema </a>
+      </li>
+      <li>
         <a href="iscrizioni.php" class="text-dark animation iscrizioniLink tip" data-placement="left" title="controlla le richieste di iscrizione"><span class='animation'>></span> richieste iscrizione </a>
       </li>
       <li>

@@ -9,7 +9,6 @@ if (!isset($_SESSION['id'])) {header("Location: login.php"); exit;}
     <?php require('inc/css.php'); ?>
     <style media="screen">
       .mainContent{top:10% !important;}
-      form{width:300px; margin:0 auto;}
     </style>
   </head>
   <body>
@@ -18,7 +17,7 @@ if (!isset($_SESSION['id'])) {header("Location: login.php"); exit;}
     </div>
     <div class="mainContent h-75">
       <div class="container h-100 bg-white p-3">
-        <form class="form" name="usrDataModForm">
+        <form class="form formStretto" name="usrDataModForm">
           <div class="form-row mb-3">
             <div class="col">
               <label for="oldpwd" class="">password attuale</label>
