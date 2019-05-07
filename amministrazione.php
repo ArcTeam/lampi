@@ -141,10 +141,10 @@ $table = $class->amministrazione();
     <?php require('inc/lib.php'); ?>
     <script type="text/javascript">
       form = $("form[name=docAmmForm]");
-      form.find("input[type=number]").on({
-        focus:function(){$(this).val('')},
-        blur:function(){$(this).val(0)},
-      })
+      // form.find("input[type=number]").on({
+      //   focus:function(){$(this).val('')},
+      //   blur:function(){$(this).val(0)}
+      // })
       $('.toggleForm').on('click', function() {
         if ($('#formWrap').is(':hidden')) {
           $(this).find('i').toggleClass('fa-angle-down fa-angle-up')
