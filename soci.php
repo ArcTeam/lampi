@@ -88,7 +88,7 @@ $anniQuote = $obj->anniQuote();
                 <ul class="list-group list-group-flush listeWrap" id="checkQuote"></ul>
               </div>
               <div class="card-footer text-muted">
-                <small>Per visualizzare la situazione del singolo socio apri la scheda utilizzando il pulsante presente accanto al nome della lista precedente</small>
+                <!-- <small>Per visualizzare la situazione del singolo socio apri la scheda utilizzando il pulsante presente accanto al nome della lista precedente</small> -->
               </div>
             </div>
           </div>
@@ -162,7 +162,8 @@ $anniQuote = $obj->anniQuote();
           if (filtro == 't') {$("#listaSociHeader").text('soci attivi ('+data.length+')')}
           else if (filtro == 'f') {$("#listaSociHeader").text('soci non attivi ('+data.length+')')}
           else { $("#listaSociHeader").text('archivio soci completo ('+data.length+')') }
-          $.each(data,function(i,v){ list.push("<li class='list-group-item'>"+v.socio+" <a href='schedaSocio.php' class='btn btn-sm btn-outline-info float-right' title='apri scheda socio'><i class='fas fa-link'></i></a></li>") })
+          $.each(data,function(i,v){ list.push("<li class='list-group-item'>"+v.socio+"</li>") })
+          // $.each(data,function(i,v){ list.push("<li class='list-group-item'>"+v.socio+" <a href='schedaSocio.php' class='btn btn-sm btn-outline-info float-right' title='apri scheda socio'><i class='fas fa-link'></i></a></li>") })
           $("#listaSoci").html(list.join(''))
         })
         .fail(function(xhr, status, error) { $("#listaSoci").html(error); })
